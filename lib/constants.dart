@@ -1,2 +1,3 @@
 String kSomeConstant = 'some constant';
-int kSeedColor = 0x1005A660;
+int kSeedColor = 0xFF39D98A;
+int kPrimaryColor = 0xFF39D98A;
