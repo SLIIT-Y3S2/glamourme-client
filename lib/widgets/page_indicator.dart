@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PageIndicator extends StatelessWidget {
-  PageIndicator({super.key, required this.isActive});
-  bool isActive;
+  const PageIndicator({super.key, required this.isActive});
+  final bool isActive;
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
