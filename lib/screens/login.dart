@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/appointments_screen.dart';
 import 'package:flutter_app/screens/payment_screen.dart';
 import 'package:flutter_app/screens/signup_screen.dart';
 
@@ -8,6 +9,14 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      persistentFooterButtons: [
+        ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => AppointmentScreen()));
+            },
+            child: Text('Appointments')),
+      ],
       appBar: AppBar(
         title: Text('Login'),
       ),
