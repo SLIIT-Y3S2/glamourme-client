@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/blocs/onboarding/onboarding_bloc.dart';
 import 'package:flutter_app/data/onboarding_data_set.dart';
 import 'package:flutter_app/screens/login.dart';
-import 'package:flutter_app/screens/signup.dart';
+import 'package:flutter_app/screens/signup_screen.dart';
 import 'package:flutter_app/widgets/onboarding_content.dart';
 import 'package:flutter_app/widgets/page_indicator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,5 +1,5 @@
 name: flutter_app
-description: A new Flutter project.
+description: This is the GlamourMe(Customer) flutter application.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
@@ -51,6 +51,8 @@ dependencies:
 
   #intl for language support
   intl: ^0.18.1
+  payhere_mobilesdk_flutter: ^3.0.8
+  logging: ^1.2.0
 
 dev_dependencies:
   flutter_test:
