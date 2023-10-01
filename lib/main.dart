@@ -37,8 +37,9 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.dmSansTextTheme(),
           useMaterial3: true,
         ),
-        home: initScreen == 0 || initScreen == null
-            ? const LanguageSelectionScreen()
-            : const LoginScreen());
+        home: const LanguageSelectionScreen());
+    // initScreen == 0 || initScreen == null
+    //     ? const LanguageSelectionScreen()
+    //     : const LoginScreen());
   }
 }
