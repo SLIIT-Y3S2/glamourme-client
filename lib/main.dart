@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/screens/language_selection.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_app/screens/login.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 int? initScreen;
 Future<void> main() async {
@@ -18,6 +20,8 @@ Future<void> main() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   initScreen = await preferences.getInt('initScreen');
   await preferences.setInt('initScreen', 1); //if already shown -> 1 else 0
+
+  // await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

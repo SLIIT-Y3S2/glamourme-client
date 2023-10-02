@@ -10,9 +10,10 @@ class AppointmentScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Appointments')),
       bottomNavigationBar: NavigationBar(
+        shadowColor: Colors.black,
         backgroundColor: Colors.white,
         height: 70,
-        elevation: 0,
+        elevation: 10,
         destinations: const [
           NavigationDestination(
               icon: Icon(Icons.calendar_today_outlined, size: 30),

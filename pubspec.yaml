@@ -54,6 +54,7 @@ dependencies:
   payhere_mobilesdk_flutter: ^3.0.8
   logging: ^1.2.0
   syncfusion_flutter_calendar: ^23.1.38
+  uuid: ^4.1.0
 
 dev_dependencies:
   flutter_test:
