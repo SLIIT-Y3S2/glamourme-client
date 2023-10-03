@@ -5,26 +5,26 @@ sealed class AuthenticationState {
   const AuthenticationState();
 }
 
-class AuthenticationInitial extends AuthenticationState {
-  const AuthenticationInitial();
+class AuthenticationInitialState extends AuthenticationState {
+  const AuthenticationInitialState();
 }
 
-class CreatingUser extends AuthenticationState {
-  const CreatingUser();
+class CreatingUserState extends AuthenticationState {
+  const CreatingUserState();
 }
 
 class GettingUser extends AuthenticationState {
   const GettingUser();
 }
 
-class UserCreated extends AuthenticationState {
-  final User user;
+class UserCreatedState extends AuthenticationState {
+  final UserModel user;
 
-  const UserCreated(this.user);
+  const UserCreatedState(this.user);
 }
 
 class UserRetrieved extends AuthenticationState {
-  final User user;
+  final UserModel user;
 
   const UserRetrieved(this.user);
 }

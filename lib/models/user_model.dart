@@ -7,13 +7,13 @@ enum UserRole {
 
 const Uuid uuid = Uuid();
 
-class User {
+class UserModel {
   final String userId;
   final String name;
   final String email;
   final UserRole userRole;
 
-  User({
+  UserModel({
     required this.name,
     required this.email,
     required this.userRole,
