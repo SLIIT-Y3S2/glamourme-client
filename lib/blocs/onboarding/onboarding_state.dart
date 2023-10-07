@@ -6,16 +6,16 @@ abstract class OnboardingState {
 }
 
 class OnBoardingInitialState extends OnboardingState {
-  int index = 0;
+  final int index = 0;
   OnBoardingInitialState();
 }
 
 class OnBoardingNextState extends OnboardingState {
-  int index;
+  final int index;
   OnBoardingNextState({required this.index});
 }
 
 class OnBoardingPreviousState extends OnboardingState {
-  int index;
+  final int index;
   OnBoardingPreviousState({required this.index});
 }

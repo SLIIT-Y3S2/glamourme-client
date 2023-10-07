@@ -13,6 +13,11 @@ class CreatingUserState extends AuthenticationState {
   const CreatingUserState();
 }
 
+class SigninErrorState extends AuthenticationState {
+  final String errorMessage;
+  const SigninErrorState(this.errorMessage);
+}
+
 class GettingUser extends AuthenticationState {
   const GettingUser();
 }

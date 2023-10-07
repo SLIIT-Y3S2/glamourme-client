@@ -5,6 +5,7 @@ import 'package:flutter_app/repositories/authentication/authentication_repositor
 import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:is_first_run/is_first_run.dart';
 
 class GlamourMeApp extends StatefulWidget {
   const GlamourMeApp({Key? key}) : super(key: key);
@@ -22,7 +23,7 @@ class _GlamourMeAppState extends State<GlamourMeApp> {
 
   @override
   Widget build(BuildContext context) {
-    var authRepository = AuthenticationRepository();
+    final authRepository = AuthenticationRepository();
 
     ///Material App
     MaterialApp app = MaterialApp(
@@ -37,6 +38,7 @@ class _GlamourMeAppState extends State<GlamourMeApp> {
       ),
       home: const LoginScreen(),
     );
+
     return MultiRepositoryProvider(providers: [
       RepositoryProvider(create: (context) => authRepository),
       RepositoryProvider(

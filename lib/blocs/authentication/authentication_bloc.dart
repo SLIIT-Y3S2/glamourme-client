@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter_app/exceptions/auth_exceptions.dart';
 import 'package:flutter_app/models/user_model.dart';
 import 'package:flutter_app/repositories/authentication/authentication_repository.dart';
 import 'dart:developer' as developer;
@@ -23,18 +24,28 @@ class AuthenticationBloc
     CreateUserEvent event,
     Emitter<AuthenticationState> emit,
   ) async {
-    developer.log('\n\n\n\n\n\n\nCreating user\n\n\n\n\n\n\n');
     emit(const CreatingUserState());
     developer.log('email: ${event.email}');
-    await _authenticationRepository.signup(
-      name: event.name,
-      email: event.email,
-      password: event.password,
-      userRole: event.userRole,
-    );
-    UserModel user1 = UserModel(
-        email: event.email, userRole: event.userRole, name: event.name);
-    emit(UserCreatedState(user1));
+    try {
+      final UserModel user = UserModel(
+        name: event.name,
+        email: event.email,
+        userRole: event.userRole,
+      );
+      await _authenticationRepository.signup(
+        user: user,
+        password: event.password,
+      );
+      UserModel user1 = UserModel(
+          email: event.email, userRole: event.userRole, name: event.name);
+      emit(UserCreatedState(user1));
+    } on EmailAlreadyExistException catch (e) {
+      emit(SigninErrorState(e.message));
+    } on WeakPasswordException catch (e) {
+      emit(SigninErrorState(e.message));
+    } catch (e) {
+      emit(SigninErrorState(e.toString()));
+    }
   }
 
   Future<void> _getUserHandler(
