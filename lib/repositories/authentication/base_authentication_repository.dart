@@ -6,20 +6,18 @@ abstract class BaseAuthenticationRepository {
 
   /// This method is used to create a user with email and password
   Future<auth.User?> signup({
-    required String name,
-    required String email,
+    required UserModel user,
     required String password,
-    required UserRole userRole,
   });
 
   /// This method is used to sign in a user with email and password
   Future<auth.User?> signin({
-    required String email,
+    required UserModel user,
     required String password,
   });
 
   /// This method is used to sign out a user
   Future<void> signOut();
 
-  Future<void> addUserIfNotExists(userId);
+  Future<void> addUserIfNotExists({required userId, required UserModel user});
 }

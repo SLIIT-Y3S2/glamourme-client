@@ -64,6 +64,8 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
         _confirmPasswordController == null) {
       return;
     }
+    _formKey.currentState!.save();
+
     // Get the entered email, name and password
     _enteredEmail = _emailController!.text;
     _enteredPassword = _passwordController!.text;
@@ -75,8 +77,6 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
       password: _enteredPassword,
       userRole: _userRole,
     ));
-
-    _formKey.currentState!.save();
   }
 
   //Validator functions for email and password
@@ -119,6 +119,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
     // Dispose
     _emailController!.dispose();
     _passwordController!.dispose();
+    _formKey.currentState!.dispose();
   }
 
   @override
@@ -132,6 +133,11 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
         if (state is CreatingUserState) {
           ScaffoldMessenger.of(context)
               .showSnackBar(const SnackBar(content: Text('Creating user')));
+        } else if (state is SigninErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(state.errorMessage),
+            duration: const Duration(milliseconds: 1500),
+          ));
         } else if (state is UserCreatedState) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('User created'),
