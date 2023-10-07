@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logging/logging.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_app/firebase_options.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/glamourme_app.dart';
-import 'package:flutter_app/screens/language_selection.dart';
 
 int? initScreen;
 Future<void> main() async {
@@ -17,10 +15,6 @@ Future<void> main() async {
   Logger.root.onRecord.listen((record) {
     print('${record.loggerName} : ${record.level.name} ===> ${record.message}');
   });
-
-  SharedPreferences preferences = await SharedPreferences.getInstance();
-  initScreen = await preferences.getInt('initScreen');
-  await preferences.setInt('initScreen', 1); //if already shown -> 1 else 0
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
