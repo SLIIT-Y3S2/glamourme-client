@@ -4,15 +4,13 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/widgets/signup_form_widget.dart';
 import 'package:flutter_app/widgets/social_buttons_widget.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignupScreen extends StatelessWidget {
-  const SignupScreen({Key? key});
+  const SignupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
