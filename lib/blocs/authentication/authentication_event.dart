@@ -20,6 +20,20 @@ class CreateUserEvent extends AuthenticationEvent {
   });
 }
 
-class GetUserEvent extends AuthenticationEvent {
-  const GetUserEvent();
+class GetCurrentUserEvent extends AuthenticationEvent {
+  const GetCurrentUserEvent();
+}
+
+class SigninEvent extends AuthenticationEvent {
+  final String email;
+  final String password;
+
+  const SigninEvent({
+    required this.email,
+    required this.password,
+  });
+}
+
+class SignOutEvent extends AuthenticationEvent {
+  const SignOutEvent();
 }
