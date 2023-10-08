@@ -27,9 +27,6 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   // to store the password entered by the user
   String _enteredPassword = '';
   
-  // to store the user role selected by the user
-  final UserRole _userRole = UserRole.customer;
-
   // Controllers for the input fields
   TextEditingController? _emailController;
   TextEditingController? _passwordController;
@@ -63,11 +60,12 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
     _enteredEmail = _emailController!.text;
     _enteredPassword = _passwordController!.text;
 
-    // _authenticationBloc.add(CreateUserEvent(
-    //   email: _enteredEmail,
-    //   password: _enteredPassword,
-    //   userRole: _userRole,
-    // ));
+    print("hello ===== $_enteredEmail");
+
+    _authenticationBloc.add(SigninEvent(
+      email: _enteredEmail,
+      password: _enteredPassword,
+    ));
   }
 
   //Validator functions for email and password
@@ -234,14 +232,10 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             borderRadius: BorderRadius.circular(8),
           ),
           child: TextFormField(
-            // controller: isPassword
-            //     ? _passwordController
-            //     : isConfirmPassword
-            //         ? _confirmPasswordController
-            //         : isEmail
-            //             ? _emailController
-            //             : _nameController,
-            obscureText: isPassword || isConfirmPassword,
+            controller: isPassword
+                ? _passwordController:
+                         _emailController,
+            obscureText: isPassword,
             decoration: InputDecoration(
               hintText: placeholder,
               hintStyle: const TextStyle(
