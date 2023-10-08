@@ -12,3 +12,11 @@ class WeakPasswordException extends AuthException {
 class EmailAlreadyExistException extends AuthException {
   EmailAlreadyExistException({required super.code, required super.message});
 }
+
+class UserNotFoundException extends AuthException {
+  UserNotFoundException({required super.code, required super.message});
+}
+
+class WrongPasswordException extends AuthException {
+  WrongPasswordException({required super.code, required super.message});
+}

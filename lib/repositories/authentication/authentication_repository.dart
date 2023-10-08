@@ -7,36 +7,51 @@ import 'package:flutter_app/repositories/authentication/base_authentication_repo
 
 class AuthenticationRepository extends BaseAuthenticationRepository {
   final auth.FirebaseAuth _firebaseAuth;
-  final FirebaseFirestore _db;
+  final CollectionReference _usersCollection;
 
   @override
   Stream<auth.User?> get userStream => _firebaseAuth.userChanges();
   Stream<auth.User?> get authState => _firebaseAuth.authStateChanges();
 
+  //User id of the current user
+  @override
   String get userId => _firebaseAuth.currentUser?.uid ?? '';
 
+  // Current user.
+  @override
   auth.User? get currentUser => _firebaseAuth.currentUser;
 
   AuthenticationRepository(
       {auth.FirebaseAuth? firebaseAuth, FirebaseFirestore? firestore})
       : _firebaseAuth = firebaseAuth ?? auth.FirebaseAuth.instance,
-        _db = firestore ?? FirebaseFirestore.instance;
+        _usersCollection = FirebaseFirestore.instance.collection('users');
 
-  /// This method is used to create a user with email and password
+  /// Create a user with email and password
   @override
-  Future<auth.User?> signup(
-      {required UserModel user, required password}) async {
+  Future<auth.User?> signup({
+    required String name,
+    required String email,
+    required String password,
+    required UserRole userRole,
+  }) async {
     if (_firebaseAuth.currentUser != null) {
       return _firebaseAuth.currentUser;
     }
     //Firebase Auth API to create user
     try {
       final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: user.email,
+        email: email,
         password: password,
       );
-      await addUserIfNotExists(
-        userId: userId,
+
+      final user = UserModel(
+        userId: userCredential.user!.uid,
+        name: name,
+        email: email,
+        userRole: userRole,
+      );
+
+      await addUserToFirebase(
         user: user,
       );
 
@@ -45,12 +60,12 @@ class AuthenticationRepository extends BaseAuthenticationRepository {
       developer.log('message: ${e.message}', stackTrace: e.stackTrace);
       if (e.code == 'weak-password') {
         throw WeakPasswordException(
-          code: 'weak-password',
+          code: e.code,
           message: 'The password provided is too weak.',
         );
       } else if (e.code == 'email-already-in-use') {
         throw EmailAlreadyExistException(
-          code: 'weak-password',
+          code: e.code,
           message: 'The account already exists for that email.',
         );
       }
@@ -61,25 +76,42 @@ class AuthenticationRepository extends BaseAuthenticationRepository {
     }
   }
 
-  /// This method is used to sign in a user with email and password
+  /// Used to sign in a user with email and password
   @override
-  Future<auth.User?> signin({
-    required UserModel user,
+  Future<UserModel?> signin({
+    required String email,
     required String password,
   }) async {
     try {
-      final userCredential = await _firebaseAuth.signInAnonymously();
-      await addUserIfNotExists(userId: userId, user: user);
-      return userCredential.user;
+      final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      final String currentUserId = userCredential.user!.uid;
+      UserModel user = UserModel.fromJson(
+          _usersCollection.doc(currentUserId) as Map<String, String>);
+      return user;
     } on auth.FirebaseAuthException catch (e) {
       developer.log(e.toString());
+      if (e.code == 'user-not-found') {
+        developer.log(level: 5, 'No user found for that email.');
+        throw UserNotFoundException(
+          code: e.code,
+          message: 'No user found for that email.',
+        );
+      } else if (e.code == 'wrong-password') {
+        developer.log(level: 5, 'Wrong password provided for that user.');
+        throw WrongPasswordException(
+          code: e.code,
+          message: 'Wrong password provided for that user.',
+        );
+      }
       return null;
     }
   }
 
-  /// This method is used to sign out a user
+  /// Used to sign out a user
   @override
   Future<void> signOut() async {
+    developer.log("message: 'signing out'");
     try {
       await _firebaseAuth.signOut();
     } catch (e) {
@@ -87,25 +119,17 @@ class AuthenticationRepository extends BaseAuthenticationRepository {
     }
   }
 
+  /// Used to add a user to firestore
   @override
-  Future<void> addUserIfNotExists({
-    required userId,
+  Future<void> addUserToFirebase({
     required UserModel user,
   }) async {
-    final usersCollection = _db.collection('users');
-    final doc = await usersCollection.doc(userId).get();
+    final doc = await _usersCollection.doc(user.userId).get();
     if (!doc.exists) {
       developer.log('user does not exist, adding user to firestore');
-      await usersCollection.doc(userId).set({
-        'name': user.name,
-        'role': user.userRole == UserRole.customer ? 'customer' : 'salonOwner',
-        'email': user.email
-      });
+      await _usersCollection.doc(user.userId).set(
+            user.toJson(),
+          );
     }
   }
 }
-
-// required String name,
-//     required String email,
-//     required String password,
-//     required UserRole userRole,

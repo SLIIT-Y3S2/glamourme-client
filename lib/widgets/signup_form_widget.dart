@@ -7,6 +7,7 @@ import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/models/user_model.dart';
 import 'package:flutter_app/screens/appointments_screen.dart';
+import 'package:flutter_app/screens/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignupFormWidget extends StatefulWidget {
@@ -43,6 +44,8 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
   void initState() {
     super.initState();
     _authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
+
+    _authenticationBloc.add(const GetCurrentUserEvent());
 
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
@@ -119,17 +122,29 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
     // Dispose
     _emailController!.dispose();
     _passwordController!.dispose();
-    _formKey.currentState!.dispose();
+    _formKey.currentState?.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // To monitor the device orientation
-    final orientation = MediaQuery.of(context).orientation;
-
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        if (state is CurrentUserState) {
+          if (state.user != null) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => HomeScreen(),
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('User not found'),
+              duration: const Duration(milliseconds: 1500),
+            ));
+          }
+        }
+
         if (state is CreatingUserState) {
           ScaffoldMessenger.of(context)
               .showSnackBar(const SnackBar(content: Text('Creating user')));
