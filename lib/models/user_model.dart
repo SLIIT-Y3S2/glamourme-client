@@ -1,11 +1,7 @@
-import 'package:uuid/uuid.dart';
-
 enum UserRole {
   salonOwner,
   customer,
 }
-
-const Uuid uuid = Uuid();
 
 class UserModel {
   final String userId;
@@ -14,8 +10,29 @@ class UserModel {
   final UserRole userRole;
 
   UserModel({
+    required this.userId,
     required this.name,
     required this.email,
     required this.userRole,
-  }) : userId = uuid.v4();
+  });
+
+  // Function to convert the user model to a json object
+  toJson() => {
+        'userId': userId,
+        'name': name,
+        'email': email,
+        'userRole': userRole == UserRole.customer ? 'customer' : 'salonOwner',
+      };
+
+  // Function to convert the json object to a user model
+  factory UserModel.fromJson(Map<String, String> json) {
+    return UserModel(
+      userId: json['userId']!,
+      name: json['name']!,
+      email: json['email']!,
+      userRole: json['userRole'] == 'customer'
+          ? UserRole.customer
+          : UserRole.salonOwner,
+    );
+  }
 }

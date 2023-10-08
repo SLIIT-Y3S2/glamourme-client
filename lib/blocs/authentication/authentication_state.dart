@@ -34,6 +34,10 @@ class UserRetrievedState extends AuthenticationState {
   const UserRetrievedState(this.user);
 }
 
+class SigningInState extends AuthenticationState {
+  const SigningInState();
+}
+
 //Todo: Was working here. Seems like this is no longer needed.
 class CurrentUserState extends AuthenticationState {
   final UserModel? user;
