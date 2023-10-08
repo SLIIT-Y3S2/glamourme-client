@@ -13,8 +13,12 @@ class AuthenticationRepository extends BaseAuthenticationRepository {
   Stream<auth.User?> get userStream => _firebaseAuth.userChanges();
   Stream<auth.User?> get authState => _firebaseAuth.authStateChanges();
 
+  //User id of the current user
+  @override
   String get userId => _firebaseAuth.currentUser?.uid ?? '';
 
+  // Current user.
+  @override
   auth.User? get currentUser => _firebaseAuth.currentUser;
 
   AuthenticationRepository(
@@ -22,7 +26,7 @@ class AuthenticationRepository extends BaseAuthenticationRepository {
       : _firebaseAuth = firebaseAuth ?? auth.FirebaseAuth.instance,
         _db = firestore ?? FirebaseFirestore.instance;
 
-  /// This method is used to create a user with email and password
+  /// Create a user with email and password
   @override
   Future<auth.User?> signup(
       {required UserModel user, required password}) async {
@@ -61,7 +65,7 @@ class AuthenticationRepository extends BaseAuthenticationRepository {
     }
   }
 
-  /// This method is used to sign in a user with email and password
+  /// Used to sign in a user with email and password
   @override
   Future<auth.User?> signin({
     required UserModel user,
@@ -77,9 +81,10 @@ class AuthenticationRepository extends BaseAuthenticationRepository {
     }
   }
 
-  /// This method is used to sign out a user
+  /// Used to sign out a user
   @override
   Future<void> signOut() async {
+    developer.log("message: 'signing out'");
     try {
       await _firebaseAuth.signOut();
     } catch (e) {
@@ -104,8 +109,3 @@ class AuthenticationRepository extends BaseAuthenticationRepository {
     }
   }
 }
-
-// required String name,
-//     required String email,
-//     required String password,
-//     required UserRole userRole,

@@ -4,6 +4,10 @@ import 'package:flutter_app/models/user_model.dart';
 abstract class BaseAuthenticationRepository {
   Stream<auth.User?> get userStream;
 
+  String get userId;
+
+  auth.User? get currentUser;
+
   /// This method is used to create a user with email and password
   Future<auth.User?> signup({
     required UserModel user,

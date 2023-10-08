@@ -28,8 +28,15 @@ class UserCreatedState extends AuthenticationState {
   const UserCreatedState(this.user);
 }
 
-class UserRetrieved extends AuthenticationState {
+class UserRetrievedState extends AuthenticationState {
   final UserModel user;
 
-  const UserRetrieved(this.user);
+  const UserRetrievedState(this.user);
+}
+
+//Todo: Was working here. Seems like this is no longer needed.
+class CurrentUserState extends AuthenticationState {
+  final UserModel? user;
+
+  const CurrentUserState(this.user);
 }
