@@ -13,9 +13,9 @@ class CreatingUserState extends AuthenticationState {
   const CreatingUserState();
 }
 
-class SigninErrorState extends AuthenticationState {
+class SignupErrorState extends AuthenticationState {
   final String errorMessage;
-  const SigninErrorState(this.errorMessage);
+  const SignupErrorState(this.errorMessage);
 }
 
 class GettingUser extends AuthenticationState {
@@ -36,6 +36,15 @@ class UserRetrievedState extends AuthenticationState {
 
 class SigningInState extends AuthenticationState {
   const SigningInState();
+}
+
+class SigningInErrorState extends AuthenticationState {
+  final String errorMessage;
+  const SigningInErrorState(this.errorMessage);
+}
+
+class SignedInState extends AuthenticationState {
+  const SignedInState();
 }
 
 //Todo: Was working here. Seems like this is no longer needed.

@@ -17,6 +17,10 @@ class UserNotFoundException extends AuthException {
   UserNotFoundException({required super.code, required super.message});
 }
 
-class WrongPasswordException extends AuthException {
-  WrongPasswordException({required super.code, required super.message});
+class InvalidLoginCredentials extends AuthException {
+  InvalidLoginCredentials({required super.code, required super.message});
+}
+
+class TooManyRequestException extends AuthException {
+  TooManyRequestException({required super.code, required super.message});
 }

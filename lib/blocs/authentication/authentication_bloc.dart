@@ -44,11 +44,11 @@ class AuthenticationBloc
       );
       emit(UserCreatedState(user));
     } on EmailAlreadyExistException catch (e) {
-      emit(SigninErrorState(e.message));
+      emit(SignupErrorState(e.message));
     } on WeakPasswordException catch (e) {
-      emit(SigninErrorState(e.message));
+      emit(SignupErrorState(e.message));
     } catch (e) {
-      emit(SigninErrorState(e.toString()));
+      emit(SignupErrorState(e.toString()));
     }
   }
 
@@ -76,14 +76,19 @@ class AuthenticationBloc
   ) async {
     emit(const SigningInState());
     developer.log('email: ${event.email}');
+    emit(const SigningInState());
     try {
       await _authenticationRepository.signin(
         email: event.email,
         password: event.password,
       );
-      emit(const SigningInState());
+      emit(const SignedInState());
+    } on EmailAlreadyExistException catch (e) {
+      emit(SigningInErrorState(e.message));
+    } on InvalidLoginCredentials catch (e) {
+      emit(SigningInErrorState(e.message));
     } catch (e) {
-      emit(SigninErrorState(e.toString()));
+      emit(SigningInErrorState(e.toString()));
     }
   }
 

@@ -82,15 +82,14 @@ class AuthenticationRepository extends BaseAuthenticationRepository {
     required String email,
     required String password,
   }) async {
-    developer.log('wewewe wewewe wewewewe wewewewewewewewewew');
+    UserModel? user;
     try {
       final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       final String currentUserId = userCredential.user!.uid;
-      UserModel user = UserModel.fromJson(
+      user = UserModel.fromJson(
           _usersCollection.doc(currentUserId) as Map<String, String>);
-          developer.log("${_usersCollection.doc(currentUserId)}");
-      return user;
+      developer.log("${_usersCollection.doc(currentUserId)}");
     } on auth.FirebaseAuthException catch (e) {
       developer.log(e.toString());
       if (e.code == 'user-not-found') {
@@ -99,17 +98,26 @@ class AuthenticationRepository extends BaseAuthenticationRepository {
           code: e.code,
           message: 'No user found for that email.',
         );
-      } else if (e.code == 'wrong-password') {
+      } else if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
         developer.log(level: 5, 'Wrong password provided for that user.');
-        throw WrongPasswordException(
+        throw InvalidLoginCredentials(
           code: e.code,
-          message: 'Wrong password provided for that user.',
+          message: 'Invalid login credentials. Please try again.',
         );
+      } else if (e.code == 'too-many-requests') {
+        developer.log(level: 5, 'Too many requests. Try again later.');
+        throw TooManyRequestException(
+          code: e.code,
+          message: 'Too many requests. Try again later.',
+        );
+      } else {
+        developer.log(level: 5, 'Invalid email provided for that user.');
+        throw Exception(e.code.toString());
       }
-      return null;
-    }catch(e){
+    } catch (e) {
       developer.log(e.toString());
     }
+    return user;
   }
 
   /// Used to sign out a user
