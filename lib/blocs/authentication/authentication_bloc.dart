@@ -36,12 +36,13 @@ class AuthenticationBloc
         password: event.password,
         userRole: event.userRole,
       );
-      UserModel user1 = UserModel(
-          userId: _authenticationRepository.userId,
-          email: event.email,
-          userRole: event.userRole,
-          name: event.name);
-      emit(UserCreatedState(user1));
+      UserModel user = UserModel(
+        userId: _authenticationRepository.userId,
+        email: event.email,
+        userRole: event.userRole,
+        name: event.name,
+      );
+      emit(UserCreatedState(user));
     } on EmailAlreadyExistException catch (e) {
       emit(SigninErrorState(e.message));
     } on WeakPasswordException catch (e) {
