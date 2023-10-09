@@ -27,7 +27,9 @@ class HomeScreen extends StatelessWidget {
           children: [
             Text(
               'Beauty Services',
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    fontWeight: FontWeight.w900,
+                  ),
             ),
             TextButton.icon(
               onPressed: () {},
@@ -68,7 +70,9 @@ class HomeScreen extends StatelessWidget {
           children: [
             Text(
               'Popular Near You',
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    fontWeight: FontWeight.w900,
+                  ),
             ),
             TextButton.icon(
               onPressed: () {},
@@ -124,6 +128,10 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   beautyServicesCard,
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  popularNearYou,
                   const SizedBox(
                     height: 20,
                   ),

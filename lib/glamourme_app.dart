@@ -33,18 +33,11 @@ class _GlamourMeAppState extends State<GlamourMeApp> {
 
   // Used to redirect to the appropriate screen
   void _redirectToAuthenticate(auth.User? user) {
+    print(user);
     if (user == null) {
-      globalNavigatorKey.currentState!.pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
-        ),
-      );
+      globalNavigatorKey.currentState!.pushReplacementNamed('/login');
     } else {
-      globalNavigatorKey.currentState!.pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
-        ),
-      );
+      globalNavigatorKey.currentState!.pushReplacementNamed('/home');
     }
   }
 

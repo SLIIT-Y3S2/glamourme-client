@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_app/constants.dart';
+import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/screens/appointments_screen.dart';
 import 'package:flutter_app/screens/home_screen.dart';
 import 'package:flutter_app/screens/payment_screen.dart';
@@ -9,7 +10,6 @@ import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/widgets/login_form_widget.dart';
 import 'package:flutter_app/widgets/social_buttons_widget.dart';
 
-
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
@@ -17,7 +17,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(signupScreenColor),
+        backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
@@ -35,12 +35,11 @@ class LoginScreen extends StatelessWidget {
                     'Welcome Back!',
                     style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'DM Sans',
                       fontSize: 33,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  
+
                   // const SizedBox(height: 15), // Use SizedBox for spacing
                   Row(
                     children: [
@@ -48,7 +47,6 @@ class LoginScreen extends StatelessWidget {
                         'Don t you have an account?  ',
                         style: TextStyle(
                           color: Color(black2),
-                          fontFamily: 'DM Sans',
                           fontSize: 15,
                           fontWeight: FontWeight.normal,
                         ),
@@ -62,8 +60,8 @@ class LoginScreen extends StatelessWidget {
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const SignupScreen()));
+                              globalNavigatorKey.currentState!
+                                  .pushReplacementNamed('/signup');
                             },
                         ),
                       ),

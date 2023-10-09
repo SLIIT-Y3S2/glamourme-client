@@ -21,7 +21,7 @@ final salonList = [
     description: 'This is a description',
     contactNumber: '0112345678',
     rating: 4.5,
-    affordability: Affordability.pricey,
+    affordability: Affordability.affordable,
     services: ['Haircut', 'Hair Coloring', 'Hair Styling'],
     latitude: 6.9147,
     longitude: 79.9733,

@@ -46,7 +46,7 @@ class NearYouCard extends StatelessWidget {
             Row(
               children: [
                 if (salon.services.length > 3)
-                  ...salon.services.reversed
+                  ...salon.services
                       .skip(3 - salon.services.length)
                       .map((service) => Text(service)),
                 if (salon.services.length <= 3)
@@ -88,13 +88,8 @@ class NearYouCard extends StatelessWidget {
                   width: 4,
                 ),
                 salon.affordability == Affordability.affordable
-                    ? Icon(
-                        Icons.attach_money,
-                        color: Colors.grey.shade600,
-                      )
-                    : salon.affordability == Affordability.pricey
-                        ? const Text('\$')
-                        : const Text('\$\$'),
+                    ? const Text('\$')
+                    : const Text('\$\$'),
               ],
             )
           ],

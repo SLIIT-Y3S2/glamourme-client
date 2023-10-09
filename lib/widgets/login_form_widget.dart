@@ -5,8 +5,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/constants.dart';
-import 'package:flutter_app/models/user_model.dart';
-import 'package:flutter_app/screens/appointments_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginFormWidget extends StatefulWidget {
@@ -20,13 +18,13 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   // To access the OnboardingBloc
   late AuthenticationBloc _authenticationBloc;
   // Global key that uniquely identifies the Form widget
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   // to store the email entered by the user
   String _enteredEmail = '';
   // to store the password entered by the user
   String _enteredPassword = '';
-  
+
   // Controllers for the input fields
   TextEditingController? _emailController;
   TextEditingController? _passwordController;
@@ -37,7 +35,6 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   void initState() {
     super.initState();
     _authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
-
     _passwordController = TextEditingController();
     _emailController = TextEditingController();
   }
@@ -50,8 +47,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
       return;
     }
     // Check if the controllers are not null
-    if (_emailController == null ||
-        _passwordController == null) {
+    if (_emailController == null || _passwordController == null) {
       return;
     }
     _formKey.currentState!.save();
@@ -59,8 +55,6 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
     // Get the entered email, name and password
     _enteredEmail = _emailController!.text;
     _enteredPassword = _passwordController!.text;
-
-    print("hello ===== $_enteredEmail");
 
     _authenticationBloc.add(SigninEvent(
       email: _enteredEmail,
@@ -93,53 +87,37 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
     return null;
   }
 
-  // String? _confirmPasswordValidate(value) {
-  //   String password = _passwordController!.text;
-  //   String confirmPassword = _confirmPasswordController!.text;
-  //   if (password != confirmPassword) {
-  //     return 'Passwords do not match.';
-  //   }
-  //   return null;
-  // }
-
   @override
   void dispose() {
     super.dispose();
     // Dispose
     _emailController!.dispose();
     _passwordController!.dispose();
-    _formKey.currentState!.dispose();
+    _formKey.currentState?.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // To monitor the device orientation
-    final orientation = MediaQuery.of(context).orientation;
-
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        if (state is CreatingUserState) {
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        if (state is SignedInState) {
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
           ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('Creating user')));
-        } else if (state is SigninErrorState) {
+              .showSnackBar(const SnackBar(content: Text('Signing in...')));
+        } else if (state is SigningInErrorState) {
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(state.errorMessage),
             duration: const Duration(milliseconds: 1500),
           ));
         } else if (state is UserCreatedState) {
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('User created'),
+            content: Text('Signed in successfully.'),
             duration: Duration(milliseconds: 500),
           ));
-
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const AppointmentScreen(),
-            ),
-          );
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
         }
       },
       child: SizedBox(
@@ -164,11 +142,11 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                     "Your password here",
                     isPassword: true,
                   ),
-                  
+
                   const Padding(padding: EdgeInsets.only(top: 28)),
                   BlocBuilder<AuthenticationBloc, AuthenticationState>(
                     builder: (context, state) {
-                      return state is CreatingUserState
+                      return state is SigningInState
                           ? const CircularProgressIndicator()
                           : Center(
                               child: SizedBox(
@@ -202,10 +180,12 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
     );
   }
 
-  Widget _buildInputField(String labelText, String placeholder,
-      {bool isPassword = false,
-      bool isEmail = false,
-      isConfirmPassword = false}) {
+  Widget _buildInputField(
+    String labelText,
+    String placeholder, {
+    bool isPassword = false,
+    bool isEmail = false,
+  }) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -218,7 +198,6 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             style: const TextStyle(
               color: Color(0xFF1C1C28),
               fontSize: 10,
-              fontFamily: 'DM Sans',
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -232,25 +211,22 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             borderRadius: BorderRadius.circular(8),
           ),
           child: TextFormField(
-            controller: isPassword
-                ? _passwordController:
-                         _emailController,
+            controller: isPassword ? _passwordController : _emailController,
             obscureText: isPassword,
             decoration: InputDecoration(
               hintText: placeholder,
               hintStyle: const TextStyle(
                 color: Color(0xFF8E90A5),
                 fontSize: 15,
-                fontFamily: 'DM Sans',
                 fontWeight: FontWeight.w400,
               ),
               border: InputBorder.none,
             ),
             validator: isPassword
                 ? _passwordValidate
-                    : isEmail
-                        ? _emailValidate
-                        : _nameValidate,
+                : isEmail
+                    ? _emailValidate
+                    : _nameValidate,
           ),
         ),
       ],

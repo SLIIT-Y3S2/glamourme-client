@@ -37,7 +37,6 @@ class SignupScreen extends StatelessWidget {
                     'Sign Up',
                     style: TextStyle(
                       color: Colors.white,
-                      fontFamily: 'DM Sans',
                       fontSize: 33,
                       fontWeight: FontWeight.bold,
                     ),
@@ -63,8 +62,8 @@ class SignupScreen extends StatelessWidget {
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const LoginScreen()));
+                              Navigator.of(context)
+                                  .pushReplacementNamed('/login');
                             },
                         ),
                       ),

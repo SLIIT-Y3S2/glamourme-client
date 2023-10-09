@@ -143,7 +143,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
         if (state is CreatingUserState) {
           ScaffoldMessenger.of(context)
               .showSnackBar(const SnackBar(content: Text('Creating user')));
-        } else if (state is SigninErrorState) {
+        } else if (state is SignupErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(state.errorMessage),
             duration: const Duration(milliseconds: 1500),
