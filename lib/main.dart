@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:logging/logging.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_app/firebase_options.dart';
-import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/glamourme_app.dart';
 
-int? initScreen;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -28,17 +25,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'GlamourMe',
-      theme: ThemeData().copyWith(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Color(kSeedColor),
-          primary: Color(kPrimaryColor),
-        ),
-        textTheme: GoogleFonts.dmSansTextTheme(),
-        useMaterial3: true,
-      ),
-      home: const GlamourMeApp(),
-    );
+    return const GlamourMeApp();
   }
 }

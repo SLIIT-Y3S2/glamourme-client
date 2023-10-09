@@ -132,16 +132,11 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         if (state is CurrentUserState) {
           if (state.user != null) {
-            Navigator.of(context).push(
+            Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => HomeScreen(),
+                builder: (context) => const HomeScreen(),
               ),
             );
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('User not found'),
-              duration: const Duration(milliseconds: 1500),
-            ));
           }
         }
 
