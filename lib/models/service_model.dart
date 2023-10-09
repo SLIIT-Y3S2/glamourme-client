@@ -11,7 +11,7 @@ class ServiceModel {
   final String? id;
 
   // Constructor for creating a service from Firestore
-  ServiceModel({
+  const ServiceModel({
     required this.name,
     required this.description,
     required this.imageUrl,

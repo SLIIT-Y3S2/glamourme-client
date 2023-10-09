@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
+import 'package:flutter_app/data/dummy_salon.dart';
 import 'package:flutter_app/data/dummy_services.dart';
 import 'package:flutter_app/screens/appointments_screen.dart';
 import 'package:flutter_app/screens/payment_screen.dart';
 import 'package:flutter_app/widgets/bottom_navigation.dart';
+import 'package:flutter_app/widgets/near_you_card.dart';
 import 'package:flutter_app/widgets/service_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -75,29 +77,25 @@ class HomeScreen extends StatelessWidget {
             )
           ],
         ),
-        const SizedBox(
-          height: 20,
-        ),
         Row(
           children: [
             Expanded(
               child: SizedBox(
-                height: 300,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      ...serviceData.map(
-                        (service) => Padding(
+                      ...salonList.map(
+                        (salon) => Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: ServiceCard(service),
+                          child: NearYouCard(salon),
                         ),
                       ),
-                      ...serviceData.map(
-                        (service) => Padding(
+                      ...salonList.map(
+                        (salon) => Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: ServiceCard(service),
+                          child: NearYouCard(salon),
                         ),
                       )
                     ],
