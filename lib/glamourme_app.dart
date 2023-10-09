@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
-import 'package:flutter_app/blocs/onboarding/onboarding_bloc.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/repositories/authentication/authentication_repository.dart';
@@ -21,7 +20,7 @@ class GlamourMeApp extends StatefulWidget {
 }
 
 class _GlamourMeAppState extends State<GlamourMeApp> {
-  bool _isFirstRun = false;
+  late bool _isFirstRun = false;
 
   // Used to check if the app is running for the first time
   void _checkFirstRun() async {
@@ -33,7 +32,6 @@ class _GlamourMeAppState extends State<GlamourMeApp> {
 
   // Used to redirect to the appropriate screen
   void _redirectToAuthenticate(auth.User? user) {
-    print(user);
     if (user == null) {
       globalNavigatorKey.currentState!.pushReplacementNamed('/login');
     } else {
@@ -43,18 +41,19 @@ class _GlamourMeAppState extends State<GlamourMeApp> {
 
   @override
   void initState() {
+    auth.FirebaseAuth.instance.authStateChanges().listen((user) async {
+      _redirectToAuthenticate(user);
+    });
     super.initState();
     _checkFirstRun();
-    if (_isFirstRun) {
-      globalNavigatorKey.currentState!.pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const OnBoardingScreen(),
-        ),
-      );
+    if (globalNavigatorKey.currentState != null) {
+      if (_isFirstRun) {
+        globalNavigatorKey.currentState!.pushReplacementNamed('/onboarding');
+      } else {
+        globalNavigatorKey.currentState!.pushReplacementNamed('/login');
+      }
     } else {
-      auth.FirebaseAuth.instance.authStateChanges().listen((user) async {
-        _redirectToAuthenticate(user);
-      });
+      print('Global Navigator Key is null');
     }
   }
 
@@ -66,23 +65,26 @@ class _GlamourMeAppState extends State<GlamourMeApp> {
 
     ///Material App
     MaterialApp app = MaterialApp(
-        title: 'GlamourMe',
-        theme: ThemeData().copyWith(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Color(kSeedColor),
-            primary: Color(kPrimaryColor),
-          ),
-          textTheme: GoogleFonts.dmSansTextTheme(),
-          useMaterial3: true,
+      title: 'GlamourMe',
+      theme: ThemeData().copyWith(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Color(kSeedColor),
+          primary: Color(kPrimaryColor),
         ),
-        navigatorKey: globalNavigatorKey,
-        onGenerateRoute: getRouteSettings());
+        textTheme: GoogleFonts.dmSansTextTheme(),
+        useMaterial3: true,
+      ),
+      navigatorKey: globalNavigatorKey,
+      onGenerateRoute: getRouteSettings(),
+    );
 
-    return MultiRepositoryProvider(providers: [
-      RepositoryProvider(create: (context) => authRepository),
-      RepositoryProvider(create: (context) => OnboardingBloc()),
-      RepositoryProvider(create: (context) => authenticationBloc)
-    ], child: app);
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(create: (context) => authRepository),
+        RepositoryProvider(create: (context) => authenticationBloc)
+      ],
+      child: app,
+    );
   }
 }
 
@@ -106,7 +108,7 @@ _getPageRoutes(BuildContext context, RouteSettings settings) {
       return const SignupScreen();
     case '/home':
       return const HomeScreen();
-    default:
+    case '/onboarding':
       return const OnBoardingScreen();
   }
 }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/blocs/onboarding/onboarding_bloc.dart';
 import 'package:flutter_app/screens/onboarding.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LanguageSelectionScreen extends StatelessWidget {
   const LanguageSelectionScreen({super.key});
@@ -9,12 +7,9 @@ class LanguageSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void navigateToOnBoarding() {
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => OnboardingBloc(),
-            child: const OnBoardingScreen(),
-          ),
+          builder: (context) => const OnBoardingScreen(),
         ),
       );
     }
