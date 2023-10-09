@@ -82,12 +82,14 @@ class AuthenticationRepository extends BaseAuthenticationRepository {
     required String email,
     required String password,
   }) async {
+    developer.log('wewewe wewewe wewewewe wewewewewewewewewew');
     try {
       final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       final String currentUserId = userCredential.user!.uid;
       UserModel user = UserModel.fromJson(
           _usersCollection.doc(currentUserId) as Map<String, String>);
+          developer.log("${_usersCollection.doc(currentUserId)}");
       return user;
     } on auth.FirebaseAuthException catch (e) {
       developer.log(e.toString());
@@ -105,6 +107,8 @@ class AuthenticationRepository extends BaseAuthenticationRepository {
         );
       }
       return null;
+    }catch(e){
+      developer.log(e.toString());
     }
   }
 
