@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/models/user_model.dart';
-import 'package:flutter_app/screens/appointments_screen.dart';
-import 'package:flutter_app/screens/home_screen.dart';
+import 'package:flutter_app/screens/home_index_screen.dart';
+import 'package:flutter_app/screens/main_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignupFormWidget extends StatefulWidget {
@@ -134,7 +134,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
           if (state.user != null) {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
+                builder: (context) => const HomeIndexScreen(),
               ),
             );
           }
@@ -158,7 +158,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
 
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const AppointmentScreen(),
+              builder: (context) => const MainScreen(),
             ),
           );
         }

@@ -4,8 +4,8 @@ import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/repositories/authentication/authentication_repository.dart';
-import 'package:flutter_app/screens/home_screen.dart';
 import 'package:flutter_app/screens/login.dart';
+import 'package:flutter_app/screens/main_screen.dart';
 import 'package:flutter_app/screens/onboarding.dart';
 import 'package:flutter_app/screens/signup_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,41 +20,27 @@ class GlamourMeApp extends StatefulWidget {
 }
 
 class _GlamourMeAppState extends State<GlamourMeApp> {
-  late bool _isFirstRun = false;
-
-  // Used to check if the app is running for the first time
-  void _checkFirstRun() async {
-    bool ifr = await IsFirstRun.isFirstRun().then((value) => value);
-    setState(() {
-      _isFirstRun = ifr;
-    });
-  }
-
   // Used to redirect to the appropriate screen
-  void _redirectToAuthenticate(auth.User? user) {
+  void _redirectToAuthenticate(auth.User? user) async {
     if (user == null) {
-      globalNavigatorKey.currentState!.pushReplacementNamed('/login');
-    } else {
-      globalNavigatorKey.currentState!.pushReplacementNamed('/home');
-    }
-  }
+      bool ifr = await IsFirstRun.isFirstRun();
 
-  @override
-  void initState() {
-    auth.FirebaseAuth.instance.authStateChanges().listen((user) async {
-      _redirectToAuthenticate(user);
-    });
-    super.initState();
-    _checkFirstRun();
-    if (globalNavigatorKey.currentState != null) {
-      if (_isFirstRun) {
+      if (ifr) {
         globalNavigatorKey.currentState!.pushReplacementNamed('/onboarding');
       } else {
         globalNavigatorKey.currentState!.pushReplacementNamed('/login');
       }
     } else {
-      print('Global Navigator Key is null');
+      globalNavigatorKey.currentState!.pushReplacementNamed('/main');
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    auth.FirebaseAuth.instance.authStateChanges().listen((user) async {
+      _redirectToAuthenticate(user);
+    });
   }
 
   @override
@@ -100,15 +86,16 @@ MaterialPageRoute Function(RouteSettings settings) getRouteSettings() {
 // Used to get the page routes
 _getPageRoutes(BuildContext context, RouteSettings settings) {
   switch (settings.name) {
-    case '/':
-      return const OnBoardingScreen();
     case '/login':
       return const LoginScreen();
     case '/signup':
       return const SignupScreen();
-    case '/home':
-      return const HomeScreen();
+    case '/main':
+      return const MainScreen();
     case '/onboarding':
+      return const OnBoardingScreen();
+    default:
+      //Todo add splash screen
       return const OnBoardingScreen();
   }
 }
