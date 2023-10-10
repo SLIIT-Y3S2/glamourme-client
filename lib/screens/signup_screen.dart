@@ -5,7 +5,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants.dart';
-import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/widgets/signup_form_widget.dart';
 import 'package:flutter_app/widgets/social_buttons_widget.dart';
 

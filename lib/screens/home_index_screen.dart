@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/data/dummy_salon.dart';
 import 'package:flutter_app/data/dummy_services.dart';
-import 'package:flutter_app/screens/appointments_screen.dart';
-import 'package:flutter_app/screens/payment_screen.dart';
-import 'package:flutter_app/widgets/bottom_navigation.dart';
+import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/widgets/near_you_card.dart';
 import 'package:flutter_app/widgets/service_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeIndexScreen extends StatefulWidget {
+  const HomeIndexScreen({super.key});
 
+  @override
+  State<HomeIndexScreen> createState() => _HomeIndexScreenState();
+}
+
+class _HomeIndexScreenState extends State<HomeIndexScreen> {
   void _signOut(BuildContext context) {
     BlocProvider.of<AuthenticationBloc>(context).add(const SignOutEvent());
   }
@@ -112,32 +115,36 @@ class HomeScreen extends StatelessWidget {
       ],
     );
 
-    return BlocListener<AuthenticationBloc, AuthenticationState>(
-      listener: (context, state) {},
-      child: Scaffold(
-        bottomNavigationBar: const BottomNavigation(),
-        appBar: AppBar(
-          title: const Text('Location goes here'),
-        ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  beautyServicesCard,
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  popularNearYou,
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  popularNearYou,
-                ],
-              ),
+    return Scaffold(
+      key: homeNavigatorKey,
+      appBar: AppBar(
+        title: const Text('Location goes here'),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                beautyServicesCard,
+                const SizedBox(
+                  height: 20,
+                ),
+                popularNearYou,
+                const SizedBox(
+                  height: 20,
+                ),
+                popularNearYou,
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () => _signOut(context),
+                  child: const Text('Sign out'),
+                ),
+              ],
             ),
           ),
         ),
@@ -145,34 +152,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-// Column(
-//   children: [
-//     ElevatedButton(
-//       onPressed: () {
-//         Navigator.of(context).push(
-//             MaterialPageRoute(builder: (context) => PaymentScreen()));
-//       },
-//       child: Text('Go to payment'),
-//     ),
-//     ElevatedButton(
-//       onPressed: () {
-//         _signOut(context);
-//       },
-//       child: Text('Sign out'),
-//     ),
-//     ElevatedButton(
-//       onPressed: () {
-//         Navigator.of(context).push(MaterialPageRoute(
-//             builder: (context) => const AppointmentScreen()));
-//       },
-//       child: Text('Go to appointments'),
-//     ),
-//     ElevatedButton(
-//         onPressed: () {
-//           Navigator.of(context).push(MaterialPageRoute(
-//               builder: (context) => AppointmentScreen()));
-//         },
-//         child: Text('Appointments')),
-//   ],
-// ),
