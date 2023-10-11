@@ -45,12 +45,12 @@ class NearYouCard extends StatelessWidget {
             ),
             Row(
               children: [
-                if (salon.services.length > 3)
-                  ...salon.services
-                      .skip(3 - salon.services.length)
-                      .map((service) => Text(service)),
-                if (salon.services.length <= 3)
-                  ...salon.services.map((service) => Text('$service ')),
+                // if (salon.services.length > 3)
+                //   ...salon.services
+                //       .skip(3 - salon.services.length)
+                //       .map((service) => Text(service.name.substring(0, 1))),
+                // if (salon.services.length <= 3)
+                ...salon.services.map((service) => Text('${service.name} ')),
                 Icon(
                   Icons.circle,
                   color: Colors.grey.shade500,
