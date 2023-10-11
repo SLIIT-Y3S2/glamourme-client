@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/data/dummy_salon.dart';
 import 'package:flutter_app/data/dummy_services.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/widgets/near_you_card.dart';
 import 'package:flutter_app/widgets/service_card.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeIndexScreen extends StatefulWidget {
   const HomeIndexScreen({super.key});
@@ -15,14 +13,11 @@ class HomeIndexScreen extends StatefulWidget {
 }
 
 class _HomeIndexScreenState extends State<HomeIndexScreen> {
-  void _signOut(BuildContext context) {
-    BlocProvider.of<AuthenticationBloc>(context).add(const SignOutEvent());
-  }
-
   @override
   Widget build(BuildContext context) {
     // Beauty Services Widget
     Widget beautyServicesCard = Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
@@ -139,10 +134,6 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
                 popularNearYou,
                 const SizedBox(
                   height: 20,
-                ),
-                ElevatedButton(
-                  onPressed: () => _signOut(context),
-                  child: const Text('Sign out'),
                 ),
               ],
             ),
