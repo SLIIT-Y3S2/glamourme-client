@@ -1,3 +1,4 @@
+import 'package:flutter_app/models/service_model.dart';
 import 'package:uuid/uuid.dart';
 
 const uuid = Uuid();
@@ -22,7 +23,7 @@ class SalonModel {
   final String contactNumber;
   final double rating;
   final Affordability affordability;
-  final List<String> services;
+  final List<ServiceModel> services;
   final double latitude;
   final double longitude;
   final SalonType? salonType;

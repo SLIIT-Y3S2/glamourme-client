@@ -26,6 +26,13 @@ class _HomeScreenState extends State<MainScreen> {
     profileNavigatorKey,
   ];
 
+  // final Map<int, GlobalKey> _navigatorKeys = {
+  //   0: homeNavigatorKey,
+  //   1: appointmetNavigatorKey,
+  //   2: salonsNavigatorKey,
+  //   3: profileNavigatorKey,
+  // };
+
   int _currentIndex = 0;
 
   void _onDestinationSelected(int index) {
