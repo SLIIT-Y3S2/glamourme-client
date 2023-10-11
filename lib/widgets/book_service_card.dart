@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/service_model.dart';
+import 'package:flutter_app/screens/place_appointment_screen.dart';
 
 class BookServiceCard extends StatelessWidget {
   const BookServiceCard({required this.service, super.key});
@@ -83,7 +84,13 @@ class BookServiceCard extends StatelessWidget {
           ),
           const Spacer(),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const PlaceAppointmentScreen(),
+                ),
+              );
+            },
             style: ElevatedButton.styleFrom(
               elevation: 8,
               surfaceTintColor: Colors.white,
