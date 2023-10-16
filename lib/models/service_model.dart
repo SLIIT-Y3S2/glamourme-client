@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
 const uuid = Uuid();
@@ -6,9 +7,9 @@ class ServiceModel {
   final String name;
   final String description;
   final String imageUrl;
-  final String price;
+  final num price;
   final String duration;
-  final String? id;
+  final String id;
 
   // Constructor for creating a service from Firestore
   const ServiceModel({
@@ -42,13 +43,14 @@ class ServiceModel {
   }
 
   //Used to convert the map from Firestore to an object
-  factory ServiceModel.fromJson(Map<String, dynamic> json) {
+  factory ServiceModel.fromJson(
+      QueryDocumentSnapshot<Map<String, dynamic>> doc) {
     return ServiceModel(
-        name: json['name'],
-        description: json['description'],
-        imageUrl: json['imageUrl'],
-        price: json['price'],
-        duration: json['duration'],
-        id: json['id']);
+        name: doc.get('name'),
+        description: doc.get('description'),
+        imageUrl: doc.get('imageUrl'),
+        price: doc.get('price'),
+        duration: doc.get('duration'),
+        id: doc.id);
   }
 }

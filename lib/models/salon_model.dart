@@ -1,3 +1,6 @@
+import 'dart:developer' as developer;
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/models/service_model.dart';
 import 'package:uuid/uuid.dart';
 
@@ -78,26 +81,31 @@ class SalonModel {
     };
   }
 
-  factory SalonModel.fromJson(Map<String, dynamic> json) {
+  factory SalonModel.fromJson(QueryDocumentSnapshot doc) {
+    final List<ServiceModel> salonServices = [];
+    doc.reference.collection('services').get().then((services) {
+      for (var service in services.docs) {
+        ServiceModel serviceModel = ServiceModel.fromJson(service);
+        salonServices.add(serviceModel);
+      }
+    });
     return SalonModel(
-      salonId: json['salonId'],
-      salonName: json['salonName'],
-      location: json['location'],
-      imageUrl: json['imageUrl'],
-      description: json['description'],
-      contactNumber: json['contactNumber'],
-      rating: json['rating'],
-      affordability: json['affordability'] == 'affordable'
+      salonId: doc.id,
+      salonName: doc.get('salon'),
+      location: doc.get('location'),
+      imageUrl: doc.get('imageUrl'),
+      description: doc.get('description'),
+      contactNumber: doc.get('contactNumber'),
+      rating: doc.get('rating'),
+      affordability: doc.get('affordability') == 'affordable'
           ? Affordability.affordable
           : Affordability.pricey,
-      services: (json['services'] as List<dynamic>).map((s) {
-        return ServiceModel.fromJson(s as Map<String, dynamic>);
-      }).toList(),
-      latitude: json['latitude'],
-      longitude: json['longitude'],
-      salonType: json['salonType'] == 'gents'
+      services: salonServices,
+      latitude: doc.get('latitude'),
+      longitude: doc.get('longitude'),
+      salonType: doc.get('salonType') == 'gents'
           ? SalonType.gents
-          : json['ladies']
+          : doc.get('salonType') == 'ladies'
               ? SalonType.ladies
               : SalonType.unisex,
     );
