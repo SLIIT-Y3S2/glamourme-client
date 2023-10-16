@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
+import 'package:flutter_app/blocs/salons/salons_bloc.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/repositories/authentication/authentication_repository.dart';
@@ -67,7 +68,8 @@ class _GlamourMeAppState extends State<GlamourMeApp> {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(create: (context) => authRepository),
-        RepositoryProvider(create: (context) => authenticationBloc)
+        RepositoryProvider(create: (context) => authenticationBloc),
+        RepositoryProvider(create: (context) => SalonsBloc())
       ],
       child: app,
     );

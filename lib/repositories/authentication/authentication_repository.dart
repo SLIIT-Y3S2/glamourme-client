@@ -126,6 +126,7 @@ class AuthenticationRepository extends BaseAuthenticationRepository {
     developer.log("message: 'signing out'");
     try {
       await _firebaseAuth.signOut();
+      developer.log('done');
     } catch (e) {
       throw Exception(e);
     }
