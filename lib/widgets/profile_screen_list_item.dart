@@ -39,7 +39,7 @@ class ProfileScreenListItem extends StatelessWidget {
         trailingIcon,
         size: 16,
       ),
-      onTap: () => onTap!(context),
+      onTap: () {},
     );
   }
 }

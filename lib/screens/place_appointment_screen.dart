@@ -92,7 +92,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
                 ),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 elevation: 8,
