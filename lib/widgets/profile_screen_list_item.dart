@@ -5,7 +5,7 @@ class ProfileScreenListItem extends StatelessWidget {
   final String subtitle;
   final IconData leadingIcon;
   final IconData trailingIcon;
-  final Function? onTap;
+  final Function? onTapFunc;
   final bool isSignOutButton;
 
   const ProfileScreenListItem(
@@ -14,7 +14,7 @@ class ProfileScreenListItem extends StatelessWidget {
       required this.subtitle,
       required this.leadingIcon,
       required this.trailingIcon,
-      required this.onTap,
+      required this.onTapFunc,
       this.isSignOutButton = false})
       : super(key: key);
 
@@ -39,7 +39,7 @@ class ProfileScreenListItem extends StatelessWidget {
         trailingIcon,
         size: 16,
       ),
-      onTap: () {},
+      onTap: onTapFunc == null ? null : () => onTapFunc!(),
     );
   }
 }

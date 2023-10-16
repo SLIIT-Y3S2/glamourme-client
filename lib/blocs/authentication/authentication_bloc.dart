@@ -96,6 +96,7 @@ class AuthenticationBloc
   Future<void> _signOutHandler(
       SignOutEvent event, Emitter<AuthenticationState> emit) async {
     await _authenticationRepository.signOut();
+
     emit(const AuthenticationInitialState());
   }
 }

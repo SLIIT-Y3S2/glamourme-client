@@ -6,8 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileIndexScreen extends StatelessWidget {
   const ProfileIndexScreen({Key? key}) : super(key: key);
+
   void _signOut(BuildContext context) {
     BlocProvider.of<AuthenticationBloc>(context).add(const SignOutEvent());
+    if (profileNavigatorKey.currentState!.canPop()) {
+      profileNavigatorKey.currentState!.pop();
+    }
   }
 
   @override
@@ -17,31 +21,31 @@ class ProfileIndexScreen extends StatelessWidget {
         appBar: AppBar(title: const Text('Profile')),
         body: ListView(
           children: <Widget>[
-            ProfileScreenListItem(
+            const ProfileScreenListItem(
               title: 'Your Favorites',
               leadingIcon: Icons.favorite_outline,
-              onTap: null,
+              onTapFunc: null,
               subtitle: 'Reorder your favorite services in a click',
               trailingIcon: Icons.arrow_forward_ios,
             ),
-            ProfileScreenListItem(
+            const ProfileScreenListItem(
               title: 'Language',
               leadingIcon: Icons.language,
-              onTap: null,
+              onTapFunc: null,
               subtitle: 'Select Your Language',
               trailingIcon: Icons.arrow_forward_ios,
             ),
-            ProfileScreenListItem(
+            const ProfileScreenListItem(
               title: 'Payments',
               leadingIcon: Icons.credit_card,
-              onTap: null,
+              onTapFunc: null,
               subtitle: 'Reorder your favorite services in a click',
               trailingIcon: Icons.arrow_forward_ios,
             ),
             ProfileScreenListItem(
               title: 'Signout',
               leadingIcon: Icons.logout,
-              onTap: _signOut,
+              onTapFunc: () => _signOut(context),
               subtitle: '',
               trailingIcon: Icons.arrow_forward_ios,
               isSignOutButton: true,
