@@ -10,7 +10,7 @@ import 'package:flutter_app/widgets/signup_form_widget.dart';
 import 'package:flutter_app/widgets/social_buttons_widget.dart';
 
 class SignupScreen extends StatelessWidget {
-  const SignupScreen({Key? key});
+  const SignupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
