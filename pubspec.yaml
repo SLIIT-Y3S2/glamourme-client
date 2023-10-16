@@ -60,6 +60,7 @@ dependencies:
   is_first_run: ^1.0.0
   equatable: ^2.0.5
   transparent_image: ^2.0.1
+  date_picker_timeline: ^1.2.5
 
 dev_dependencies:
   flutter_test:

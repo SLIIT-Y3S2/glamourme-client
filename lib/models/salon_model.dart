@@ -23,10 +23,10 @@ class SalonModel {
   final String contactNumber;
   final double rating;
   final Affordability affordability;
-  final List<ServiceModel> services;
+  final List<ServiceModel>? services;
   final double latitude;
   final double longitude;
-  final SalonType? salonType;
+  final SalonType salonType;
 
   const SalonModel({
     required this.salonId,
@@ -51,11 +51,12 @@ class SalonModel {
     required this.contactNumber,
     required this.rating,
     required this.affordability,
-    required this.services,
+    required services,
     required this.latitude,
     required this.longitude,
     required this.salonType,
-  }) : salonId = uuid.v4();
+  })  : salonId = uuid.v4(),
+        services = services ?? [];
 
   toJson() {
     return {
@@ -71,7 +72,7 @@ class SalonModel {
           : affordability == Affordability.pricey
               ? 'pricey'
               : 'luxurious',
-      'services': services,
+      'services': services?.map((service) => service.toJson()).toList() ?? [],
       'latitude': latitude,
       'longitude': longitude,
     };
@@ -89,7 +90,9 @@ class SalonModel {
       affordability: json['affordability'] == 'affordable'
           ? Affordability.affordable
           : Affordability.pricey,
-      services: json['services'].cast<String>(),
+      services: (json['services'] as List<dynamic>).map((s) {
+        return ServiceModel.fromJson(s as Map<String, dynamic>);
+      }).toList(),
       latitude: json['latitude'],
       longitude: json['longitude'],
       salonType: json['salonType'] == 'gents'

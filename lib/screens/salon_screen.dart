@@ -61,11 +61,12 @@ class SalonScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  ...salon.services.map(
-                    (service) => BookServiceCard(
-                      service: service,
-                    ),
-                  ),
+                  if (salon.services != null)
+                    ...salon.services!.map(
+                      (service) => BookServiceCard(
+                        service: service,
+                      ),
+                    )
                 ],
               )
             ],

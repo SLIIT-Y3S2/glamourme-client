@@ -249,7 +249,6 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
             style: const TextStyle(
               color: Color(0xFF1C1C28),
               fontSize: 10,
-              fontFamily: 'DM Sans',
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -276,7 +275,6 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
               hintStyle: const TextStyle(
                 color: Color(0xFF8E90A5),
                 fontSize: 15,
-                fontFamily: 'DM Sans',
                 fontWeight: FontWeight.w400,
               ),
               border: InputBorder.none,
