@@ -11,10 +11,10 @@ final class SalonsInitial extends SalonsState {}
 
 final class LoadingSalons extends SalonsState {}
 
-final class SalonsLoaded extends SalonsState {
+final class LoadedSalons extends SalonsState {
   final List<SalonModel> salons;
 
-  const SalonsLoaded(this.salons);
+  const LoadedSalons({required this.salons});
 
   @override
   List<Object> get props => [salons];
