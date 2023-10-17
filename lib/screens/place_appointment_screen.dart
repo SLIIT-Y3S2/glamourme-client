@@ -1,8 +1,21 @@
+import 'dart:developer' as developer;
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
+import 'package:flutter_app/models/service_model.dart';
+import 'package:flutter_app/widgets/time_pill.dart';
 
 class PlaceAppointmentScreen extends StatefulWidget {
-  const PlaceAppointmentScreen({super.key});
+  final ServiceModel service;
+  final Timestamp openingTime;
+  final Timestamp closingTime;
+  const PlaceAppointmentScreen({
+    required this.service,
+    required this.openingTime,
+    required this.closingTime,
+    super.key,
+  });
 
   @override
   State<PlaceAppointmentScreen> createState() => _PlaceAppointmentScreenState();
@@ -10,8 +23,13 @@ class PlaceAppointmentScreen extends StatefulWidget {
 
 class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
   int _selectedYear = DateTime.now().year;
+  String _selectedTime = '';
   @override
   Widget build(BuildContext context) {
+    final DateTime openingTime = widget.openingTime.toDate();
+    final DateTime closingTime = widget.closingTime.toDate();
+    final int timeDiffInMin = closingTime.difference(openingTime).inMinutes;
+    final int hourDiff = (timeDiffInMin / 60).ceil();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -75,20 +93,19 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
                     childAspectRatio: 4.5,
                   ),
                   itemBuilder: (context, index) {
-                    return OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        side: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: Text('${9 - 10 - index}:00 AM'),
+                    final time =
+                        '${widget.openingTime.toDate().hour + index}:${openingTime.minute}';
+                    return TimePill(
+                      selected: time == _selectedTime,
+                      onPressSelect: () {
+                        setState(() {
+                          _selectedTime = time;
+                        });
+                      },
+                      time: time,
                     );
                   },
-                  itemCount: 10,
+                  itemCount: hourDiff,
                 ),
               ],
             ),
@@ -101,24 +118,20 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Row(
+              child: Row(
                 children: [
                   Text(
-                    '\$40',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16,
-                    ),
+                    '\$${widget.service.price}',
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: Colors.white,
+                        ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Text(
-                    'Checkout',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16,
-                    ),
+                    'Check Availability',
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: Colors.white,
+                        ),
                   ),
                 ],
               ),
