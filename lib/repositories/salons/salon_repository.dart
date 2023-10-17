@@ -3,7 +3,6 @@ import 'dart:developer' as developer;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter_app/models/salon_model.dart';
-import 'package:flutter_app/models/service_model.dart';
 import 'package:flutter_app/repositories/salons/base_salon_repository.dart';
 
 class SalonRepository extends BaseSalonRepository {

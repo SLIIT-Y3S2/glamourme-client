@@ -1,5 +1,3 @@
-import 'dart:developer' as developer;
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/models/service_model.dart';
 import 'package:uuid/uuid.dart';

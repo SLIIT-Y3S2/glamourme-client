@@ -77,7 +77,7 @@ class BookServiceCard extends StatelessWidget {
                       width: 4,
                     ),
                     Text(
-                      service.duration.toString(),
+                      '${service.duration} min',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontSize: 13,
                             color: Colors.grey.shade600,
@@ -98,6 +98,7 @@ class BookServiceCard extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => PlaceAppointmentScreen(
+                    salonId: salonId,
                     service: service,
                     openingTime: openingTime,
                     closingTime: closingTime,
