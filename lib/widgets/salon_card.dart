@@ -31,11 +31,14 @@ class SalonCard extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(
-                'assets/images/image 4.png',
-                width: 90,
-                height: 90,
-                fit: BoxFit.cover,
+              Hero(
+                tag: salon.salonId!,
+                child: Image.network(
+                  salon.imageUrl,
+                  width: 90,
+                  height: 90,
+                  fit: BoxFit.cover,
+                ),
               ),
               Expanded(
                 child: ListTile(

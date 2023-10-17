@@ -1,9 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/service_model.dart';
 import 'package:flutter_app/screens/place_appointment_screen.dart';
 
 class BookServiceCard extends StatelessWidget {
-  const BookServiceCard({required this.service, super.key});
+  const BookServiceCard({
+    required this.salonId,
+    required this.service,
+    required this.openingTime,
+    required this.closingTime,
+    super.key,
+  });
+  final String salonId;
+  final Timestamp openingTime;
+  final Timestamp closingTime;
   final ServiceModel service;
 
   @override
@@ -67,7 +77,7 @@ class BookServiceCard extends StatelessWidget {
                       width: 4,
                     ),
                     Text(
-                      service.duration.toString(),
+                      '${service.duration} min',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontSize: 13,
                             color: Colors.grey.shade600,
@@ -87,7 +97,12 @@ class BookServiceCard extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const PlaceAppointmentScreen(),
+                  builder: (context) => PlaceAppointmentScreen(
+                    salonId: salonId,
+                    service: service,
+                    openingTime: openingTime,
+                    closingTime: closingTime,
+                  ),
                 ),
               );
             },

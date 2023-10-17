@@ -65,6 +65,9 @@ class SalonScreen extends StatelessWidget {
                     ...salon.services!.map(
                       (service) => BookServiceCard(
                         service: service,
+                        closingTime: salon.closingTime,
+                        openingTime: salon.openingTime,
+                        salonId: salon.salonId!,
                       ),
                     )
                 ],
