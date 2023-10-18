@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter_app/blocs/appointment/appointment_bloc.dart';
+import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/blocs/salons/salons_bloc.dart';
 import 'package:flutter_app/constants.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_app/screens/signup_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:is_first_run/is_first_run.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 class GlamourMeApp extends StatefulWidget {
   const GlamourMeApp({super.key});
@@ -37,12 +39,34 @@ class _GlamourMeAppState extends State<GlamourMeApp> {
     }
   }
 
+// For localizations
+  final FlutterLocalization _localization = FlutterLocalization.instance;
+
   @override
   void initState() {
+    _localization.init(
+      mapLocales: [
+        const MapLocale(
+          'en',
+          AppLocale.EN,
+        ),
+        const MapLocale(
+          'si',
+          AppLocale.SI,
+        )
+      ],
+      initLanguageCode: 'en',
+    );
+    _localization.onTranslatedLanguage = _onTranslatedLanguage;
+
     super.initState();
     auth.FirebaseAuth.instance.authStateChanges().listen((user) async {
       _redirectToAuthenticate(user);
     });
+  }
+
+  void _onTranslatedLanguage(Locale? locale) {
+    setState(() {});
   }
 
   @override
@@ -53,6 +77,8 @@ class _GlamourMeAppState extends State<GlamourMeApp> {
 
     ///Material App
     MaterialApp app = MaterialApp(
+      supportedLocales: _localization.supportedLocales,
+      localizationsDelegates: _localization.localizationsDelegates,
       title: 'GlamourMe',
       theme: ThemeData().copyWith(
         colorScheme: ColorScheme.fromSeed(

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/data/dummy_salon.dart';
 import 'package:flutter_app/data/dummy_services.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/widgets/near_you_card.dart';
 import 'package:flutter_app/widgets/service_card.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 class HomeIndexScreen extends StatefulWidget {
   const HomeIndexScreen({super.key});
@@ -24,7 +26,7 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Beauty Services',
+              AppLocale.beautyServices.getString(context),
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     fontWeight: FontWeight.w900,
                   ),
@@ -32,7 +34,7 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
             TextButton.icon(
               onPressed: () {},
               icon: const Icon(Icons.arrow_right),
-              label: const Text('See all'),
+              label: Text(AppLocale.seeAll.getString(context)),
             )
           ],
         ),
@@ -67,7 +69,7 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Popular Near You',
+              AppLocale.popularNearYou.getString(context),
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     fontWeight: FontWeight.w900,
                   ),
@@ -75,7 +77,7 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
             TextButton.icon(
               onPressed: () {},
               icon: const Icon(Icons.arrow_right),
-              label: const Text('See all'),
+              label: Text(AppLocale.seeAll.getString(context)),
             )
           ],
         ),
