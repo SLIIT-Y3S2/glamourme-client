@@ -4,9 +4,11 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/widgets/signup_form_widget.dart';
 import 'package:flutter_app/widgets/social_buttons_widget.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
@@ -32,9 +34,9 @@ class SignupScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    'Sign Up',
-                    style: TextStyle(
+                  Text(
+                    AppLocale.signup.getString(context),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 33,
                       fontWeight: FontWeight.bold,
@@ -43,9 +45,9 @@ class SignupScreen extends StatelessWidget {
                   const SizedBox(height: 15), // Use SizedBox for spacing
                   Row(
                     children: [
-                      const Text(
-                        'Already have an account?  ',
-                        style: TextStyle(
+                      Text(
+                        '${AppLocale.alreadyHaveAnAccount.getString(context)}  ',
+                        style: const TextStyle(
                           color: Colors.white,
                           fontFamily: 'DM Sans',
                           fontSize: 14,
@@ -54,7 +56,7 @@ class SignupScreen extends StatelessWidget {
                       ),
                       RichText(
                         text: TextSpan(
-                          text: 'Login',
+                          text: AppLocale.login.getString(context),
                           style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -72,20 +74,20 @@ class SignupScreen extends StatelessWidget {
               ),
             ),
             // Additional widgets added after the green color area
-            const Column(
+            Column(
               children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.fromLTRB(24, 26, 24, 28),
                   child: SignupFormWidget(),
                 ),
                 Row(children: [
-                  Padding(padding: EdgeInsets.fromLTRB(35, 0, 0, 0)),
-                  Expanded(child: Divider()),
+                  const Padding(padding: EdgeInsets.fromLTRB(35, 0, 0, 0)),
+                  const Expanded(child: Divider()),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                    padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                     child: Text(
-                      'Or SignUp using',
-                      style: TextStyle(
+                      AppLocale.orSignUpUsing.getString(context),
+                      style: const TextStyle(
                         color: Color(0xFF1C1C28),
                         fontSize: 13,
                         fontFamily: 'DM Sans',
@@ -95,14 +97,14 @@ class SignupScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Expanded(child: Divider()),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 0, 35, 0)),
+                  const Expanded(child: Divider()),
+                  const Padding(padding: EdgeInsets.fromLTRB(0, 0, 35, 0)),
                 ]),
-                Padding(padding: EdgeInsets.fromLTRB(0, 27, 0, 0)),
-                Center(
+                const Padding(padding: EdgeInsets.fromLTRB(0, 27, 0, 0)),
+                const Center(
                   child: SocialLoginButtons(),
                 ),
-                Padding(padding: EdgeInsets.only(bottom: 60))
+                const Padding(padding: EdgeInsets.only(bottom: 60))
               ],
             )
 

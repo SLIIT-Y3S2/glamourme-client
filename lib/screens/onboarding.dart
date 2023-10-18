@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/data/onboarding_data_set.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/widgets/onboarding_content.dart';
 import 'package:flutter_app/widgets/page_indicator.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -108,11 +110,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         ),
                       ),
                       onPressed: onClickLogin,
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Text(
-                          'Login',
-                          style: TextStyle(color: Colors.white),
+                          AppLocale.login.getString(context),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       )),
                   const SizedBox(
@@ -125,11 +127,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Text(
-                        'Get Started',
-                        style: TextStyle(
+                        AppLocale.getStarted.getString(context),
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
