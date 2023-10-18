@@ -215,12 +215,13 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
           child: TextFormField(
             controller: isPassword ? _passwordController : _emailController,
             obscureText: isPassword,
-            decoration: InputDecoration(
-              hintText: placeholder,
-              hintStyle: const TextStyle(
+            decoration: const InputDecoration(
+              // hintText: placeholder,
+              hintStyle: TextStyle(
                 color: Color(0xFF8E90A5),
                 fontSize: 15,
                 fontWeight: FontWeight.w400,
+                height: 20,
               ),
               border: InputBorder.none,
             ),

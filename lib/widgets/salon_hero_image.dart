@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/models/salon_model.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class SalonHeroImage extends StatelessWidget {
@@ -32,10 +34,10 @@ class SalonHeroImage extends StatelessWidget {
                 children: [
                   Text(
                     salon.salonType == SalonType.gents
-                        ? 'Gents'
+                        ? AppLocale.gents.getString(context)
                         : salon.salonType == SalonType.ladies
-                            ? 'Ladies'
-                            : 'Unisex',
+                            ? AppLocale.ladies.getString(context)
+                            : AppLocale.unisex.getString(context),
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w900,
@@ -81,7 +83,7 @@ class SalonHeroImage extends StatelessWidget {
                             color: Colors.white,
                           ),
                           Text(
-                            'Favouiite',
+                            AppLocale.favourite.getString(context),
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -96,7 +98,7 @@ class SalonHeroImage extends StatelessWidget {
                   ),
                   Row(children: [
                     Text(
-                      'Business Hours - ${salon.openingTime.toDate().hour.toString().padLeft(2, '0')}:${salon.openingTime.toDate().minute.toString().padLeft(2, '0')} - ${salon.closingTime.toDate().hour.toString().padLeft(2, '0')}:${salon.closingTime.toDate().minute.toString().padLeft(2, '0')}',
+                      '${AppLocale.businessHrs.getString(context)} - ${salon.openingTime.toDate().hour.toString().padLeft(2, '0')}:${salon.openingTime.toDate().minute.toString().padLeft(2, '0')} - ${salon.closingTime.toDate().hour.toString().padLeft(2, '0')}:${salon.closingTime.toDate().minute.toString().padLeft(2, '0')}',
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!
