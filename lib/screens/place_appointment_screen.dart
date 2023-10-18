@@ -1,9 +1,8 @@
 import 'dart:developer' as developer;
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_app/blocs/appointment/appointment_bloc.dart';
 import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/models/appointment_model.dart';
@@ -36,21 +35,48 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
   int _day = DateTime.now().day;
   int _month = DateTime.now().month;
   int? _year = DateTime.now().year;
-  late String customerId;
+  String? customerId;
+
+  @override
+  void initState() {
+    developer.log('initState', name: 'PlaceAppointmentScreen');
+    super.initState();
+    BlocProvider.of<AuthenticationBloc>(context)
+        .add(const GetCurrentUserEvent());
+
+    // if (authState is CurrentUserState) {
+    //   if (authState.user == null) {
+    //     developer.log('user is null', name: 'user');
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //       const SnackBar(
+    //         content: Text('Please login to continue'),
+    //       ),
+    //     );
+    //   } else {
+    //     customerId = authState.user!.userId;
+    //     developer.log(authState.user!.userId, name: 'userId');
+
+    //     return;
+    //   }
+    // } else {
+    //   BlocProvider.of<AuthenticationBloc>(context)
+    //       .add(const GetCurrentUserEvent());
+    // }
+  }
 
   Timestamp? _setApppointmentStart() {
     if (_hour != null && _minute != null) {
       return Timestamp.fromDate(
-          DateTime(_year!, _month, _day, _hour! + 1, _minute!));
+          DateTime(_year!, _month, _day, _hour!, _minute!));
     }
     return null;
   }
 
   Timestamp? _setApppointmentEndTime() {
     int serviceDuration = int.parse(widget.service.duration);
-    if (_hour != null && _minute != null && _day != null && _month != null) {
+    if (_hour != null && _minute != null) {
       return Timestamp.fromDate(DateTime(
-          _year!, _month!, _day!, _hour! + 1, _minute! + serviceDuration));
+          _year!, _month, _day, _hour! + 1, _minute! + serviceDuration));
     }
     return null;
   }
@@ -63,6 +89,22 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
     final String title = widget.service.name;
     final String description = widget.service.description;
     const String status = 'pending';
+    final authState = BlocProvider.of<AuthenticationBloc>(context).state;
+
+    if (authState is CurrentUserState) {
+      if (authState.user == null) {
+        developer.log('user is null', name: 'user');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please login to continue'),
+          ),
+        );
+        return;
+      } else {
+        customerId = authState.user!.userId;
+        developer.log(authState.user!.userId, name: 'userId');
+      }
+    }
 
     if (startTime == null || endTime == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -73,7 +115,8 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
       return;
     }
     final AppointmentModel appointment = AppointmentModel.init(
-        customerId: customerId,
+        serviceId: widget.service.id,
+        customerId: customerId!,
         salonId: widget.salonId,
         startTime: startTime,
         endTime: endTime,
@@ -82,28 +125,6 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
         status: status);
     BlocProvider.of<AppointmentBloc>(context)
         .add(CreateAppointmentEvent(appointment: appointment));
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<AuthenticationBloc>(context)
-        .add(const GetCurrentUserEvent());
-
-    final authState = BlocProvider.of<AuthenticationBloc>(context).state;
-    if (authState is CurrentUserState) {
-      if (authState.user == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Please login to continue'),
-          ),
-        );
-      } else {
-        customerId = authState.user!.userId;
-
-        return;
-      }
-    }
   }
 
   @override
@@ -187,7 +208,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
                       selected: time == _selectedTime,
                       onPressSelect: () {
                         setState(() {
-                          _hour = hour;
+                          _hour = hour - 1;
                           _minute = minute;
                           _selectedTime = time;
                         });
