@@ -75,8 +75,8 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
   Timestamp? _setApppointmentEndTime() {
     int serviceDuration = int.parse(widget.service.duration);
     if (_hour != null && _minute != null) {
-      return Timestamp.fromDate(DateTime(
-          _year!, _month, _day, _hour! + 1, _minute! + serviceDuration));
+      return Timestamp.fromDate(
+          DateTime(_year!, _month, _day, _hour!, _minute! + serviceDuration));
     }
     return null;
   }
@@ -94,15 +94,10 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
     if (authState is CurrentUserState) {
       if (authState.user == null) {
         developer.log('user is null', name: 'user');
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Please login to continue'),
-          ),
-        );
+        Navigator.of(context).pushNamed('/login');
         return;
       } else {
         customerId = authState.user!.userId;
-        developer.log(authState.user!.userId, name: 'userId');
       }
     }
 
@@ -134,121 +129,146 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
     final int timeDiffInMin = closingTime.difference(openingTime).inMinutes;
     final int hourDiff = (timeDiffInMin / 60).ceil();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Appointment',
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                fontWeight: FontWeight.w700,
-                fontSize: 23,
-              ),
+    Widget checkoutButton = ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        elevation: 8,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //Date Picker
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _selectedYear.toString(),
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
+      onPressed: _handleCreateAppointment,
+      child: Row(
+        children: [
+          Text(
+            '\$${widget.service.price}',
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: Colors.white,
                 ),
-                const SizedBox(height: 12),
-                DatePicker(
-                  DateTime.now(),
-                  height: 100,
-                  selectionColor: Theme.of(context).colorScheme.primary,
-                  initialSelectedDate: DateTime.now(),
-                  onDateChange: (date) {
-                    // New date selected
-                    setState(() {
-                      _selectedYear = date.year;
-                      _day = date.day;
-                      _month = date.month;
-                      _year = date.year;
-                    });
-                  },
+          ),
+          const Spacer(),
+          Text(
+            'Checkout',
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: Colors.white,
                 ),
-              ],
+          ),
+        ],
+      ),
+    );
+
+    Widget bottomWidget = checkoutButton;
+    return BlocListener<AppointmentBloc, AppointmentState>(
+      listener: (context, state) {
+        if (state is AppointmentCreatedState) {
+          Navigator.of(context).pop();
+        }
+
+        if (state is AppointmentError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
             ),
-            const SizedBox(height: 12),
-            // Time Picker
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Select Time',
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontWeight: FontWeight.w400,
-                      ),
+          );
+
+          bottomWidget = checkoutButton;
+        }
+
+        if (state is CreatingAppointmentState) {
+          bottomWidget = const CircularProgressIndicator();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Appointment',
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 23,
                 ),
-                const SizedBox(height: 12),
-                GridView.builder(
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 8,
-                    crossAxisSpacing: 8,
-                    childAspectRatio: 4.5,
-                  ),
-                  itemBuilder: (context, index) {
-                    final hour = widget.openingTime.toDate().hour + index;
-                    final minute = widget.openingTime.toDate().minute;
-                    final time =
-                        '${(widget.openingTime.toDate().hour + index).toString().padLeft(2, '0')}:${openingTime.minute.toString().padLeft(2, '0')}';
-                    return TimePill(
-                      selected: time == _selectedTime,
-                      onPressSelect: () {
-                        setState(() {
-                          _hour = hour - 1;
-                          _minute = minute;
-                          _selectedTime = time;
-                        });
-                      },
-                      time: time,
-                    );
-                  },
-                  itemCount: hourDiff,
-                ),
-              ],
-            ),
-            const Spacer(),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                elevation: 8,
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              onPressed: _handleCreateAppointment,
-              child: Row(
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //Date Picker
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '\$${widget.service.price}',
+                    _selectedYear.toString(),
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
                         ),
                   ),
-                  const Spacer(),
-                  Text(
-                    'Checkout',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: Colors.white,
-                        ),
+                  const SizedBox(height: 12),
+                  DatePicker(
+                    DateTime.now(),
+                    height: 100,
+                    selectionColor: Theme.of(context).colorScheme.primary,
+                    initialSelectedDate: DateTime.now(),
+                    onDateChange: (date) {
+                      // New date selected
+                      setState(() {
+                        _selectedYear = date.year;
+                        _day = date.day;
+                        _month = date.month;
+                        _year = date.year;
+                      });
+                    },
                   ),
                 ],
               ),
-            )
-          ],
+              const SizedBox(height: 12),
+              // Time Picker
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Select Time',
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontWeight: FontWeight.w400,
+                        ),
+                  ),
+                  const SizedBox(height: 12),
+                  GridView.builder(
+                    shrinkWrap: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 8,
+                      crossAxisSpacing: 8,
+                      childAspectRatio: 4.5,
+                    ),
+                    itemBuilder: (context, index) {
+                      final hour = widget.openingTime.toDate().hour + index;
+                      final minute = widget.openingTime.toDate().minute;
+                      final time =
+                          '${(widget.openingTime.toDate().hour + index).toString().padLeft(2, '0')}:${openingTime.minute.toString().padLeft(2, '0')}';
+                      return TimePill(
+                        selected: time == _selectedTime,
+                        onPressSelect: () {
+                          setState(() {
+                            _hour = hour;
+                            _minute = minute;
+                            _selectedTime = time;
+                          });
+                        },
+                        time: time,
+                      );
+                    },
+                    itemCount: hourDiff,
+                  ),
+                ],
+              ),
+              const Spacer(),
+              bottomWidget,
+            ],
+          ),
         ),
       ),
     );

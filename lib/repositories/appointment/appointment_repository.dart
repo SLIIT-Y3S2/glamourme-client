@@ -1,6 +1,7 @@
 import 'dart:developer' as developer;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_app/models/appointment_model.dart';
 import 'package:flutter_app/repositories/appointment/base_appointment_repository.dart';
 
@@ -8,8 +9,6 @@ class AppointmentRepository extends BaseAppointmentRepository {
   // @override
   // Future<AppointmentModel> createAppointment(
   //     AppointmentModel appointment) async {
-  //   developer.log(appointment.toJson().toString(),
-  //       name: 'AppointmentRepository');
   //   final FirebaseFirestore db = FirebaseFirestore.instance;
   //   final CollectionReference appointmentCollection =
   //       db.collection('appointments');
@@ -38,15 +37,14 @@ class AppointmentRepository extends BaseAppointmentRepository {
         db.collection('appointments');
     // developer.log(appointment.toJson().toString(),
     //     name: 'AppointmentRepository');
-    developer.log('${appointment.salonId}', name: 'AppointmentRepository');
+    developer.log('${appointment.startTime}', name: 'AppointmentRepository');
 
     var reference = db.collection("salons").doc(appointment.salonId);
 
     // Check if there are any overlapping appointments.
-    final overlappingQuerySnapshot = await appointmentCollection
+    final overlappingSalonAndStarTimeQuerySnapshot = await appointmentCollection
         .where('salon', isEqualTo: reference)
-        // .where('startTime', isEqualTo: appointment.startTime)
-        // .where('endTime', isEqualTo: appointment.endTime)
+        .where('startTime', isLessThan: appointment.endTime.toDate())
         .get()
         .catchError((error, stackTrace) {
       developer.log(
@@ -57,12 +55,21 @@ class AppointmentRepository extends BaseAppointmentRepository {
       );
       throw Exception(error);
     });
+    var overLappingEndtime = overlappingSalonAndStarTimeQuerySnapshot.docs
+        .where((element) => element
+            .get('endTime')
+            .toDate()
+            .isAfter(appointment.startTime.toDate()));
+
+    for (var element in overLappingEndtime) {
+      developer.log(element.get('endTime').toDate().toString(),
+          name: 'AppointmentRepository');
+    }
+
     developer.log('Line 57', name: 'AppointmentRepository');
-    developer.log(overlappingQuerySnapshot.size.toString(),
-        name: 'AppointmentRepository');
     developer.log('Line 61', name: 'AppointmentRepository');
 
-    if (overlappingQuerySnapshot.docs.isEmpty) {
+    if (overLappingEndtime.isEmpty) {
       // No overlapping appointments found, add the new appointment.
       await appointmentCollection.doc(appointment.id).set({
         ...appointment.toJson(),
