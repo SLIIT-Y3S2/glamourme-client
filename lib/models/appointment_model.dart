@@ -34,9 +34,9 @@ class AppointmentModel {
       startTime: doc['startTime'],
       endTime: doc['endTime'],
       status: doc['status'],
-      salonId: doc['salonId'],
-      customerId: doc['customerId'],
-      serviceId: doc['serviceId'],
+      salonId: '', //doc.['salon']
+      customerId: '', //doc['customerId'],
+      serviceId: doc['service'],
     );
   }
 

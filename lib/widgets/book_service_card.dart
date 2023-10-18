@@ -56,7 +56,7 @@ class BookServiceCard extends StatelessWidget {
                   width: 8,
                 ),
                 Text(
-                  service.price.toString(),
+                  'LKR ${service.price}',
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         fontSize: 13,
                         color: Colors.grey.shade600,

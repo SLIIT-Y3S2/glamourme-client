@@ -7,12 +7,12 @@ sealed class AppointmentState {
 
 class AppointmentInitial extends AppointmentState {}
 
-class AppointmentLoading extends AppointmentState {}
+class LoadingAppoinments extends AppointmentState {}
 
-class AppointmentLoaded extends AppointmentState {
+class AppointmentsLoaded extends AppointmentState {
   final List<AppointmentModel> appointments;
 
-  const AppointmentLoaded({required this.appointments});
+  const AppointmentsLoaded({required this.appointments});
 }
 
 class AppointmentError extends AppointmentState {

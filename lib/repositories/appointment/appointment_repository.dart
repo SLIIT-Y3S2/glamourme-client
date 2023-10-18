@@ -1,7 +1,6 @@
 import 'dart:developer' as developer;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_app/models/appointment_model.dart';
 import 'package:flutter_app/repositories/appointment/base_appointment_repository.dart';
 
@@ -104,9 +103,36 @@ class AppointmentRepository extends BaseAppointmentRepository {
   }
 
   @override
-  Future<List<AppointmentModel>> getAppointments() {
-    // TODO: implement getAppointments
-    throw UnimplementedError();
+  Future<List<AppointmentModel>> getAppointments(String userId) async {
+    final FirebaseFirestore db = FirebaseFirestore.instance;
+    final CollectionReference appointmentCollection =
+        db.collection('appointments');
+    List<AppointmentModel> appoinmentList = [];
+    await appointmentCollection
+        .where(
+          'client',
+          isEqualTo: db.collection('users').doc(userId),
+        )
+        .get()
+        .then((appointments) {
+      for (var appointment in appointments.docs) {
+        appointment.reference.collection('salon').get().then((salon) {
+          developer.log(salon.docs.length.toString(),
+              name: 'AppointmentRepository');
+        });
+        appoinmentList.add(AppointmentModel.fromJson(appointment));
+      }
+    }).catchError((error, stackTrace) {
+      developer.log(
+        error.toString(),
+        error: error,
+        stackTrace: stackTrace,
+        name: 'AppointmentRepository',
+      );
+      throw Exception(error);
+    });
+
+    return appoinmentList;
   }
 
   @override

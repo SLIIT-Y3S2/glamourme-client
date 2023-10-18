@@ -141,7 +141,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
       child: Row(
         children: [
           Text(
-            '\$${widget.service.price}',
+            'LKR ${widget.service.price}',
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   color: Colors.white,
                 ),
