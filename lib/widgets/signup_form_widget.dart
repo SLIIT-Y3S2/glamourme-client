@@ -114,7 +114,6 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
     String confirmPassword = _confirmPasswordController!.text;
     if (password != confirmPassword) {
       return AppLocale.passwordMatchValidation.getString(context);
-      ;
     }
     return null;
   }
@@ -187,14 +186,14 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
                       height: 16), // Add spacing between input fields
                   _buildInputField(
                     AppLocale.password.getString(context),
-                    "",
+                    '******',
                     isPassword: true,
                   ),
                   const SizedBox(
                       height: 16), // Add spacing between input fields
                   _buildInputField(
-                    AppLocale.password.getString(context),
-                    "",
+                    AppLocale.confirmPassword.getString(context),
+                    '******',
                     isConfirmPassword: true,
                   ),
                   const Padding(padding: EdgeInsets.only(top: 28)),

@@ -78,6 +78,23 @@ mixin AppLocale {
   static const String popularNearYou = 'popularNearYou';
   static const String seeAll = 'seeAll';
 
+  /* SalonScreen translation key-values */
+  static const String recommended = 'recommended';
+  static const String viewAll = 'viewAll';
+  static const String book = 'book';
+
+  /* SalonHeroImage widget translation key-values */
+  static const String businessHrs = 'businessHrs';
+  static const String favourite = 'favourite';
+  static const String ladies = 'ladies';
+  static const String gents = 'gents';
+  static const String unisex = 'unisex';
+
+  /* PlaceAppointmentScreen translation key-values */
+  static const String checkout = 'checkout';
+  static const String appointment = 'appointment';
+  static const String selectTime = 'selectTime';
+
   static const Map<String, dynamic> EN = {
     oboardingText1:
         'Schedule your Appointment with the best Hair Stylist in your Town.',
@@ -131,6 +148,17 @@ mixin AppLocale {
     beautyServices: 'Beauty Services',
     popularNearYou: 'Popular near you',
     seeAll: 'see all',
+    recommended: 'Recommended',
+    viewAll: 'View',
+    book: 'Book',
+    businessHrs: 'Business Hours',
+    favourite: 'Favourite',
+    ladies: 'Ladies',
+    gents: 'Gents',
+    unisex: 'Unisex',
+    checkout: 'Checkout',
+    appointment: 'Appointment',
+    selectTime: 'Select Time'
   };
   static const Map<String, dynamic> SI = {
     oboardingText1:
@@ -189,5 +217,16 @@ mixin AppLocale {
     beautyServices: 'රූපලාවන්ය සේවා',
     popularNearYou: 'ඔබ අසල ජනප්‍රිය',
     seeAll: 'ඔක්කොම බලන්න',
+    recommended: 'නිර්දේශ කර ඇත',
+    viewAll: 'බලන්න',
+    book: 'වෙන්කරවා ගැනීම',
+    businessHrs: 'ව්යාපාරික වේලාවන්',
+    favourite: 'ප්රියතම',
+    ladies: 'කාන්තා',
+    gents: 'පිරිමි',
+    unisex: 'ඒකලිංගික',
+    checkout: 'පිටවීම',
+    appointment: 'පත්වීම',
+    selectTime: 'කාලය තෝරන්න'
   };
 }
