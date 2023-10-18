@@ -93,7 +93,16 @@ class SalonHeroImage extends StatelessWidget {
                         ],
                       )
                     ],
-                  )
+                  ),
+                  Row(children: [
+                    Text(
+                      'Business Hours - ${salon.openingTime.toDate().hour.toString().padLeft(2, '0')}:${salon.openingTime.toDate().minute.toString().padLeft(2, '0')} - ${salon.closingTime.toDate().hour.toString().padLeft(2, '0')}:${salon.closingTime.toDate().minute.toString().padLeft(2, '0')}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(color: Colors.white),
+                    ),
+                  ])
                 ],
               ),
             ],

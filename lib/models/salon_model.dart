@@ -1,5 +1,3 @@
-import 'dart:developer' as developer;
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/models/service_model.dart';
 import 'package:uuid/uuid.dart';
@@ -30,6 +28,8 @@ class SalonModel {
   final double latitude;
   final double longitude;
   final SalonType salonType;
+  final Timestamp openingTime;
+  final Timestamp closingTime;
 
   const SalonModel({
     required this.salonId,
@@ -44,6 +44,8 @@ class SalonModel {
     required this.latitude,
     required this.longitude,
     required this.salonType,
+    required this.openingTime,
+    required this.closingTime,
   });
 
   SalonModel.init({
@@ -58,6 +60,8 @@ class SalonModel {
     required this.latitude,
     required this.longitude,
     required this.salonType,
+    required this.openingTime,
+    required this.closingTime,
   })  : salonId = uuid.v4(),
         services = services ?? [];
 
@@ -78,6 +82,13 @@ class SalonModel {
       'services': services?.map((service) => service.toJson()).toList() ?? [],
       'latitude': latitude,
       'longitude': longitude,
+      'salonType': salonType == SalonType.gents
+          ? 'gents'
+          : salonType == SalonType.ladies
+              ? 'ladies'
+              : 'unisex',
+      'openingTime': openingTime,
+      'closingTime': closingTime,
     };
   }
 
@@ -108,6 +119,8 @@ class SalonModel {
           : doc.get('salonType') == 'ladies'
               ? SalonType.ladies
               : SalonType.unisex,
+      openingTime: doc.get('openingTime'),
+      closingTime: doc.get('closingTime'),
     );
   }
 }

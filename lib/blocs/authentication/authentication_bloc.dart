@@ -65,8 +65,11 @@ class AuthenticationBloc
         userRole: UserRole.customer,
       );
     }
-    developer.log('email: ${user?.email}');
-    emit(CurrentUserState(user));
+    if (user != null) {
+      emit(CurrentUserState(user));
+    } else {
+      developer.log('user is null');
+    }
   }
 
   // Event handler to log in with email and password
