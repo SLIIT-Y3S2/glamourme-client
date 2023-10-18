@@ -41,7 +41,7 @@ class PaymentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Payment'),
+          title: const Text('Payment'),
         ),
         body: ElevatedButton(
           onPressed: makePayment,
