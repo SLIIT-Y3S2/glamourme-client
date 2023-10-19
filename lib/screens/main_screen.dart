@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/screens/appointments_index_screen.dart';
 import 'package:flutter_app/screens/home_index_screen.dart';
 import 'package:flutter_app/screens/profile_index_screen.dart';
 import 'package:flutter_app/screens/salons_index_screen.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -58,25 +60,25 @@ class _HomeScreenState extends State<MainScreen> {
         surfaceTintColor: Colors.white,
         shadowColor: Colors.black,
         elevation: 30,
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: 'Home',
+            icon: const Icon(Icons.home_outlined),
+            selectedIcon: const Icon(Icons.home),
+            label: AppLocale.home.getString(context),
           ),
           NavigationDestination(
-            icon: Icon(Icons.calendar_month_outlined),
-            selectedIcon: Icon(Icons.calendar_month),
-            label: 'Appointments',
+            icon: const Icon(Icons.calendar_month_outlined),
+            selectedIcon: const Icon(Icons.calendar_month),
+            label: AppLocale.appointments.getString(context),
           ),
           NavigationDestination(
-            icon: Icon(Icons.cut_sharp),
-            label: 'Salons',
+            icon: const Icon(Icons.cut_sharp),
+            label: AppLocale.salons.getString(context),
           ),
           NavigationDestination(
-            icon: Icon(Icons.person_outlined),
-            selectedIcon: Icon(Icons.person),
-            label: 'Profile',
+            icon: const Icon(Icons.person_outlined),
+            selectedIcon: const Icon(Icons.person),
+            label: AppLocale.profile.getString(context),
           ),
         ],
       ),

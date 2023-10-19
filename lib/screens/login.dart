@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/widgets/login_form_widget.dart';
 import 'package:flutter_app/widgets/social_buttons_widget.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -26,9 +28,9 @@ class LoginScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    'Welcome Back!',
-                    style: TextStyle(
+                  Text(
+                    AppLocale.welcomeBack.getString(context),
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 33,
                       fontWeight: FontWeight.bold,
@@ -39,7 +41,7 @@ class LoginScreen extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'Don t you have an account?  ',
+                        '${AppLocale.welcomeBackDescription.getString(context)}  ',
                         style: TextStyle(
                           color: Color(black2),
                           fontSize: 15,
@@ -48,7 +50,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       RichText(
                         text: TextSpan(
-                          text: 'Sign Up',
+                          text: AppLocale.signup.getString(context),
                           style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -66,20 +68,20 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             // Additional widgets added after the green color area
-            const Column(
+            Column(
               children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.fromLTRB(24, 26, 24, 28),
                   child: LoginFormWidget(),
                 ),
                 Row(children: [
-                  Padding(padding: EdgeInsets.fromLTRB(35, 0, 0, 0)),
-                  Expanded(child: Divider()),
+                  const Padding(padding: EdgeInsets.fromLTRB(35, 0, 0, 0)),
+                  const Expanded(child: Divider()),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                    padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                     child: Text(
-                      'Or Login using',
-                      style: TextStyle(
+                      AppLocale.orLoginUsing.getString(context),
+                      style: const TextStyle(
                         color: Color(0xFF1C1C28),
                         fontSize: 13,
                         fontFamily: 'DM Sans',
@@ -89,14 +91,14 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Expanded(child: Divider()),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 0, 35, 0)),
+                  const Expanded(child: Divider()),
+                  const Padding(padding: EdgeInsets.fromLTRB(0, 0, 35, 0)),
                 ]),
-                Padding(padding: EdgeInsets.fromLTRB(0, 27, 0, 0)),
-                Center(
+                const Padding(padding: EdgeInsets.fromLTRB(0, 27, 0, 0)),
+                const Center(
                   child: SocialLoginButtons(),
                 ),
-                Padding(padding: EdgeInsets.only(bottom: 60))
+                const Padding(padding: EdgeInsets.only(bottom: 60))
               ],
             )
 

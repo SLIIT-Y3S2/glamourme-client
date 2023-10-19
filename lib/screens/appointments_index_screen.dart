@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/app_locale.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 class AppointmentIndexScreen extends StatelessWidget {
   const AppointmentIndexScreen({super.key});
@@ -7,7 +9,7 @@ class AppointmentIndexScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //Todo: Seperate UI into widgets
     return Scaffold(
-      appBar: AppBar(title: const Text('Appointments')),
+      appBar: AppBar(title: Text(AppLocale.appointments.getString(context))),
       body: const Center(
         child: Text('Appointments Screen'),
       ),

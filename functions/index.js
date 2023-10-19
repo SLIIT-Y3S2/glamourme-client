@@ -1,32 +1,42 @@
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
-admin.initializeApp();
+const { firestore } = require("firebase-admin");
+const { initializeApp } = require("firebase-admin/app");
+const { getFirestore, doc, collection, query, where, getDocs } = require("firebase-admin/firestore");
+const { onDocumentCreated } = require("firebase-functions/v2/firestore");
 
-exports.addAppointment = functions.https.onRequest(async (request, response) => {
-  const db = admin.firestore();
+initializeApp();
 
-  // Parse the new appointment data from the request body
-  const newAppointment = request.body;
+exports.checkAppointmentAvailability = onDocumentCreated('/appointments/{documentId}', async (event) => {
+  // Get the newly created appointment document
+  const appointment = event.data();
 
-  if (!newAppointment) {
-    response.status(400).json({ error: 'Appointment data is missing in the request body' });
-    return;
-  }
+  // Define the time period for the appointment
+  const startTime = appointment.startTime.toDate();
+  const endTime = appointment.endTime.toDate();
 
-  const overlappingQuerySnapshot = await db.collection('appointments')
-    .where('salon', '==', newAppointment.salon)
-    .where('service', '==', newAppointment.service)
-    .where('status', '==', 'confirmed')
-    .where('startTime', '<', newAppointment.endTime)
-    .where('endTime', '>', newAppointment.startTime)
-    .get();
+  // Initialize Firestore
+  const db = getFirestore();
 
-  if (overlappingQuerySnapshot.empty) {
-    // No overlapping appointments found, add the new appointment
-    const appointmentRef = await db.collection('appointments').add(newAppointment);
-    response.status(200).json({ message: 'New appointment added', id: appointmentRef.id });
+  // Get a reference to the salon document
+  const salonRef = collection('appointments').doc(appointment.salon);
+
+  // Create a query to check for overlapping appointments in the same salon
+  const appointmentQuery = query(collection(db, 'appointments'),
+    where('salon', '==', salonRef),
+    where('endTime', '>', firestore.Timestamp.fromDate(startTime)),
+    where('startTime', '<', firestore.Timestamp.fromDate(endTime))
+  );
+
+  // Execute the query
+  const querySnapshot = await getDocs(appointmentQuery);
+
+  // Check if there are any overlapping appointments
+  if (!querySnapshot.empty) {
+    // There is an overlapping appointment, handle the conflict (e.g., reject the appointment)
+    console.log('Appointment conflict: Another appointment exists in the same time slot.');
+    return null; // You can return an error or take appropriate action here
   } else {
-    // Overlapping appointments found, handle accordingly
-    response.status(400).json({ error: 'Appointment overlaps with existing appointments' });
+    // No overlapping appointments, the appointment is available
+    console.log('Appointment is available.');
+    return event.data.ref.delete({appointment}); // You can take further action here
   }
 });

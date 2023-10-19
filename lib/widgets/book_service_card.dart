@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/models/service_model.dart';
 import 'package:flutter_app/screens/place_appointment_screen.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 class BookServiceCard extends StatelessWidget {
   const BookServiceCard({
@@ -94,32 +96,31 @@ class BookServiceCard extends StatelessWidget {
           ),
           const Spacer(),
           ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => PlaceAppointmentScreen(
-                    salonId: salonId,
-                    service: service,
-                    openingTime: openingTime,
-                    closingTime: closingTime,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => PlaceAppointmentScreen(
+                      salonId: salonId,
+                      service: service,
+                      openingTime: openingTime,
+                      closingTime: closingTime,
+                    ),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                elevation: 8,
+                surfaceTintColor: Colors.white,
+                backgroundColor: Colors.white,
+                shadowColor: Colors.black54,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  side: BorderSide(
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              elevation: 8,
-              surfaceTintColor: Colors.white,
-              backgroundColor: Colors.white,
-              shadowColor: Colors.black54,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-                side: BorderSide(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
               ),
-            ),
-            child: const Text('Book'),
-          )
+              child: Text(AppLocale.book.getString(context)))
         ],
       ),
     );
