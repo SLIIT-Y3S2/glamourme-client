@@ -28,3 +28,9 @@ class CancelAppointmentEvent extends AppointmentEvent {
 
   const CancelAppointmentEvent({required this.appointmentId});
 }
+
+class IsTimeSlotAvailableEvent extends AppointmentEvent {
+  final AppointmentModel appointment;
+
+  const IsTimeSlotAvailableEvent({required this.appointment});
+}

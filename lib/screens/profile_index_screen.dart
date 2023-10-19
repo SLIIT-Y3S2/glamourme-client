@@ -18,7 +18,15 @@ class ProfileIndexScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         key: profileNavigatorKey,
-        appBar: AppBar(title: const Text('Profile')),
+        appBar: AppBar(
+          title: Text(
+            'Profile',
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge!
+                .copyWith(fontWeight: FontWeight.w900),
+          ),
+        ),
         body: ListView(
           children: <Widget>[
             const ProfileScreenListItem(

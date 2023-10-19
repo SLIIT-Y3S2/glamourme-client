@@ -130,15 +130,15 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        if (state is CurrentUserState) {
-          if (state.user != null) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => const HomeIndexScreen(),
-              ),
-            );
-          }
-        }
+        // if (state is CurrentUserState) {
+        //   if (state.user != null) {
+        //     Navigator.of(context).pushReplacement(
+        //       MaterialPageRoute(
+        //         builder: (context) => const HomeIndexScreen(),
+        //       ),
+        //     );
+        //   }
+        // }
 
         if (state is CreatingUserState) {
           ScaffoldMessenger.of(context)
@@ -156,11 +156,11 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
 
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const MainScreen(),
-            ),
-          );
+          // Navigator.of(context).push(
+          //   MaterialPageRoute(
+          //     builder: (context) => const MainScreen(),
+          //   ),
+          // );
         }
       },
       child: SizedBox(

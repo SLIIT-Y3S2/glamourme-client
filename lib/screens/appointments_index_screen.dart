@@ -43,7 +43,12 @@ class _AppointmentIndexScreenState extends State<AppointmentIndexScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Appointments'),
+        title: Text(
+          'Appointments',
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                fontWeight: FontWeight.w900,
+              ),
+        ),
         bottom: TabBar(
           controller: _tabController,
           tabs: _appointmentIndexedScreenTabs,

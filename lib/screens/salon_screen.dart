@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/models/salon_model.dart';
 import 'package:flutter_app/widgets/book_service_card.dart';
 import 'package:flutter_app/widgets/salon_hero_image.dart';
+import 'package:http/http.dart';
 
 class SalonScreen extends StatelessWidget {
   const SalonScreen({required this.salon, super.key});
@@ -22,7 +23,7 @@ class SalonScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             children: [
               Column(
@@ -39,21 +40,19 @@ class SalonScreen extends StatelessWidget {
                                 ),
                       ),
                       const Spacer(),
-                      TextButton.icon(
+                      TextButton(
                         onPressed: () {},
-                        label: Text(
-                          'View All',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.w900),
-                        ),
-                        icon: const Icon(Icons.arrow_right),
-                        style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.all(
-                              Theme.of(context).colorScheme.primary),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "See more",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            Icon(
+                              Icons.keyboard_arrow_right,
+                            ),
+                          ],
                         ),
                       )
                     ],
@@ -62,13 +61,18 @@ class SalonScreen extends StatelessWidget {
                     height: 20,
                   ),
                   if (salon.services != null)
-                    ...salon.services!.map(
-                      (service) => BookServiceCard(
-                        service: service,
+                    ListView.separated(
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => BookServiceCard(
+                        service: salon.services![index],
                         closingTime: salon.closingTime,
                         openingTime: salon.openingTime,
                         salonId: salon.salonId!,
                       ),
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 8,
+                      ),
+                      itemCount: salon.services!.length,
                     )
                 ],
               )

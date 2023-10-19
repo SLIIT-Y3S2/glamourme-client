@@ -124,6 +124,45 @@ class AppointmentRepository extends BaseAppointmentRepository {
   }
 
   @override
+  Future<bool> isTImeSlotAvailable(AppointmentModel appointment) async {
+    final FirebaseFirestore db = FirebaseFirestore.instance;
+    final CollectionReference appointmentCollection =
+        db.collection('appointments');
+    // developer.log(appointment.toJson().toString(),
+    //     name: 'AppointmentRepository');
+    developer.log('${appointment.startTime}', name: 'AppointmentRepository');
+
+    var reference = db.collection("salons").doc(appointment.salonId);
+
+    // Check if there are any overlapping appointments.
+    final overlappingSalonAndStarTimeQuerySnapshot = await appointmentCollection
+        .where('salon', isEqualTo: reference)
+        .where('startTime', isLessThan: appointment.endTime.toDate())
+        .get()
+        .catchError((error, stackTrace) {
+      developer.log(
+        error.toString(),
+        error: error,
+        stackTrace: stackTrace,
+        name: 'AppointmentRepository',
+      );
+      throw Exception(error);
+    });
+    var overLappingEndtime = overlappingSalonAndStarTimeQuerySnapshot.docs
+        .where((element) => element
+            .get('endTime')
+            .toDate()
+            .isAfter(appointment.startTime.toDate()));
+
+    for (var element in overLappingEndtime) {
+      developer.log(element.get('endTime').toDate().toString(),
+          name: 'AppointmentRepository');
+    }
+
+    return overLappingEndtime.isEmpty;
+  }
+
+  @override
   Future<AppointmentModel> updateAppointment(AppointmentModel appointment) {
     // TODO: implement updateAppointment
     throw UnimplementedError();

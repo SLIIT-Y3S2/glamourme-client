@@ -40,3 +40,9 @@ class CancelingAppointmentState extends AppointmentState {}
 class AppointmentCanceledState extends AppointmentState {
   const AppointmentCanceledState();
 }
+
+class TimeSlotAvailableState extends AppointmentState {
+  final bool isAvailable;
+
+  const TimeSlotAvailableState({required this.isAvailable});
+}

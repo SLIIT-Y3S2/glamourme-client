@@ -22,26 +22,29 @@ class SalonsIndexScreen extends StatelessWidget {
                   fontWeight: FontWeight.w900,
                 ),
           )),
-          body: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (state is LoadingSalons)
-                const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              if (state is LoadedSalons && state.salons.isNotEmpty)
-                Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: state.salons.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return SalonCard(
-                        salon: state.salons[index],
-                      );
-                    },
+          body: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (state is LoadingSalons)
+                  const Center(
+                    child: CircularProgressIndicator(),
                   ),
-                ),
-            ],
+                if (state is LoadedSalons && state.salons.isNotEmpty)
+                  Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: state.salons.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return SalonCard(
+                          salon: state.salons[index],
+                        );
+                      },
+                    ),
+                  ),
+              ],
+            ),
           ),
         );
       },
