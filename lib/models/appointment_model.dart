@@ -12,6 +12,7 @@ class AppointmentModel {
   final String status;
   final String salonId;
   final String customerId;
+  final String serviceId;
 
   AppointmentModel({
     required this.startTime,
@@ -22,6 +23,7 @@ class AppointmentModel {
     required this.status,
     required this.salonId,
     required this.customerId,
+    required this.serviceId,
   });
 
   factory AppointmentModel.fromJson(QueryDocumentSnapshot doc) {
@@ -32,8 +34,9 @@ class AppointmentModel {
       startTime: doc['startTime'],
       endTime: doc['endTime'],
       status: doc['status'],
-      salonId: doc['salonId'],
-      customerId: doc['customerId'],
+      salonId: '', //doc.['salon']
+      customerId: '', //doc['customerId'],
+      serviceId: doc['service'],
     );
   }
 
@@ -45,6 +48,7 @@ class AppointmentModel {
     required this.status,
     required this.salonId,
     required this.customerId,
+    required this.serviceId,
   }) : id = uuid.v4();
 
   Map<String, dynamic> toJson() {
@@ -55,6 +59,9 @@ class AppointmentModel {
       'startTime': startTime,
       'endTime': endTime,
       'status': status,
+      'salon': salonId,
+      'client': customerId,
+      'service': serviceId,
     };
   }
 }

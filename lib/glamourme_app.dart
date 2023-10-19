@@ -13,10 +13,10 @@ import 'package:flutter_app/screens/signup_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:is_first_run/is_first_run.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class GlamourMeApp extends StatefulWidget {
   const GlamourMeApp({super.key});
-
   @override
   State<GlamourMeApp> createState() => _GlamourMeAppState();
 }
@@ -37,12 +37,25 @@ class _GlamourMeAppState extends State<GlamourMeApp> {
     }
   }
 
+  // Used to setup push notifications
+  void _setupPushNotifications() async {
+    final fcm = FirebaseMessaging.instance;
+
+    await fcm.requestPermission();
+
+    // final token = await fcm.getToken();
+
+    fcm.subscribeToTopic('appointments');
+  }
+
   @override
   void initState() {
     super.initState();
     auth.FirebaseAuth.instance.authStateChanges().listen((user) async {
       _redirectToAuthenticate(user);
     });
+
+    _setupPushNotifications();
   }
 
   @override
