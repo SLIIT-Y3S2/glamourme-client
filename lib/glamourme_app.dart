@@ -10,6 +10,7 @@ import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/screens/main_screen.dart';
 import 'package:flutter_app/screens/onboarding.dart';
 import 'package:flutter_app/screens/signup_screen.dart';
+import 'package:flutter_app/screens/splash_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:is_first_run/is_first_run.dart';
@@ -112,7 +113,6 @@ _getPageRoutes(BuildContext context, RouteSettings settings) {
     case '/onboarding':
       return const OnBoardingScreen();
     default:
-      //Todo add splash screen
-      return const OnBoardingScreen();
+      return const SplashScreen();
   }
 }
