@@ -33,7 +33,6 @@ class _AppointmentIndexScreenState extends State<AppointmentIndexScreen>
     BlocProvider.of<AuthenticationBloc>(context)
         .add(const GetCurrentUserEvent());
 
-    final authState = BlocProvider.of<AuthenticationBloc>(context).state;
     String? userId = BlocProvider.of<AuthenticationBloc>(context).userId;
 
     BlocProvider.of<AppointmentBloc>(context)
@@ -69,9 +68,6 @@ class _AppointmentIndexScreenState extends State<AppointmentIndexScreen>
         child: TabBarView(
           controller: _tabController,
           children: [
-            // if (state is! AppointmentsLoaded)
-            //   const CircularProgressIndicator.adaptive(),
-
             _pastAppointments.isNotEmpty
                 ? PastBookingsScreen(appointments: _pastAppointments)
                 : const Center(

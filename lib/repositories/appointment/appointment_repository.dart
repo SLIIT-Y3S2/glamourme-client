@@ -5,28 +5,25 @@ import 'package:flutter_app/models/appointment_model.dart';
 import 'package:flutter_app/repositories/appointment/base_appointment_repository.dart';
 
 class AppointmentRepository extends BaseAppointmentRepository {
-  // @override
-  // Future<AppointmentModel> createAppointment(
-  //     AppointmentModel appointment) async {
-  //   final FirebaseFirestore db = FirebaseFirestore.instance;
-  //   final CollectionReference appointmentCollection =
-  //       db.collection('appointments');
-  //   await appointmentCollection.doc(appointment.id).set({
-  //     ...appointment.toJson(),
-  //     'client': db.collection('users').doc(appointment.customerId),
-  //     'salon': db.collection('salons').doc(appointment.salonId),
-  //   }).onError((error, stackTrace) {
-  //     developer.log(
-  //       error.toString(),
-  //       error: error,
-  //       stackTrace: stackTrace,
-  //       name: 'AppointmentRepository',
-  //     );
-  //     throw Exception(error);
-  //   });
+  @override
+  Future<void> cancelAppointment(String id) async {
+    final FirebaseFirestore db = FirebaseFirestore.instance;
+    final CollectionReference appointmentCollection =
+        db.collection('appointments');
 
-  //   return appointment;
-  // }
+    await appointmentCollection
+        .doc(id)
+        .delete()
+        .catchError((error, stackTrace) {
+      developer.log(
+        error.toString(),
+        error: error,
+        stackTrace: stackTrace,
+        name: 'AppointmentRepository',
+      );
+      throw Exception(error);
+    });
+  }
 
   @override
   Future<AppointmentModel> createAppointment(
@@ -91,12 +88,6 @@ class AppointmentRepository extends BaseAppointmentRepository {
   }
 
   @override
-  Future<void> deleteAppointment(int id) {
-    // TODO: implement deleteAppointment
-    throw UnimplementedError();
-  }
-
-  @override
   Future<AppointmentModel> getAppointment(int id) {
     // TODO: implement getAppointment
     throw UnimplementedError();
@@ -113,13 +104,10 @@ class AppointmentRepository extends BaseAppointmentRepository {
           'client',
           isEqualTo: db.collection('users').doc(userId),
         )
+        .orderBy('startTime', descending: false)
         .get()
         .then((appointments) {
       for (var appointment in appointments.docs) {
-        appointment.reference.collection('salon').get().then((salon) {
-          developer.log(salon.docs.length.toString(),
-              name: 'AppointmentRepository');
-        });
         appoinmentList.add(AppointmentModel.fromJson(appointment));
       }
     }).catchError((error, stackTrace) {

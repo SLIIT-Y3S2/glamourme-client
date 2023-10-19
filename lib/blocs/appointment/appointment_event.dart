@@ -22,3 +22,9 @@ class GetAppointmentsEvent extends AppointmentEvent {
 
   const GetAppointmentsEvent({required this.userId});
 }
+
+class CancelAppointmentEvent extends AppointmentEvent {
+  final String appointmentId;
+
+  const CancelAppointmentEvent({required this.appointmentId});
+}

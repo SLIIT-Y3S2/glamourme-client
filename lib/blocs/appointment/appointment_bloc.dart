@@ -13,6 +13,23 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
     on<CreateAppointmentEvent>(_onCreateAppointment);
     on<ValidateAppointmentEvent>(_onValidateAppointment);
     on<GetAppointmentsEvent>(_onGetAppointmentsEvent);
+    on<CancelAppointmentEvent>(_onCancelAppointmentEvent);
+  }
+
+  void _onCancelAppointmentEvent(
+    CancelAppointmentEvent event,
+    Emitter<AppointmentState> emit,
+  ) async {
+    emit(CancelingAppointmentState());
+    await _appointmentRepository.cancelAppointment(event.appointmentId).then(
+      (appointment) {
+        emit(const AppointmentCanceledState());
+      },
+    ).catchError(
+      (error) {
+        emit(AppointmentError(message: error.toString()));
+      },
+    );
   }
 
   void _onGetAppointmentsEvent(

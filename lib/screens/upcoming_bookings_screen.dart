@@ -5,10 +5,15 @@ import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/models/appointment_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class UpcomingBookingsScreen extends StatelessWidget {
+class UpcomingBookingsScreen extends StatefulWidget {
   const UpcomingBookingsScreen({super.key, required this.appointments});
   final List<AppointmentModel> appointments;
 
+  @override
+  State<UpcomingBookingsScreen> createState() => _UpcomingBookingsScreenState();
+}
+
+class _UpcomingBookingsScreenState extends State<UpcomingBookingsScreen> {
   String timeStampToString(Timestamp timestamp) {
     var date = timestamp.toDate();
     switch (date.month) {
@@ -33,7 +38,7 @@ class UpcomingBookingsScreen extends StatelessWidget {
       case 10:
         return '${date.day} Oct ${date.year}';
       case 11:
-        return '${date.day}/Nov/${date.year}';
+        return '${date.day} Nov ${date.year}';
       case 12:
         return '${date.day} Dec ${date.year}';
       default:
@@ -41,55 +46,120 @@ class UpcomingBookingsScreen extends StatelessWidget {
     }
   }
 
+  void _onClickCancelAppointment(BuildContext context, int index) {
+    BlocProvider.of<AppointmentBloc>(context).add(
+      CancelAppointmentEvent(
+        appointmentId: widget.appointments[index].id,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: EdgeInsets.all(8),
-      itemCount: appointments.length,
-      itemBuilder: (context, index) {
-        print(appointments.length);
-        return Card(
-          surfaceTintColor: Colors.white,
-          elevation: 1,
-          child: ListTile(
-            title: Text(
-              'Salon Name',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+    return BlocListener<AppointmentBloc, AppointmentState>(
+      listener: (context, state) {
+        if (state is AppointmentCanceledState) {
+          BlocProvider.of<AppointmentBloc>(context).add(
+            GetAppointmentsEvent(
+              userId: BlocProvider.of<AuthenticationBloc>(context).userId,
             ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 8,
-                ),
-                Text('Appointment $index'),
-                const SizedBox(
-                  height: 2,
-                ),
-                Text('${appointments[index].title}'),
-                const SizedBox(
-                  height: 2,
-                ),
-                Text(
-                  timeStampToString(appointments[index].startTime),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Cancel Appointment',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        color: Colors.red, fontWeight: FontWeight.w700),
-                  ),
-                ),
-              ],
+          );
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Appointment canceled'),
             ),
-            trailing: const Text('LKR 500.00'),
-            onTap: () {},
-          ),
-        );
+          );
+          Navigator.pop(context);
+        }
       },
+      child: BlocBuilder<AppointmentBloc, AppointmentState>(
+        builder: (context, state) {
+          return ListView.builder(
+            padding: const EdgeInsets.all(8),
+            itemCount: widget.appointments.length,
+            itemBuilder: (context, index) {
+              return Card(
+                surfaceTintColor: Colors.white,
+                elevation: 1,
+                child: ListTile(
+                  title: Text(
+                    'Salon Name',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text('Appointment $index'),
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      Text(widget.appointments[index].title),
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      Text(
+                        timeStampToString(widget.appointments[index].startTime),
+                      ),
+                      //Check if appointment is scheduled within 24 hours from now
+                      if (widget.appointments[index].endTime
+                              .toDate()
+                              .difference(DateTime.now())
+                              .inDays >
+                          0)
+                        TextButton(
+                          onPressed: () => showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Cancel Appointment'),
+                              content: const Text(
+                                  'Are you sure you want to cancel?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, 'Cancel'),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () =>
+                                      _onClickCancelAppointment(context, index),
+                                  child: state is! CancelingAppointmentState
+                                      ? const Text(
+                                          'OK',
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                          ),
+                                        )
+                                      : const CircularProgressIndicator(
+                                          color: Colors.red,
+                                        ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          child: Text(
+                            'Cancel Appointment',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                    ],
+                  ),
+                  trailing: const Text('LKR 500.00'),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

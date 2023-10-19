@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/blocs/appointment/appointment_bloc.dart';
-import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/models/appointment_model.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PastBookingsScreen extends StatelessWidget {
   const PastBookingsScreen({super.key, required this.appointments});
@@ -44,10 +41,9 @@ class PastBookingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       itemCount: appointments.length,
       itemBuilder: (context, index) {
-        print(appointments.length);
         return Card(
           surfaceTintColor: Colors.white,
           elevation: 1,

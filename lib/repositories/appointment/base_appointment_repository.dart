@@ -5,6 +5,6 @@ abstract class BaseAppointmentRepository {
   Future<AppointmentModel> getAppointment(int id);
   Future<AppointmentModel> createAppointment(AppointmentModel appointment);
   Future<AppointmentModel> updateAppointment(AppointmentModel appointment);
-  Future<void> deleteAppointment(int id);
+  Future<void> cancelAppointment(String id);
   Future<bool> validateAppointment(AppointmentModel appointment);
 }

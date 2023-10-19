@@ -34,3 +34,9 @@ class AppointmentValidatedState extends AppointmentState {
 
   const AppointmentValidatedState({required this.appointment});
 }
+
+class CancelingAppointmentState extends AppointmentState {}
+
+class AppointmentCanceledState extends AppointmentState {
+  const AppointmentCanceledState();
+}
