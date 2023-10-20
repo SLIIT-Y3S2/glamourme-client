@@ -28,13 +28,10 @@ class SalonsIndexScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
-                // padding: const EdgeInsets.symmetric(horizontal: 24),
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const NearYouSalonsMap(),
-                  if (state is LoadingSalons)
-                    const Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                  if (state is LoadingSalons) const CircularProgressIndicator(),
                   const SizedBox(height: 20),
                   Text(
                     'Near By Salons',

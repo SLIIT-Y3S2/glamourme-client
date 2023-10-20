@@ -3,7 +3,6 @@
 ///
 
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/models/user_model.dart';
