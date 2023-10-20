@@ -9,9 +9,6 @@ class ProfileIndexScreen extends StatelessWidget {
 
   void _signOut(BuildContext context) {
     BlocProvider.of<AuthenticationBloc>(context).add(const SignOutEvent());
-    if (profileNavigatorKey.currentState!.canPop()) {
-      profileNavigatorKey.currentState!.pop();
-    }
   }
 
   @override

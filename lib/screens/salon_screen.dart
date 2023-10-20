@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/models/salon_model.dart';
 import 'package:flutter_app/widgets/book_service_card.dart';
 import 'package:flutter_app/widgets/salon_hero_image.dart';
-import 'package:http/http.dart';
 
 class SalonScreen extends StatelessWidget {
   const SalonScreen({required this.salon, super.key});
