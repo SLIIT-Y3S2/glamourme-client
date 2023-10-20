@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter_app/blocs/appointment/appointment_bloc.dart';
 import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
+import 'package:flutter_app/blocs/location/location_bloc.dart';
 import 'package:flutter_app/blocs/salons/salons_bloc.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/globals.dart';
@@ -86,6 +87,7 @@ class _GlamourMeAppState extends State<GlamourMeApp> {
         RepositoryProvider(create: (context) => authenticationBloc),
         RepositoryProvider(create: (context) => SalonsBloc()),
         RepositoryProvider(create: (context) => AppointmentBloc()),
+        RepositoryProvider(create: (context) => LocationBloc()),
       ],
       child: app,
     );

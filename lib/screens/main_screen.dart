@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/blocs/location/location_bloc.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/screens/appointments_index_screen.dart';
 import 'package:flutter_app/screens/home_index_screen.dart';
 import 'package:flutter_app/screens/profile_index_screen.dart';
 import 'package:flutter_app/screens/salons_index_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -26,13 +28,6 @@ class _HomeScreenState extends State<MainScreen> {
     profileNavigatorKey,
   ];
 
-  // final Map<int, GlobalKey> _navigatorKeys = {
-  //   0: homeNavigatorKey,
-  //   1: appointmetNavigatorKey,
-  //   2: salonsNavigatorKey,
-  //   3: profileNavigatorKey,
-  // };
-
   int _currentIndex = 0;
 
   void _onDestinationSelected(int index) {
@@ -45,6 +40,12 @@ class _HomeScreenState extends State<MainScreen> {
     setState(() {
       _currentIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<LocationBloc>(context).add(const GetLocationEvent());
   }
 
   @override
