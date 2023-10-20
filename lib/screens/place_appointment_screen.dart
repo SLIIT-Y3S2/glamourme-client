@@ -7,7 +7,6 @@ import 'package:flutter_app/blocs/appointment/appointment_bloc.dart';
 import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/models/appointment_model.dart';
 import 'package:flutter_app/models/service_model.dart';
-import 'package:flutter_app/screens/payment_screen.dart';
 import 'package:flutter_app/widgets/time_pill.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
