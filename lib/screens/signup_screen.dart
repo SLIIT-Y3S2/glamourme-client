@@ -4,11 +4,10 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/widgets/signup_form_widget.dart';
 import 'package:flutter_app/widgets/social_buttons_widget.dart';
-import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
@@ -35,7 +34,7 @@ class SignupScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    AppLocale.signup.getString(context),
+                    AppLocalizations.of(context)!.signup,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 33,
@@ -46,7 +45,7 @@ class SignupScreen extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '${AppLocale.alreadyHaveAnAccount.getString(context)}  ',
+                        '${AppLocalizations.of(context)!.alreadyHaveAnAccount}  ',
                         style: const TextStyle(
                           color: Colors.white,
                           fontFamily: 'DM Sans',
@@ -56,7 +55,7 @@ class SignupScreen extends StatelessWidget {
                       ),
                       RichText(
                         text: TextSpan(
-                          text: AppLocale.login.getString(context),
+                          text: AppLocalizations.of(context)!.login,
                           style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -86,7 +85,7 @@ class SignupScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                     child: Text(
-                      AppLocale.orSignUpUsing.getString(context),
+                      AppLocalizations.of(context)!.orLoginUsing,
                       style: const TextStyle(
                         color: Color(0xFF1C1C28),
                         fontSize: 13,

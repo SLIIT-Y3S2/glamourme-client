@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/screens/profile_language_overview_screen.dart';
+import 'package:flutter_app/widgets/language_selector.dart';
 import 'package:flutter_app/widgets/profile_screen_list_item.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileIndexScreen extends StatelessWidget {
   const ProfileIndexScreen({Key? key}) : super(key: key);
@@ -28,33 +28,30 @@ class ProfileIndexScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         key: profileNavigatorKey,
-        appBar: AppBar(title: Text(AppLocale.profile.getString(context))),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.profile)),
         body: ListView(
           children: <Widget>[
             ProfileScreenListItem(
-              title: AppLocale.yourFavourites.getString(context),
+              title: AppLocalizations.of(context)!.yourFavourites,
               leadingIcon: Icons.favorite_outline,
               onTapFunc: null,
-              subtitle: AppLocale.yourFavouritesDescription.getString(context),
+              subtitle: AppLocalizations.of(context)!.yourFavouritesDescription,
               trailingIcon: Icons.arrow_forward_ios,
             ),
-            ProfileScreenListItem(
-              title: AppLocale.language.getString(context),
+            LanguageSelector(
+              title: AppLocalizations.of(context)!.language,
               leadingIcon: Icons.language,
-              onTapFunc: () =>
-                  _navigateToProfileLanguageOverviewScreen(context),
-              subtitle: AppLocale.languageDescription.getString(context),
-              trailingIcon: Icons.arrow_forward_ios,
+              subtitle: AppLocalizations.of(context)!.languageDescription,
             ),
             ProfileScreenListItem(
-              title: AppLocale.payments.getString(context),
+              title: AppLocalizations.of(context)!.payments,
               leadingIcon: Icons.credit_card,
               onTapFunc: null,
-              subtitle: AppLocale.paymentsDescription.getString(context),
+              subtitle: AppLocalizations.of(context)!.paymentsDescription,
               trailingIcon: Icons.arrow_forward_ios,
             ),
             ProfileScreenListItem(
-              title: AppLocale.signout.getString(context),
+              title: AppLocalizations.of(context)!.signout,
               leadingIcon: Icons.logout,
               onTapFunc: () => _signOut(context),
               subtitle: '',

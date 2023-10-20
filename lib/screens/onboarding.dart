@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/data/onboarding_data_set.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/widgets/onboarding_content.dart';
 import 'package:flutter_app/widgets/page_indicator.dart';
-import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -113,7 +112,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Text(
-                          AppLocale.login.getString(context),
+                          AppLocalizations.of(context)!.login,
                           style: const TextStyle(color: Colors.white),
                         ),
                       )),
@@ -130,7 +129,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Text(
-                        AppLocale.getStarted.getString(context),
+                        AppLocalizations.of(context)!.getStarted,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,

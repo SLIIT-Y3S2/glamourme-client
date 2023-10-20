@@ -3,14 +3,13 @@ import 'dart:developer' as developer;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/blocs/appointment/appointment_bloc.dart';
 import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/models/appointment_model.dart';
 import 'package:flutter_app/models/service_model.dart';
 import 'package:flutter_app/widgets/time_pill.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlaceAppointmentScreen extends StatefulWidget {
   final String salonId;
@@ -150,7 +149,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
           ),
           const Spacer(),
           Text(
-            AppLocale.checkout.getString(context),
+            AppLocalizations.of(context)!.checkout,
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   color: Colors.white,
                 ),
@@ -183,7 +182,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            AppLocale.appointment.getString(context),
+            AppLocalizations.of(context)!.appointment,
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   fontWeight: FontWeight.w700,
                   fontSize: 23,
@@ -231,7 +230,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    AppLocale.selectTime.getString(context),
+                    AppLocalizations.of(context)!.selectTime,
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontWeight: FontWeight.w400,
                         ),

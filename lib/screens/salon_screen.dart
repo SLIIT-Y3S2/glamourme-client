@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/models/salon_model.dart';
 import 'package:flutter_app/widgets/book_service_card.dart';
 import 'package:flutter_app/widgets/salon_hero_image.dart';
-import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SalonScreen extends StatelessWidget {
   const SalonScreen({required this.salon, super.key});
@@ -34,7 +33,7 @@ class SalonScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        AppLocale.recommended.getString(context),
+                        AppLocalizations.of(context)!.recommended,
                         style:
                             Theme.of(context).textTheme.headlineSmall!.copyWith(
                                   fontWeight: FontWeight.w900,
@@ -44,7 +43,7 @@ class SalonScreen extends StatelessWidget {
                       TextButton.icon(
                         onPressed: () {},
                         label: Text(
-                          AppLocale.viewAll.getString(context),
+                          AppLocalizations.of(context)!.viewAll,
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge!
