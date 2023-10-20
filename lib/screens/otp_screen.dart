@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/widgets/otp_widget.dart';
-import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OtpScreen extends StatelessWidget {
   const OtpScreen({super.key});
@@ -18,7 +17,7 @@ class OtpScreen extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              AppLocale.verifyOTP.getString(context),
+              AppLocalizations.of(context)!.verifyOTP,
               style: const TextStyle(
                 color: Color(0xFF1C1C28),
                 fontSize: 23,
@@ -32,13 +31,13 @@ class OtpScreen extends StatelessWidget {
           const SizedBox(height: 32),
           Row(
             children: [
-              Text('${AppLocale.didntReceiveTheCode.getString(context)}  '),
+              Text('${AppLocalizations.of(context)!.didntReceiveTheCode}  '),
               GestureDetector(
                 onTap: () {
                   // Handle resend action
                 },
                 child: Text(
-                  AppLocale.resend.getString(context),
+                  AppLocalizations.of(context)!.resend,
                   style: const TextStyle(color: Color(0xFF05A560)),
                 ),
               ),
@@ -58,7 +57,7 @@ class OtpScreen extends StatelessWidget {
               ),
             ),
             child: Text(
-              AppLocale.verifyOTP.getString(context),
+              AppLocalizations.of(context)!.verifyOTP,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,

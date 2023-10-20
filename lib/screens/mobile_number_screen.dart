@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/screens/login.dart';
-import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MobileNumberScreen extends StatelessWidget {
   const MobileNumberScreen({super.key});
@@ -32,7 +31,7 @@ class MobileNumberScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  AppLocale.enterMobileNumber.getString(context),
+                  AppLocalizations.of(context)!.enterMobileNumber,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Color(0xFF1C1C28),
@@ -54,7 +53,7 @@ class MobileNumberScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          AppLocale.phoneNumber.getString(context),
+                          AppLocalizations.of(context)!.phoneNumber,
                           style: const TextStyle(
                             color: Color(0xFF1C1C28),
                             fontSize: 12,
@@ -106,7 +105,7 @@ class MobileNumberScreen extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8))),
                     child: Text(
-                      AppLocale.sendOTP.getString(context),
+                      AppLocalizations.of(context)!.sendOTP,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,

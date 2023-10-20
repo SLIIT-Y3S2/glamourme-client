@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_locale.dart';
-import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileLanguageOverviewScreen extends StatelessWidget {
-  ProfileLanguageOverviewScreen({super.key});
-
-  final FlutterLocalization _localization = FlutterLocalization.instance;
+  const ProfileLanguageOverviewScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +16,7 @@ class ProfileLanguageOverviewScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(24, 15, 0, 0),
                   child: Text(
-                    AppLocale.language.getString(context),
+                    AppLocalizations.of(context)!.language,
                     style: const TextStyle(
                       color: Color(0xFF1C1C28),
                       fontSize: 23,
@@ -36,7 +33,7 @@ class ProfileLanguageOverviewScreen extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(24, 10, 0, 0),
                     child: TextButton(
                         onPressed: () {
-                          _localization.translate('en');
+                          // _localization.translate('en');
                         },
                         child: const Text(
                           'English',
@@ -55,7 +52,7 @@ class ProfileLanguageOverviewScreen extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(24, 10, 0, 0),
                   child: TextButton(
                       onPressed: () {
-                        _localization.translate('si');
+                        // _localization.translate('si');
                       },
                       child: const Text(
                         'සිංහල',

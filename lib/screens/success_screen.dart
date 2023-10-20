@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_locale.dart';
-import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SuccessScreen extends StatelessWidget {
   const SuccessScreen({super.key});
@@ -18,7 +17,7 @@ class SuccessScreen extends StatelessWidget {
               height: 120,
             ),
             Text(
-              AppLocale.success.getString(context),
+              AppLocalizations.of(context)!.success,
               style: const TextStyle(
                 color: Color(0xFF1C1C28),
                 fontSize: 19,
@@ -32,7 +31,7 @@ class SuccessScreen extends StatelessWidget {
               height: 10,
             ),
             Text(
-              AppLocale.verificationIsDone.getString(context),
+              AppLocalizations.of(context)!.verificationIsDone,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Color(0xFF8E90A5),

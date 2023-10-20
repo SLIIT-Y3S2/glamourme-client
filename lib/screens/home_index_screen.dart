@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/data/dummy_salon.dart';
 import 'package:flutter_app/data/dummy_services.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/widgets/near_you_card.dart';
 import 'package:flutter_app/widgets/service_card.dart';
-import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeIndexScreen extends StatefulWidget {
   const HomeIndexScreen({super.key});
@@ -26,7 +25,7 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              AppLocale.beautyServices.getString(context),
+              AppLocalizations.of(context)!.beautyServices,
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     fontWeight: FontWeight.w900,
                   ),
@@ -34,7 +33,7 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
             TextButton.icon(
               onPressed: () {},
               icon: const Icon(Icons.arrow_right),
-              label: Text(AppLocale.seeAll.getString(context)),
+              label: Text(AppLocalizations.of(context)!.seeAll),
             )
           ],
         ),
@@ -69,7 +68,7 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              AppLocale.popularNearYou.getString(context),
+              AppLocalizations.of(context)!.popularNearYou,
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     fontWeight: FontWeight.w900,
                   ),
@@ -77,7 +76,7 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
             TextButton.icon(
               onPressed: () {},
               icon: const Icon(Icons.arrow_right),
-              label: Text(AppLocale.seeAll.getString(context)),
+              label: Text(AppLocalizations.of(context)!.seeAll),
             )
           ],
         ),

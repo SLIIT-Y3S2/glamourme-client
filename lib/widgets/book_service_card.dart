@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/models/service_model.dart';
 import 'package:flutter_app/screens/place_appointment_screen.dart';
-import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BookServiceCard extends StatelessWidget {
   const BookServiceCard({
@@ -120,7 +119,7 @@ class BookServiceCard extends StatelessWidget {
                   ),
                 ),
               ),
-              child: Text(AppLocale.book.getString(context)))
+              child: Text(AppLocalizations.of(context)!.book))
         ],
       ),
     );

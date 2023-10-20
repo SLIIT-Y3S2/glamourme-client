@@ -1,7 +1,6 @@
 import 'dart:developer' as developer;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_app/models/appointment_model.dart';
 import 'package:flutter_app/repositories/appointment/base_appointment_repository.dart';
 

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/widgets/login_form_widget.dart';
 import 'package:flutter_app/widgets/social_buttons_widget.dart';
-import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -29,7 +28,7 @@ class LoginScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    AppLocale.welcomeBack.getString(context),
+                    AppLocalizations.of(context)!.welcomeBack,
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 33,
@@ -41,7 +40,7 @@ class LoginScreen extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '${AppLocale.welcomeBackDescription.getString(context)}  ',
+                        '${AppLocalizations.of(context)!.welcomeBackDescription}  ',
                         style: TextStyle(
                           color: Color(black2),
                           fontSize: 15,
@@ -50,7 +49,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       RichText(
                         text: TextSpan(
-                          text: AppLocale.signup.getString(context),
+                          text: AppLocalizations.of(context)!.signup,
                           style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -80,7 +79,7 @@ class LoginScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                     child: Text(
-                      AppLocale.orLoginUsing.getString(context),
+                      AppLocalizations.of(context)!.orLoginUsing,
                       style: const TextStyle(
                         color: Color(0xFF1C1C28),
                         fontSize: 13,

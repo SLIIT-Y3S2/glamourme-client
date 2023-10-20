@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/screens/appointments_index_screen.dart';
 import 'package:flutter_app/screens/home_index_screen.dart';
 import 'package:flutter_app/screens/profile_index_screen.dart';
 import 'package:flutter_app/screens/salons_index_screen.dart';
-import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -64,21 +63,21 @@ class _HomeScreenState extends State<MainScreen> {
           NavigationDestination(
             icon: const Icon(Icons.home_outlined),
             selectedIcon: const Icon(Icons.home),
-            label: AppLocale.home.getString(context),
+            label: AppLocalizations.of(context)!.home,
           ),
           NavigationDestination(
             icon: const Icon(Icons.calendar_month_outlined),
             selectedIcon: const Icon(Icons.calendar_month),
-            label: AppLocale.appointments.getString(context),
+            label: AppLocalizations.of(context)!.appointments,
           ),
           NavigationDestination(
             icon: const Icon(Icons.cut_sharp),
-            label: AppLocale.salons.getString(context),
+            label: AppLocalizations.of(context)!.salons,
           ),
           NavigationDestination(
             icon: const Icon(Icons.person_outlined),
             selectedIcon: const Icon(Icons.person),
-            label: AppLocale.profile.getString(context),
+            label: AppLocalizations.of(context)!.profile,
           ),
         ],
       ),

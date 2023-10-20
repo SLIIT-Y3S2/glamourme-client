@@ -10,7 +10,7 @@ import 'package:flutter_app/models/user_model.dart';
 import 'package:flutter_app/screens/home_index_screen.dart';
 import 'package:flutter_app/screens/main_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignupFormWidget extends StatefulWidget {
   const SignupFormWidget({super.key});
@@ -87,7 +87,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
   //Validator functions for email and password
   String? _emailValidate(value) {
     if (value.trim().isEmpty || value == null || !value.contains('@')) {
-      return AppLocale.emailValidation.getString(context);
+      return AppLocalizations.of(context)!.emailValidation;
     }
 
     return null;
@@ -95,7 +95,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
 
   String? _passwordValidate(value) {
     if (value.trim().isEmpty || value == null || value.length < 6) {
-      return AppLocale.passwordValidation.getString(context);
+      return AppLocalizations.of(context)!.passwordValidation;
     }
 
     return null;
@@ -103,7 +103,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
 
   String? _nameValidate(value) {
     if (value.trim().isEmpty || value == null) {
-      return AppLocale.nameValidation.getString(context);
+      return AppLocalizations.of(context)!.nameValidation;
     }
 
     return null;
@@ -113,7 +113,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
     String password = _passwordController!.text;
     String confirmPassword = _confirmPasswordController!.text;
     if (password != confirmPassword) {
-      return AppLocale.passwordMatchValidation.getString(context);
+      return AppLocalizations.of(context)!.passwordMatchValidation;
     }
     return null;
   }
@@ -144,7 +144,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
 
         if (state is CreatingUserState) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(AppLocale.creatingUser.getString(context))));
+              content: Text(AppLocalizations.of(context)!.creatingUser)));
         } else if (state is SignupErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(state.errorMessage),
@@ -152,7 +152,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
           ));
         } else if (state is UserCreatedState) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(AppLocale.userCreated.getString(context)),
+            content: Text(AppLocalizations.of(context)!.userCreated),
             duration: const Duration(milliseconds: 500),
           ));
 
@@ -173,26 +173,26 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
               key: _formKey,
               child: Column(
                 children: [
-                  _buildInputField(AppLocale.name.getString(context),
-                      AppLocale.nameHint.getString(context)),
+                  _buildInputField(AppLocalizations.of(context)!.name,
+                      AppLocalizations.of(context)!.nameHint),
                   const SizedBox(
                       height: 16), // Add spacing between input fields
                   _buildInputField(
-                    AppLocale.email.getString(context),
-                    AppLocale.enterEmail.getString(context),
+                    AppLocalizations.of(context)!.email,
+                    AppLocalizations.of(context)!.enterEmail,
                     isEmail: true,
                   ),
                   const SizedBox(
                       height: 16), // Add spacing between input fields
                   _buildInputField(
-                    AppLocale.password.getString(context),
+                    AppLocalizations.of(context)!.password,
                     '******',
                     isPassword: true,
                   ),
                   const SizedBox(
                       height: 16), // Add spacing between input fields
                   _buildInputField(
-                    AppLocale.confirmPassword.getString(context),
+                    AppLocalizations.of(context)!.confirmPassword,
                     '******',
                     isConfirmPassword: true,
                   ),
@@ -213,7 +213,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
                                     ),
                                   ),
                                   child: Text(
-                                    AppLocale.signup.getString(context),
+                                    AppLocalizations.of(context)!.signup,
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
