@@ -11,6 +11,7 @@ import 'package:flutter_app/widgets/time_pill.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 import 'package:payhere_mobilesdk_flutter/payhere_mobilesdk_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlaceAppointmentScreen extends StatefulWidget {
   final String salonId;
@@ -224,7 +225,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
           ),
           const Spacer(),
           Text(
-            'Checkout',
+            AppLocalizations.of(context)!.checkout,
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   color: Colors.white,
                 ),
@@ -257,7 +258,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Appointment',
+            AppLocalizations.of(context)!.appointment,
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   fontWeight: FontWeight.w700,
                   fontSize: 23,
@@ -305,7 +306,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Select Time',
+                    AppLocalizations.of(context)!.selectTime,
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontWeight: FontWeight.w400,
                         ),

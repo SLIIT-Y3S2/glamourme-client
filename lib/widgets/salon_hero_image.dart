@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/salon_model.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SalonHeroImage extends StatelessWidget {
   const SalonHeroImage({required this.salon, super.key});
@@ -32,10 +33,10 @@ class SalonHeroImage extends StatelessWidget {
                 children: [
                   Text(
                     salon.salonType == SalonType.gents
-                        ? 'Gents'
+                        ? AppLocalizations.of(context)!.gents
                         : salon.salonType == SalonType.ladies
-                            ? 'Ladies'
-                            : 'Unisex',
+                            ? AppLocalizations.of(context)!.ladies
+                            : AppLocalizations.of(context)!.unisex,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w900,
@@ -96,7 +97,7 @@ class SalonHeroImage extends StatelessWidget {
                             color: Colors.white,
                           ),
                           Text(
-                            'Favouiite',
+                            AppLocalizations.of(context)!.favourite,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -108,7 +109,16 @@ class SalonHeroImage extends StatelessWidget {
                         ],
                       )
                     ],
-                  )
+                  ),
+                  Row(children: [
+                    Text(
+                      '${AppLocalizations.of(context)!.businessHrs} - ${salon.openingTime.toDate().hour.toString().padLeft(2, '0')}:${salon.openingTime.toDate().minute.toString().padLeft(2, '0')} - ${salon.closingTime.toDate().hour.toString().padLeft(2, '0')}:${salon.closingTime.toDate().minute.toString().padLeft(2, '0')}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(color: Colors.white),
+                    ),
+                  ])
                 ],
               ),
             ],

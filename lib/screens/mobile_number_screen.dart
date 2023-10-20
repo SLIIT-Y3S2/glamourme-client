@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/login.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MobileNumberScreen extends StatelessWidget {
   const MobileNumberScreen({super.key});
@@ -27,12 +28,12 @@ class MobileNumberScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(24, 10, 24, 0),
             child: Column(children: [
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Enter Mobile Number',
+                  AppLocalizations.of(context)!.enterMobileNumber,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xFF1C1C28),
                     fontSize: 23,
                     fontFamily: 'DM Sans',
@@ -45,15 +46,15 @@ class MobileNumberScreen extends StatelessWidget {
               const SizedBox(
                 height: 40,
               ),
-              const Align(
+              Align(
                   alignment: Alignment.centerLeft,
                   child: Column(
                     children: [
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          ' Phone Number',
-                          style: TextStyle(
+                          AppLocalizations.of(context)!.phoneNumber,
+                          style: const TextStyle(
                             color: Color(0xFF1C1C28),
                             fontSize: 12,
                             fontFamily: 'DM Sans',
@@ -62,10 +63,10 @@ class MobileNumberScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                      TextField(
+                      const TextField(
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.fromLTRB(
@@ -103,9 +104,9 @@ class MobileNumberScreen extends StatelessWidget {
                         backgroundColor: const Color(0xFF05A560),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8))),
-                    child: const Text(
-                      'Send OTP',
-                      style: TextStyle(
+                    child: Text(
+                      AppLocalizations.of(context)!.sendOTP,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                         fontFamily: 'DM Sans',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/models/salon_model.dart';
 import 'package:flutter_app/widgets/book_service_card.dart';
 import 'package:flutter_app/widgets/salon_hero_image.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SalonScreen extends StatelessWidget {
   const SalonScreen({required this.salon, super.key});
@@ -32,28 +33,42 @@ class SalonScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Recommended',
+                        AppLocalizations.of(context)!.recommended,
                         style:
                             Theme.of(context).textTheme.headlineSmall!.copyWith(
                                   fontWeight: FontWeight.w900,
                                 ),
                       ),
                       const Spacer(),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "See more",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            Icon(
-                              Icons.keyboard_arrow_right,
-                            ),
-                          ],
-                        ),
-                      )
+                      // TextButton(
+                      //   onPressed: () {},
+                      //   label: Text(
+                      //     AppLocalizations.of(context)!.viewAll,
+                      //     style: Theme.of(context)
+                      //         .textTheme
+                      //         .bodyLarge!
+                      //         .copyWith(
+                      //             color: Theme.of(context).colorScheme.primary,
+                      //             fontWeight: FontWeight.w900),
+                      //   ),
+                      //   icon: const Icon(Icons.arrow_right),
+                      //   style: ButtonStyle(
+                      //     foregroundColor: MaterialStateProperty.all(
+                      //         Theme.of(context).colorScheme.primary),
+                      //   child:
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "See more",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          Icon(
+                            Icons.keyboard_arrow_right,
+                          ),
+                        ],
+                      ),
+                      // )
                     ],
                   ),
                   const SizedBox(

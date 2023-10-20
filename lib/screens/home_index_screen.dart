@@ -5,6 +5,7 @@ import 'package:flutter_app/data/dummy_services.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/widgets/near_you_card.dart';
 import 'package:flutter_app/widgets/service_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeIndexScreen extends StatefulWidget {
@@ -26,7 +27,7 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Beauty Services',
+              AppLocalizations.of(context)!.beautyServices,
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     fontWeight: FontWeight.w900,
                   ),
@@ -34,7 +35,7 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
             TextButton.icon(
               onPressed: () {},
               icon: const Icon(Icons.arrow_right),
-              label: const Text('See all'),
+              label: Text(AppLocalizations.of(context)!.seeAll),
             )
           ],
         ),
@@ -69,7 +70,7 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Popular Near You',
+              AppLocalizations.of(context)!.popularNearYou,
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     fontWeight: FontWeight.w900,
                   ),
@@ -77,7 +78,7 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
             TextButton.icon(
               onPressed: () {},
               icon: const Icon(Icons.arrow_right),
-              label: const Text('See all'),
+              label: Text(AppLocalizations.of(context)!.seeAll),
             )
           ],
         ),

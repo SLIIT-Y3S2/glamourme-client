@@ -5,6 +5,7 @@ import 'package:flutter_app/screens/appointments_index_screen.dart';
 import 'package:flutter_app/screens/home_index_screen.dart';
 import 'package:flutter_app/screens/profile_index_screen.dart';
 import 'package:flutter_app/screens/salons_index_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainScreen extends StatefulWidget {
@@ -59,25 +60,25 @@ class _HomeScreenState extends State<MainScreen> {
         surfaceTintColor: Colors.white,
         shadowColor: Colors.black,
         elevation: 30,
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: 'Home',
+            icon: const Icon(Icons.home_outlined),
+            selectedIcon: const Icon(Icons.home),
+            label: AppLocalizations.of(context)!.home,
           ),
           NavigationDestination(
-            icon: Icon(Icons.calendar_month_outlined),
-            selectedIcon: Icon(Icons.calendar_month),
-            label: 'Appointments',
+            icon: const Icon(Icons.calendar_month_outlined),
+            selectedIcon: const Icon(Icons.calendar_month),
+            label: AppLocalizations.of(context)!.appointments,
           ),
           NavigationDestination(
-            icon: Icon(Icons.cut_sharp),
-            label: 'Salons',
+            icon: const Icon(Icons.cut_sharp),
+            label: AppLocalizations.of(context)!.salons,
           ),
           NavigationDestination(
-            icon: Icon(Icons.person_outlined),
-            selectedIcon: Icon(Icons.person),
-            label: 'Profile',
+            icon: const Icon(Icons.person_outlined),
+            selectedIcon: const Icon(Icons.person),
+            label: AppLocalizations.of(context)!.profile,
           ),
         ],
       ),
