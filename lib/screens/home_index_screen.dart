@@ -119,7 +119,10 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
           appBar: AppBar(
             title: state is LocationLoaded
                 ? TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      BlocProvider.of<LocationBloc>(context)
+                          .add(const GetLocationEvent());
+                    },
                     icon: const Icon(Icons.location_on_outlined),
                     label: Text(state.location.address),
                   )
@@ -127,7 +130,7 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
                     ? TextButton.icon(
                         onPressed: () {},
                         icon: const Icon(Icons.location_searching_outlined),
-                        label: const Text('Select Location'),
+                        label: const Text('Getting Location'),
                       )
                     : TextButton.icon(
                         onPressed: () {},

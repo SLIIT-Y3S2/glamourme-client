@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/models/service_model.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 const uuid = Uuid();
@@ -47,6 +48,8 @@ class SalonModel {
     required this.openingTime,
     required this.closingTime,
   });
+
+  get locationCoordinates => LatLng(latitude, longitude);
 
   SalonModel.init({
     required this.salonName,

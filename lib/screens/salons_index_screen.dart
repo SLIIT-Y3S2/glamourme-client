@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/blocs/salons/salons_bloc.dart';
 import 'package:flutter_app/globals.dart';
@@ -24,49 +25,38 @@ class SalonsIndexScreen extends StatelessWidget {
                 ),
           )),
           body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      const NearYouSalonsMap(),
-                      if (state is LoadingSalons)
-                        const Center(
-                          child: CircularProgressIndicator(),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                // padding: const EdgeInsets.symmetric(horizontal: 24),
+                children: [
+                  const NearYouSalonsMap(),
+                  if (state is LoadingSalons)
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Near By Salons',
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontWeight: FontWeight.w900,
                         ),
-                      if (state is LoadedSalons && state.salons.isNotEmpty)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 20),
-                            Text(
-                              'Near By Salons',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge!
-                                  .copyWith(
-                                    fontWeight: FontWeight.w900,
-                                  ),
-                            ),
-                            const SizedBox(height: 20),
-                            ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemCount: state.salons.length + 6,
-                              itemBuilder: (BuildContext context, int index) {
-                                return SalonCard(
-                                  salon: state.salons[0],
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                    ],
                   ),
-                ),
-              ],
+                  const SizedBox(height: 20),
+                  if (state is LoadedSalons && state.salons.isNotEmpty)
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: state.salons.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return SalonCard(
+                          salon: state.salons[index],
+                        );
+                      },
+                    ),
+                ],
+              ),
             ),
           ),
         );
