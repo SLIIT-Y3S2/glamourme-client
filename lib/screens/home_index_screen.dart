@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/blocs/location/location_bloc.dart';
 import 'package:flutter_app/data/dummy_salon.dart';
 import 'package:flutter_app/data/dummy_services.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/widgets/near_you_card.dart';
 import 'package:flutter_app/widgets/service_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeIndexScreen extends StatefulWidget {
   const HomeIndexScreen({super.key});
@@ -111,36 +113,59 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
       ],
     );
 
-    return Scaffold(
-      key: homeNavigatorKey,
-      appBar: AppBar(
-        title: const Text('Location goes here'),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                beautyServicesCard,
-                const SizedBox(
-                  height: 20,
+    return BlocBuilder<LocationBloc, LocationState>(
+      builder: (context, state) {
+        return Scaffold(
+          key: homeNavigatorKey,
+          appBar: AppBar(
+            title: state is LocationLoaded
+                ? TextButton.icon(
+                    onPressed: () {
+                      BlocProvider.of<LocationBloc>(context)
+                          .add(const GetLocationEvent());
+                    },
+                    icon: const Icon(Icons.location_on_outlined),
+                    label: Text(state.location.address),
+                  )
+                : state is GettingLocation
+                    ? TextButton.icon(
+                        onPressed: () {},
+                        icon: const Icon(Icons.location_searching_outlined),
+                        label: const Text('Getting Location'),
+                      )
+                    : TextButton.icon(
+                        onPressed: () {},
+                        icon: const Icon(Icons.location_off_outlined),
+                        label: const Text('Select Location'),
+                      ),
+          ),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    beautyServicesCard,
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    popularNearYou,
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    popularNearYou,
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
                 ),
-                popularNearYou,
-                const SizedBox(
-                  height: 20,
-                ),
-                popularNearYou,
-                const SizedBox(
-                  height: 20,
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -16,3 +16,21 @@ class ValidateAppointmentEvent extends AppointmentEvent {
 
   const ValidateAppointmentEvent({required this.appointment});
 }
+
+class GetAppointmentsEvent extends AppointmentEvent {
+  final String userId;
+
+  const GetAppointmentsEvent({required this.userId});
+}
+
+class CancelAppointmentEvent extends AppointmentEvent {
+  final String appointmentId;
+
+  const CancelAppointmentEvent({required this.appointmentId});
+}
+
+class IsTimeSlotAvailableEvent extends AppointmentEvent {
+  final AppointmentModel appointment;
+
+  const IsTimeSlotAvailableEvent({required this.appointment});
+}

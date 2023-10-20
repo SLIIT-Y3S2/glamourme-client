@@ -23,7 +23,7 @@ class SalonScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             children: [
               Column(
@@ -40,36 +40,53 @@ class SalonScreen extends StatelessWidget {
                                 ),
                       ),
                       const Spacer(),
-                      TextButton.icon(
-                        onPressed: () {},
-                        label: Text(
-                          AppLocalizations.of(context)!.viewAll,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.w900),
-                        ),
-                        icon: const Icon(Icons.arrow_right),
-                        style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.all(
-                              Theme.of(context).colorScheme.primary),
-                        ),
-                      )
+                      // TextButton(
+                      //   onPressed: () {},
+                      //   label: Text(
+                      //     AppLocalizations.of(context)!.viewAll,
+                      //     style: Theme.of(context)
+                      //         .textTheme
+                      //         .bodyLarge!
+                      //         .copyWith(
+                      //             color: Theme.of(context).colorScheme.primary,
+                      //             fontWeight: FontWeight.w900),
+                      //   ),
+                      //   icon: const Icon(Icons.arrow_right),
+                      //   style: ButtonStyle(
+                      //     foregroundColor: MaterialStateProperty.all(
+                      //         Theme.of(context).colorScheme.primary),
+                      //   child:
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "See more",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          Icon(
+                            Icons.keyboard_arrow_right,
+                          ),
+                        ],
+                      ),
+                      // )
                     ],
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   if (salon.services != null)
-                    ...salon.services!.map(
-                      (service) => BookServiceCard(
-                        service: service,
+                    ListView.separated(
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => BookServiceCard(
+                        service: salon.services![index],
                         closingTime: salon.closingTime,
                         openingTime: salon.openingTime,
                         salonId: salon.salonId!,
                       ),
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 8,
+                      ),
+                      itemCount: salon.services!.length,
                     )
                 ],
               )

@@ -52,19 +52,19 @@ class SalonCard extends StatelessWidget {
                   subtitle: Text(salon.location),
                 ),
               ),
-              const Column(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  SizedBox(height: 50),
+                  const SizedBox(height: 50),
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text('4.9'),
-                      SizedBox(width: 8),
-                      Icon(Icons.star,
+                      Text(salon.rating.toString()),
+                      const SizedBox(width: 8),
+                      const Icon(Icons.star,
                           color: Color.fromARGB(255, 253, 232, 40)),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                     ],
                   ),
                 ],

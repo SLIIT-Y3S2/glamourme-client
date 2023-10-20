@@ -7,8 +7,11 @@ import 'package:flutter_app/blocs/appointment/appointment_bloc.dart';
 import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/models/appointment_model.dart';
 import 'package:flutter_app/models/service_model.dart';
+import 'package:flutter_app/screens/payment_screen.dart';
 import 'package:flutter_app/widgets/time_pill.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logging/logging.dart';
+import 'package:payhere_mobilesdk_flutter/payhere_mobilesdk_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlaceAppointmentScreen extends StatefulWidget {
@@ -42,27 +45,9 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
   void initState() {
     developer.log('initState', name: 'PlaceAppointmentScreen');
     super.initState();
-    BlocProvider.of<AuthenticationBloc>(context)
-        .add(const GetCurrentUserEvent());
-
-    // if (authState is CurrentUserState) {
-    //   if (authState.user == null) {
-    //     developer.log('user is null', name: 'user');
-    //     ScaffoldMessenger.of(context).showSnackBar(
-    //       const SnackBar(
-    //         content: Text('Please login to continue'),
-    //       ),
-    //     );
-    //   } else {
-    //     customerId = authState.user!.userId;
-    //     developer.log(authState.user!.userId, name: 'userId');
-
-    //     return;
-    //   }
-    // } else {
-    //   BlocProvider.of<AuthenticationBloc>(context)
-    //       .add(const GetCurrentUserEvent());
-    // }
+    BlocProvider.of<AuthenticationBloc>(context).add(
+      const GetCurrentUserEvent(),
+    );
   }
 
   Timestamp? _setApppointmentStart() {
@@ -80,6 +65,43 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
           DateTime(_year!, _month, _day, _hour!, _minute! + serviceDuration));
     }
     return null;
+  }
+
+  final Logger logger = Logger('PaymentScreen');
+
+  void _makePayment() {
+    final Map<String, dynamic> _paymentObject = {
+      "sandbox": true, // true if using Sandbox Merchant ID
+      "merchant_id": "1222623",
+      "merchant_secret":
+          "MTU3ODI1NTEwNTMwMjE5NTM0NzAxODE0NTY1MDAxMjg2NzIzMDIxNg==", // See step 4e
+      "notify_url": "http://sample.com/notify",
+      "order_id": "ItemNo12345",
+      "items": "Hello from Flutter!",
+      "amount": widget.service.price,
+      "currency": "LKR",
+      "first_name": "Saman",
+      "last_name": "Perera",
+      "email": "samanp@gmail.com",
+      "phone": "0771234567",
+      "address": "No.1, Galle Road",
+      "city": "Colombo",
+      "country": "Sri Lanka",
+      "delivery_address": "No. 46, Galle road, Kalutara South",
+      "delivery_city": "Kalutara",
+      "delivery_country": "Sri Lanka",
+      "custom_1": "",
+      "custom_2": ""
+    };
+
+    PayHere.startPayment(_paymentObject, (paymentId) {
+      logger.info('One Time Payment Success. Payment Id: $paymentId');
+      _handleCreateAppointment();
+    }, (error) {
+      logger.severe('One Time Payment Failed. Error: $error');
+    }, () {
+      logger.info('One Time Payment Dismissed');
+    });
   }
 
   _handleCreateAppointment() {
@@ -110,6 +132,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
       );
       return;
     }
+
     final AppointmentModel appointment = AppointmentModel.init(
         serviceId: widget.service.id,
         customerId: customerId!,
@@ -121,6 +144,60 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
         status: status);
     BlocProvider.of<AppointmentBloc>(context)
         .add(CreateAppointmentEvent(appointment: appointment));
+  }
+
+  void _checkAvaiability() {
+    final Timestamp? startTime = _setApppointmentStart();
+    final Timestamp? endTime = _setApppointmentEndTime();
+    developer.log(startTime.toString(), name: 'startTime');
+    developer.log(endTime.toString(), name: 'endTime');
+    final String title = widget.service.name;
+    final String description = widget.service.description;
+    const String status = 'pending';
+    final authState = BlocProvider.of<AuthenticationBloc>(context).state;
+
+    if (authState is CurrentUserState) {
+      if (authState.user == null) {
+        developer.log('user is null', name: 'user');
+        Navigator.of(context).pushNamed('/login');
+        return;
+      } else {
+        customerId = authState.user!.userId;
+      }
+    }
+
+    if (startTime == null || endTime == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select a time'),
+        ),
+      );
+      return;
+    }
+
+    final AppointmentModel appointment = AppointmentModel.init(
+        serviceId: widget.service.id,
+        customerId: customerId!,
+        salonId: widget.salonId,
+        startTime: startTime,
+        endTime: endTime,
+        title: title,
+        description: description,
+        status: status);
+    BlocProvider.of<AppointmentBloc>(context)
+        .add(IsTimeSlotAvailableEvent(appointment: appointment));
+    final appointmentState = BlocProvider.of<AppointmentBloc>(context).state;
+    if (appointmentState is TimeSlotAvailableState) {
+      if (appointmentState.isAvailable) {
+        _makePayment();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Time slot is not available'),
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -138,11 +215,11 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
           borderRadius: BorderRadius.circular(8),
         ),
       ),
-      onPressed: _handleCreateAppointment,
+      onPressed: _checkAvaiability,
       child: Row(
         children: [
           Text(
-            '\$${widget.service.price}',
+            'LKR ${widget.service.price}',
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   color: Colors.white,
                 ),

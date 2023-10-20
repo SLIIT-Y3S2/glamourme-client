@@ -12,6 +12,7 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
+  String get userId => _authenticationRepository.userId;
   AuthenticationBloc(this._authenticationRepository)
       : super(const AuthenticationInitialState()) {
     on<CreateUserEvent>(_createUserHandler);

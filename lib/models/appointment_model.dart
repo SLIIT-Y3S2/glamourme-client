@@ -27,6 +27,7 @@ class AppointmentModel {
   });
 
   factory AppointmentModel.fromJson(QueryDocumentSnapshot doc) {
+    final sID = doc.reference.collection('salons');
     return AppointmentModel(
       id: doc['id'],
       title: doc['title'],
@@ -34,9 +35,9 @@ class AppointmentModel {
       startTime: doc['startTime'],
       endTime: doc['endTime'],
       status: doc['status'],
-      salonId: doc['salonId'],
-      customerId: doc['customerId'],
-      serviceId: doc['serviceId'],
+      salonId: '', //doc.['salon']
+      customerId: '', //doc['customerId'],
+      serviceId: doc['service'],
     );
   }
 

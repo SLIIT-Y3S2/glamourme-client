@@ -12,6 +12,57 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
   AppointmentBloc() : super(AppointmentInitial()) {
     on<CreateAppointmentEvent>(_onCreateAppointment);
     on<ValidateAppointmentEvent>(_onValidateAppointment);
+    on<GetAppointmentsEvent>(_onGetAppointmentsEvent);
+    on<CancelAppointmentEvent>(_onCancelAppointmentEvent);
+    on<IsTimeSlotAvailableEvent>(_onIsTimeSlotAvailableEvent);
+  }
+
+  void _onIsTimeSlotAvailableEvent(
+    IsTimeSlotAvailableEvent event,
+    Emitter<AppointmentState> emit,
+  ) async {
+    emit(LoadingAppoinments());
+    await _appointmentRepository.isTImeSlotAvailable(event.appointment).then(
+      (isAvailable) {
+        emit(TimeSlotAvailableState(isAvailable: isAvailable));
+      },
+    ).catchError(
+      (error) {
+        emit(AppointmentError(message: error.toString()));
+      },
+    );
+  }
+
+  void _onCancelAppointmentEvent(
+    CancelAppointmentEvent event,
+    Emitter<AppointmentState> emit,
+  ) async {
+    emit(CancelingAppointmentState());
+    await _appointmentRepository.cancelAppointment(event.appointmentId).then(
+      (appointment) {
+        emit(const AppointmentCanceledState());
+      },
+    ).catchError(
+      (error) {
+        emit(AppointmentError(message: error.toString()));
+      },
+    );
+  }
+
+  void _onGetAppointmentsEvent(
+    GetAppointmentsEvent event,
+    Emitter<AppointmentState> emit,
+  ) async {
+    emit(LoadingAppoinments());
+    await _appointmentRepository.getAppointments(event.userId).then(
+      (appointments) {
+        emit(AppointmentsLoaded(appointments: appointments));
+      },
+    ).catchError(
+      (error) {
+        emit(AppointmentError(message: error.toString()));
+      },
+    );
   }
 
   void _onCreateAppointment(
