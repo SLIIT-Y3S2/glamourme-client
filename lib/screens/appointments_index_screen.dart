@@ -5,6 +5,7 @@ import 'package:flutter_app/models/appointment_model.dart';
 import 'package:flutter_app/screens/past_bookings_screen.dart';
 import 'package:flutter_app/screens/upcoming_bookings_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppointmentIndexScreen extends StatefulWidget {
   const AppointmentIndexScreen({super.key});

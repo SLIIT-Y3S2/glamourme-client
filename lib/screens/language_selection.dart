@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/onboarding.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LanguageSelectionScreen extends StatelessWidget {
   const LanguageSelectionScreen({super.key});
+
+// For localizations
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +50,7 @@ class LanguageSelectionScreen extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  'Select Language',
+                  AppLocalizations.of(context)!.languageDescription,
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         color: Colors.white,
                         fontSize: 33,
@@ -66,8 +69,11 @@ class LanguageSelectionScreen extends StatelessWidget {
                       width: 100,
                     ),
                     OutlinedButton(
-                      onPressed: navigateToOnBoarding,
-                      child: const Text('Sinhala'),
+                      onPressed: () {
+                        //Translate the app to sinhala
+                        navigateToOnBoarding();
+                      },
+                      child: const Text('සිංහල'),
                     ),
                   ],
                 ),

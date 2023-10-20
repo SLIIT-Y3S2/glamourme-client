@@ -3,12 +3,14 @@
 ///
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/app_locale.dart';
 import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/models/user_model.dart';
 import 'package:flutter_app/screens/home_index_screen.dart';
 import 'package:flutter_app/screens/main_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignupFormWidget extends StatefulWidget {
   const SignupFormWidget({super.key});
@@ -85,7 +87,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
   //Validator functions for email and password
   String? _emailValidate(value) {
     if (value.trim().isEmpty || value == null || !value.contains('@')) {
-      return 'Please enter a valid email address';
+      return AppLocalizations.of(context)!.emailValidation;
     }
 
     return null;
@@ -93,7 +95,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
 
   String? _passwordValidate(value) {
     if (value.trim().isEmpty || value == null || value.length < 6) {
-      return 'Enter a valid password with 6 or more characters';
+      return AppLocalizations.of(context)!.passwordValidation;
     }
 
     return null;
@@ -101,7 +103,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
 
   String? _nameValidate(value) {
     if (value.trim().isEmpty || value == null) {
-      return 'Please enter a valid name';
+      return AppLocalizations.of(context)!.nameValidation;
     }
 
     return null;
@@ -111,7 +113,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
     String password = _passwordController!.text;
     String confirmPassword = _confirmPasswordController!.text;
     if (password != confirmPassword) {
-      return 'Passwords do not match.';
+      return AppLocalizations.of(context)!.passwordMatchValidation;
     }
     return null;
   }
@@ -132,17 +134,17 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
         if (state is CreatingUserState) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('Creating user')));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(AppLocalizations.of(context)!.creatingUser)));
         } else if (state is SignupErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(state.errorMessage),
             duration: const Duration(milliseconds: 1500),
           ));
         } else if (state is UserCreatedState) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('User created'),
-            duration: Duration(milliseconds: 500),
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(AppLocalizations.of(context)!.userCreated),
+            duration: const Duration(milliseconds: 500),
           ));
 
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -156,29 +158,27 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
               key: _formKey,
               child: Column(
                 children: [
-                  _buildInputField(
-                    "Name",
-                    "Your name here",
-                  ),
+                  _buildInputField(AppLocalizations.of(context)!.name,
+                      AppLocalizations.of(context)!.nameHint),
                   const SizedBox(
                       height: 16), // Add spacing between input fields
                   _buildInputField(
-                    "Email",
-                    "Your email here",
+                    AppLocalizations.of(context)!.email,
+                    AppLocalizations.of(context)!.enterEmail,
                     isEmail: true,
                   ),
                   const SizedBox(
                       height: 16), // Add spacing between input fields
                   _buildInputField(
-                    "Password",
-                    "Your password here",
+                    AppLocalizations.of(context)!.password,
+                    '******',
                     isPassword: true,
                   ),
                   const SizedBox(
                       height: 16), // Add spacing between input fields
                   _buildInputField(
-                    "Confirm Password",
-                    "Confirm your password here",
+                    AppLocalizations.of(context)!.confirmPassword,
+                    '******',
                     isConfirmPassword: true,
                   ),
                   const Padding(padding: EdgeInsets.only(top: 28)),
@@ -197,9 +197,9 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
-                                  child: const Text(
-                                    'Sign Up',
-                                    style: TextStyle(
+                                  child: Text(
+                                    AppLocalizations.of(context)!.signup,
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
                                       fontFamily: 'DM Sans',

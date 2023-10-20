@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginFormWidget extends StatefulWidget {
   const LoginFormWidget({super.key});
@@ -103,8 +104,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
         ScaffoldMessenger.of(context).removeCurrentSnackBar();
         if (state is SignedInState) {
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('Signing in...')));
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(AppLocalizations.of(context)!.signingIn)));
         } else if (state is SigningInErrorState) {
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -113,9 +114,9 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
           ));
         } else if (state is UserCreatedState) {
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Signed in successfully.'),
-            duration: Duration(milliseconds: 500),
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(AppLocalizations.of(context)!.signedInSuccessfully),
+            duration: const Duration(milliseconds: 500),
           ));
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
         }
@@ -131,15 +132,15 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                   const SizedBox(
                       height: 16), // Add spacing between input fields
                   _buildInputField(
-                    "Email",
-                    "Your email here",
+                    AppLocalizations.of(context)!.email,
+                    AppLocalizations.of(context)!.enterEmail,
                     isEmail: true,
                   ),
                   const SizedBox(
                       height: 16), // Add spacing between input fields
                   _buildInputField(
-                    "Password",
-                    "Your password here",
+                    AppLocalizations.of(context)!.password,
+                    AppLocalizations.of(context)!.enterPassword,
                     isPassword: true,
                   ),
 
@@ -159,9 +160,9 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
-                                  child: const Text(
-                                    'Login',
-                                    style: TextStyle(
+                                  child: Text(
+                                    AppLocalizations.of(context)!.login,
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
                                       fontFamily: 'DM Sans',
@@ -213,12 +214,13 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
           child: TextFormField(
             controller: isPassword ? _passwordController : _emailController,
             obscureText: isPassword,
-            decoration: InputDecoration(
-              hintText: placeholder,
-              hintStyle: const TextStyle(
+            decoration: const InputDecoration(
+              // hintText: placeholder,
+              hintStyle: TextStyle(
                 color: Color(0xFF8E90A5),
                 fontSize: 15,
                 fontWeight: FontWeight.w400,
+                height: 20,
               ),
               border: InputBorder.none,
             ),

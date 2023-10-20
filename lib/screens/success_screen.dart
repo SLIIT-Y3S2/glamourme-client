@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SuccessScreen extends StatelessWidget {
   const SuccessScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: SizedBox(
           width: 200, // Adjust the width as needed
           height: 200, // Adjust the height as needed
           child: Center(
               child: Column(children: [
-            SizedBox(
+            const SizedBox(
               height: 120,
             ),
             Text(
-              'Success!',
-              style: TextStyle(
+              AppLocalizations.of(context)!.success,
+              style: const TextStyle(
                 color: Color(0xFF1C1C28),
                 fontSize: 19,
                 fontFamily: 'DM Sans',
@@ -26,13 +27,13 @@ class SuccessScreen extends StatelessWidget {
                 letterSpacing: -0.38,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
-              'Verification is done.',
+              AppLocalizations.of(context)!.verificationIsDone,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFF8E90A5),
                 fontSize: 15,
                 fontFamily: 'DM Sans',

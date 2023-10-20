@@ -5,6 +5,7 @@ import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/widgets/near_by_salons_map.dart';
 import 'package:flutter_app/widgets/salon_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SalonsIndexScreen extends StatelessWidget {
   const SalonsIndexScreen({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class SalonsIndexScreen extends StatelessWidget {
           key: salonsNavigatorKey,
           appBar: AppBar(
               title: Text(
-            'Salons',
+            AppLocalizations.of(context)!.salons,
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   fontWeight: FontWeight.w900,
                 ),
