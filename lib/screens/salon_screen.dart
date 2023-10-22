@@ -40,35 +40,27 @@ class SalonScreen extends StatelessWidget {
                                 ),
                       ),
                       const Spacer(),
-                      // TextButton(
-                      //   onPressed: () {},
-                      //   label: Text(
-                      //     AppLocalizations.of(context)!.viewAll,
-                      //     style: Theme.of(context)
-                      //         .textTheme
-                      //         .bodyLarge!
-                      //         .copyWith(
-                      //             color: Theme.of(context).colorScheme.primary,
-                      //             fontWeight: FontWeight.w900),
-                      //   ),
-                      //   icon: const Icon(Icons.arrow_right),
-                      //   style: ButtonStyle(
-                      //     foregroundColor: MaterialStateProperty.all(
-                      //         Theme.of(context).colorScheme.primary),
-                      //   child:
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "See more",
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          Icon(
-                            Icons.keyboard_arrow_right,
-                          ),
-                        ],
-                      ),
-                      // )
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          surfaceTintColor: Colors.white,
+                          elevation: 0,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.onPrimary,
+                        ),
+                        onPressed: () {},
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "See more",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            Icon(
+                              Icons.keyboard_arrow_right,
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                   const SizedBox(

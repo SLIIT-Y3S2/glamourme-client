@@ -94,32 +94,35 @@ class BookServiceCard extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => PlaceAppointmentScreen(
-                      salonId: salonId,
-                      service: service,
-                      openingTime: openingTime,
-                      closingTime: closingTime,
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => PlaceAppointmentScreen(
+                        salonId: salonId,
+                        service: service,
+                        openingTime: openingTime,
+                        closingTime: closingTime,
+                      ),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  elevation: 8,
+                  surfaceTintColor: Colors.white,
+                  backgroundColor: Colors.white,
+                  shadowColor: Colors.black54,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    side: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                elevation: 8,
-                surfaceTintColor: Colors.white,
-                backgroundColor: Colors.white,
-                shadowColor: Colors.black54,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  side: BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
                 ),
-              ),
-              child: Text(AppLocalizations.of(context)!.book))
+                child: Text(AppLocalizations.of(context)!.book)),
+          )
         ],
       ),
     );

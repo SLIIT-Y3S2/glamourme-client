@@ -93,14 +93,15 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
       "custom_2": ""
     };
 
-    PayHere.startPayment(_paymentObject, (paymentId) {
-      logger.info('One Time Payment Success. Payment Id: $paymentId');
-      _handleCreateAppointment();
-    }, (error) {
-      logger.severe('One Time Payment Failed. Error: $error');
-    }, () {
-      logger.info('One Time Payment Dismissed');
-    });
+    // PayHere.startPayment(_paymentObject, (paymentId) {
+    //   logger.info('One Time Payment Success. Payment Id: $paymentId');
+    //   _handleCreateAppointment();
+    // }, (error) {
+    //   logger.severe('One Time Payment Failed. Error: $error');
+    // }, () {
+    //   logger.info('One Time Payment Dismissed');
+    // });
+    _handleCreateAppointment();
   }
 
   _handleCreateAppointment() {

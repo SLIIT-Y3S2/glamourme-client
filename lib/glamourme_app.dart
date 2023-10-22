@@ -42,9 +42,18 @@ class _GlamourMeAppState extends State<GlamourMeApp> {
   void _setupPushNotifications() async {
     final fcm = FirebaseMessaging.instance;
 
-    await fcm.requestPermission();
+    await fcm.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
 
-    // final token = await fcm.getToken();
+    final token = await fcm.getToken();
+    print('TOKEN========================================> $token');
 
     fcm.subscribeToTopic('appointments');
   }
@@ -52,11 +61,12 @@ class _GlamourMeAppState extends State<GlamourMeApp> {
   @override
   void initState() {
     super.initState();
+
+    _setupPushNotifications();
+
     auth.FirebaseAuth.instance.authStateChanges().listen((user) async {
       _redirectToAuthenticate(user);
     });
-
-    _setupPushNotifications();
   }
 
   // Used to redirect to the appropriate screen
