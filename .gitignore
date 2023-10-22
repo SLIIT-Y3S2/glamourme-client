@@ -138,4 +138,4 @@ coverage/
 !/dev/ci/**/Gemfile.lock
 .fvm
 
-glamourme-399217-firebase-adminsdk-zrcqn-f9942a3bc6.json
+serviceAccountKey.json
