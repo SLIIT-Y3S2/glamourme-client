@@ -10,7 +10,6 @@ import 'package:flutter_app/models/salon_model.dart';
 import 'package:flutter_app/models/service_model.dart';
 import 'package:flutter_app/widgets/time_pill.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logging/logging.dart';
 import 'package:payhere_mobilesdk_flutter/payhere_mobilesdk_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -32,6 +31,7 @@ class PlaceAppointmentScreen extends StatefulWidget {
 class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
   late TimeOfDay _openingTime;
   late TimeOfDay _closingTime;
+  late int _hourDiff;
   late bool _isOpenInSelectedDay;
   int _selectedDayOfTheWeek = DateTime.now().weekday;
   int _selectedYear = DateTime.now().year;
@@ -45,14 +45,15 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
 
   @override
   void initState() {
-    developer.log('${_selectedDayOfTheWeek}', name: 'PlaceAppointmentScreen');
     super.initState();
     BlocProvider.of<AuthenticationBloc>(context).add(
       const GetCurrentUserEvent(),
     );
     _selectDayOfTheWeek(_selectedDayOfTheWeek);
+    _hourDiff = calcHourDiff();
   }
 
+  // Used to set startTime of the appointment
   Timestamp? _setApppointmentStart() {
     if (_hour != null && _minute != null) {
       return Timestamp.fromDate(
@@ -61,6 +62,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
     return null;
   }
 
+  // Used to set endTime of the appointment
   Timestamp? _setApppointmentEndTime() {
     int serviceDuration = int.parse(widget.service.duration);
     if (_hour != null && _minute != null) {
@@ -70,10 +72,8 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
     return null;
   }
 
-  final Logger logger = Logger('PaymentScreen');
-
   void _makePayment() {
-    final Map<String, dynamic> _paymentObject = {
+    final Map<String, dynamic> paymentObject = {
       "sandbox": true, // true if using Sandbox Merchant ID
       "merchant_id": "1222623",
       "merchant_secret":
@@ -97,14 +97,17 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
       "custom_2": ""
     };
 
-    // PayHere.startPayment(_paymentObject, (paymentId) {
-    //   logger.info('One Time Payment Success. Payment Id: $paymentId');
-    //   _handleCreateAppointment();
-    // }, (error) {
-    //   logger.severe('One Time Payment Failed. Error: $error');
-    // }, () {
-    //   logger.info('One Time Payment Dismissed');
-    // });
+    PayHere.startPayment(paymentObject, (paymentId) {
+      developer.log('One Time Payment Success. Payment Id: $paymentId',
+          name: 'plcae_appointment_screen', level: 1000);
+      _handleCreateAppointment();
+    }, (error) {
+      developer.log('One Time Payment Failed. Error: $error',
+          name: 'plcae_appointment_screen', level: 1000);
+    }, () {
+      developer.log('One Time Payment Dismissed',
+          name: 'plcae_appointment_screen', level: 1000);
+    });
     _handleCreateAppointment();
   }
 
@@ -119,13 +122,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
     final authState = BlocProvider.of<AuthenticationBloc>(context).state;
 
     if (authState is CurrentUserState) {
-      if (authState.user == null) {
-        developer.log('user is null', name: 'user');
-        Navigator.of(context).pushNamed('/login');
-        return;
-      } else {
-        customerId = authState.user!.userId;
-      }
+      customerId = authState.user!.userId;
     }
 
     if (startTime == null || endTime == null) {
@@ -150,6 +147,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
         .add(CreateAppointmentEvent(appointment: appointment));
   }
 
+  // Used to check if the selected time slot is available
   void _checkAvaiability() {
     final Timestamp? startTime = _setApppointmentStart();
     final Timestamp? endTime = _setApppointmentEndTime();
@@ -190,146 +188,46 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
         status: status);
     BlocProvider.of<AppointmentBloc>(context)
         .add(IsTimeSlotAvailableEvent(appointment: appointment));
-    final appointmentState = BlocProvider.of<AppointmentBloc>(context).state;
-    if (appointmentState is TimeSlotAvailableState) {
-      if (appointmentState.isAvailable) {
-        _makePayment();
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Time slot is not available'),
-          ),
-        );
-      }
-    }
   }
 
-  // Used to select the day of the week
+  // Used to calculate the hour difference between opening and closing time
+  int calcHourDiff() {
+    final hourDiff = DateTime(DateTime.now().year, DateTime.now().month,
+            DateTime.now().day, _closingTime.hour, _closingTime.minute)
+        .difference(DateTime(DateTime.now().year, DateTime.now().month,
+            DateTime.now().day, _openingTime.hour, _openingTime.minute))
+        .inMinutes;
+    return (hourDiff / 60).ceil();
+  }
+
+  // Used to set the opening and closing time of the salon based on the selected day
   void _selectDayOfTheWeek(int day) {
     setState(() {
       _selectedDayOfTheWeek = day;
-      switch (day) {
-        case 1:
-          _openingTime = widget.openingHours
-              .where((element) => element.day == 'Monday')
-              .first
-              .openingTime;
-          _closingTime = widget.openingHours
-              .where((element) => element.day == 'Monday')
-              .first
-              .closingTime;
-          _isOpenInSelectedDay = widget.openingHours
-              .where((element) => element.day == 'Monday')
-              .first
-              .isOpen;
-          break;
-        case 2:
-          _openingTime = widget.openingHours
-              .where((element) => element.day == 'Tuesday')
-              .first
-              .openingTime;
-          _closingTime = widget.openingHours
-              .where((element) => element.day == 'Tuesday')
-              .first
-              .closingTime;
-          _isOpenInSelectedDay = widget.openingHours
-              .where((element) => element.day == 'Tuesday')
-              .first
-              .isOpen;
-          break;
-        case 3:
-          _openingTime = widget.openingHours
-              .where((element) => element.day == 'Wednesday')
-              .first
-              .openingTime;
-          _closingTime = widget.openingHours
-              .where((element) => element.day == 'Wednesday')
-              .first
-              .closingTime;
-          _isOpenInSelectedDay = widget.openingHours
-              .where((element) => element.day == 'Wednesday')
-              .first
-              .isOpen;
-          break;
-        case 4:
-          _openingTime = widget.openingHours
-              .where((element) => element.day == 'Thursday')
-              .first
-              .openingTime;
-          _closingTime = widget.openingHours
-              .where((element) => element.day == 'Thursday')
-              .first
-              .closingTime;
-          _isOpenInSelectedDay = widget.openingHours
-              .where((element) => element.day == 'Thursday')
-              .first
-              .isOpen;
-          break;
-        case 5:
-          _openingTime = widget.openingHours
-              .where((element) => element.day == 'Friday')
-              .first
-              .openingTime;
-          _closingTime = widget.openingHours
-              .where((element) => element.day == 'Friday')
-              .first
-              .closingTime;
-          _isOpenInSelectedDay = widget.openingHours
-              .where((element) => element.day == 'Friday')
-              .first
-              .isOpen;
-          break;
-        case 6:
-          _openingTime = widget.openingHours
-              .where((element) => element.day == 'Saturday')
-              .first
-              .openingTime;
-          _closingTime = widget.openingHours
-              .where((element) => element.day == 'Saturday')
-              .first
-              .closingTime;
-          _isOpenInSelectedDay = widget.openingHours
-              .where((element) => element.day == 'Saturday')
-              .first
-              .isOpen;
-          break;
-        case 7:
-          _openingTime = widget.openingHours
-              .where((element) => element.day == 'Sunday')
-              .first
-              .openingTime;
-          _closingTime = widget.openingHours
-              .where((element) => element.day == 'Sunday')
-              .first
-              .closingTime;
-          _isOpenInSelectedDay = widget.openingHours
-              .where((element) => element.day == 'Sunday')
-              .first
-              .isOpen;
-          break;
-      }
+      final selectedDay = [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday'
+      ][day - 1];
+
+      final selectedOpeningHours = widget.openingHours
+          .firstWhere((element) => element.day == selectedDay);
+
+      _selectedDayOfTheWeek = day;
+      _openingTime = selectedOpeningHours.openingTime;
+      _closingTime = selectedOpeningHours.closingTime;
+      _isOpenInSelectedDay = selectedOpeningHours.isOpen;
+      developer.log(selectedOpeningHours.isOpen.toString(),
+          name: 'isOpenInSelectedDay');
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final DateTime openingTime = DateTime(
-      DateTime.now().year,
-      DateTime.now().month,
-      DateTime.now().day,
-      _openingTime.hour,
-      _openingTime.minute,
-    );
-    final DateTime closingTime = DateTime(
-      DateTime.now().year,
-      DateTime.now().month,
-      DateTime.now().day,
-      _closingTime.hour,
-      _closingTime.minute,
-    );
-    final int timeDiffInMin = closingTime.difference(openingTime).inMinutes;
-    final int hourDiff = (timeDiffInMin / 60).ceil();
-
     Widget checkoutButton = ElevatedButton(
       style: ElevatedButton.styleFrom(
         elevation: 8,
@@ -378,6 +276,43 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
         if (state is CreatingAppointmentState) {
           bottomWidget = const CircularProgressIndicator();
         }
+
+        if (state is TimeSlotAvailableState) {
+          if (state.isAvailable) {
+            showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('Confirm Appointment'),
+                content: const Text('Do you want to confirm the appointment?'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'Cancel'),
+                    child: const Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () => _makePayment(),
+                    child: state is! CreatingAppointmentState
+                        ? Text(
+                            'Confirm',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          )
+                        : const CircularProgressIndicator(
+                            color: Colors.red,
+                          ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Time slot is not available'),
+              ),
+            );
+          }
+        }
       },
       child: Scaffold(
         appBar: AppBar(
@@ -420,6 +355,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
                         _month = date.month;
                         _year = date.year;
                         _selectDayOfTheWeek(date.weekday);
+                        _hourDiff = calcHourDiff();
                       });
                     },
                   ),
@@ -427,48 +363,74 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
               ),
               const SizedBox(height: 12),
               // Time Picker
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.selectTime,
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontWeight: FontWeight.w400,
+              _isOpenInSelectedDay
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.selectTime,
+                          style:
+                              Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                  ),
                         ),
-                  ),
-                  const SizedBox(height: 12),
-                  GridView.builder(
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 8,
-                      crossAxisSpacing: 8,
-                      childAspectRatio: 4.5,
+                        const SizedBox(height: 12),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 8,
+                            crossAxisSpacing: 8,
+                            childAspectRatio: 4.5,
+                          ),
+                          itemBuilder: (context, index) {
+                            final hour = _openingTime.hour + index;
+                            final minute = _openingTime.minute;
+                            final time =
+                                '${(_openingTime.hour + index).toString().padLeft(2, '0')}:${_openingTime.minute.toString().padLeft(2, '0')}';
+                            return TimePill(
+                              selected: time == _selectedTime,
+                              onPressSelect: () {
+                                setState(() {
+                                  _hour = hour;
+                                  _minute = minute;
+                                  _selectedTime = time;
+                                });
+                              },
+                              time: time,
+                            );
+                          },
+                          itemCount: _hourDiff,
+                        )
+                      ],
+                    )
+                  : SizedBox(
+                      height: 300,
+                      width: double.infinity,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 200),
+                          Text(
+                            'Sorry we are closed.',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium!
+                                .copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.red),
+                          ),
+                          const SizedBox(height: 12),
+                          const Icon(Icons.info_outline_rounded,
+                              color: Colors.red)
+                        ],
+                      ),
                     ),
-                    itemBuilder: (context, index) {
-                      final hour = _openingTime.hour + index;
-                      final minute = _openingTime.minute;
-                      final time =
-                          '${(_openingTime.hour + index).toString().padLeft(2, '0')}:${_openingTime.minute.toString().padLeft(2, '0')}';
-                      return TimePill(
-                        selected: time == _selectedTime,
-                        onPressSelect: () {
-                          setState(() {
-                            _hour = hour;
-                            _minute = minute;
-                            _selectedTime = time;
-                          });
-                        },
-                        time: time,
-                      );
-                    },
-                    itemCount: hourDiff,
-                  ),
-                ],
-              ),
               const Spacer(),
-              bottomWidget,
+              _isOpenInSelectedDay ? bottomWidget : const SizedBox(),
             ],
           ),
         ),

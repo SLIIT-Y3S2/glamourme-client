@@ -83,7 +83,7 @@ class _UpcomingBookingsScreenState extends State<UpcomingBookingsScreen> {
                 elevation: 1,
                 child: ListTile(
                   title: Text(
-                    'Salon Name',
+                    widget.appointments[index].salonName!,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontWeight: FontWeight.bold,
                         ),

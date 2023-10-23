@@ -108,6 +108,14 @@ class AppointmentRepository extends BaseAppointmentRepository {
         .get()
         .then((appointments) {
       for (var appointment in appointments.docs) {
+        // final data = appointment.data()! as Map<String, dynamic>;
+        // var salon = data['salon'] as DocumentReference;
+        // var salonData = salon.get();
+        // salonData.then((value) {
+        //   developer.log(value['salonName'], name: 'AppointmentModel');
+        // });
+        // developer.log('salonName: $salonName', name: 'AppointmentModel');
+
         appoinmentList.add(AppointmentModel.fromJson(appointment));
       }
     }).catchError((error, stackTrace) {

@@ -1,3 +1,4 @@
+import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:logging/logging.dart';
@@ -11,7 +12,8 @@ Future<void> main() async {
   // Initialize logging configuration that logs all messages via print
   Logger.root.level = Level.ALL; // defaults to Level.INFO
   Logger.root.onRecord.listen((record) {
-    print('${record.loggerName} : ${record.level.name} ===> ${record.message}');
+    developer.log(
+        '${record.loggerName} : ${record.level.name} ===> ${record.message}');
   });
 
   bool serviceEnabled;

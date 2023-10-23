@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/salon_model.dart';
 import 'package:flutter_app/widgets/book_service_card.dart';
@@ -67,18 +66,18 @@ class SalonScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  if (salon.services != null)
+                  if (salon.services.isNotEmpty)
                     ListView.separated(
                       shrinkWrap: true,
                       itemBuilder: (context, index) => BookServiceCard(
-                        service: salon.services![index],
+                        service: salon.services[index],
                         openingHours: salon.openingHours,
                         salonId: salon.salonId!,
                       ),
                       separatorBuilder: (context, index) => const SizedBox(
                         height: 8,
                       ),
-                      itemCount: salon.services!.length,
+                      itemCount: salon.services.length,
                     )
                 ],
               )
