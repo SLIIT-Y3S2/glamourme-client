@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/salon_model.dart';
 import 'package:flutter_app/widgets/book_service_card.dart';
@@ -71,8 +72,7 @@ class SalonScreen extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: (context, index) => BookServiceCard(
                         service: salon.services![index],
-                        closingTime: salon.closingTime,
-                        openingTime: salon.openingTime,
+                        openingHours: salon.openingHours,
                         salonId: salon.salonId!,
                       ),
                       separatorBuilder: (context, index) => const SizedBox(

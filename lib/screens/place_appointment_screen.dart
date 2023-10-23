@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/blocs/appointment/appointment_bloc.dart';
 import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/models/appointment_model.dart';
+import 'package:flutter_app/models/salon_model.dart';
 import 'package:flutter_app/models/service_model.dart';
 import 'package:flutter_app/widgets/time_pill.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,12 +17,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class PlaceAppointmentScreen extends StatefulWidget {
   final String salonId;
   final ServiceModel service;
-  final Timestamp openingTime;
-  final Timestamp closingTime;
+  final List<OpeningHoursDataModel> openingHours;
   const PlaceAppointmentScreen({
     required this.service,
-    required this.openingTime,
-    required this.closingTime,
+    required this.openingHours,
     super.key,
     required this.salonId,
   });
@@ -31,6 +30,10 @@ class PlaceAppointmentScreen extends StatefulWidget {
 }
 
 class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
+  late TimeOfDay _openingTime;
+  late TimeOfDay _closingTime;
+  late bool _isOpenInSelectedDay;
+  int _selectedDayOfTheWeek = DateTime.now().weekday;
   int _selectedYear = DateTime.now().year;
   String _selectedTime = '';
   int? _hour;
@@ -42,11 +45,12 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
 
   @override
   void initState() {
-    developer.log('initState', name: 'PlaceAppointmentScreen');
+    developer.log('${_selectedDayOfTheWeek}', name: 'PlaceAppointmentScreen');
     super.initState();
     BlocProvider.of<AuthenticationBloc>(context).add(
       const GetCurrentUserEvent(),
     );
+    _selectDayOfTheWeek(_selectedDayOfTheWeek);
   }
 
   Timestamp? _setApppointmentStart() {
@@ -200,10 +204,129 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
     }
   }
 
+  // Used to select the day of the week
+  void _selectDayOfTheWeek(int day) {
+    setState(() {
+      _selectedDayOfTheWeek = day;
+      switch (day) {
+        case 1:
+          _openingTime = widget.openingHours
+              .where((element) => element.day == 'Monday')
+              .first
+              .openingTime;
+          _closingTime = widget.openingHours
+              .where((element) => element.day == 'Monday')
+              .first
+              .closingTime;
+          _isOpenInSelectedDay = widget.openingHours
+              .where((element) => element.day == 'Monday')
+              .first
+              .isOpen;
+          break;
+        case 2:
+          _openingTime = widget.openingHours
+              .where((element) => element.day == 'Tuesday')
+              .first
+              .openingTime;
+          _closingTime = widget.openingHours
+              .where((element) => element.day == 'Tuesday')
+              .first
+              .closingTime;
+          _isOpenInSelectedDay = widget.openingHours
+              .where((element) => element.day == 'Tuesday')
+              .first
+              .isOpen;
+          break;
+        case 3:
+          _openingTime = widget.openingHours
+              .where((element) => element.day == 'Wednesday')
+              .first
+              .openingTime;
+          _closingTime = widget.openingHours
+              .where((element) => element.day == 'Wednesday')
+              .first
+              .closingTime;
+          _isOpenInSelectedDay = widget.openingHours
+              .where((element) => element.day == 'Wednesday')
+              .first
+              .isOpen;
+          break;
+        case 4:
+          _openingTime = widget.openingHours
+              .where((element) => element.day == 'Thursday')
+              .first
+              .openingTime;
+          _closingTime = widget.openingHours
+              .where((element) => element.day == 'Thursday')
+              .first
+              .closingTime;
+          _isOpenInSelectedDay = widget.openingHours
+              .where((element) => element.day == 'Thursday')
+              .first
+              .isOpen;
+          break;
+        case 5:
+          _openingTime = widget.openingHours
+              .where((element) => element.day == 'Friday')
+              .first
+              .openingTime;
+          _closingTime = widget.openingHours
+              .where((element) => element.day == 'Friday')
+              .first
+              .closingTime;
+          _isOpenInSelectedDay = widget.openingHours
+              .where((element) => element.day == 'Friday')
+              .first
+              .isOpen;
+          break;
+        case 6:
+          _openingTime = widget.openingHours
+              .where((element) => element.day == 'Saturday')
+              .first
+              .openingTime;
+          _closingTime = widget.openingHours
+              .where((element) => element.day == 'Saturday')
+              .first
+              .closingTime;
+          _isOpenInSelectedDay = widget.openingHours
+              .where((element) => element.day == 'Saturday')
+              .first
+              .isOpen;
+          break;
+        case 7:
+          _openingTime = widget.openingHours
+              .where((element) => element.day == 'Sunday')
+              .first
+              .openingTime;
+          _closingTime = widget.openingHours
+              .where((element) => element.day == 'Sunday')
+              .first
+              .closingTime;
+          _isOpenInSelectedDay = widget.openingHours
+              .where((element) => element.day == 'Sunday')
+              .first
+              .isOpen;
+          break;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final DateTime openingTime = widget.openingTime.toDate();
-    final DateTime closingTime = widget.closingTime.toDate();
+    final DateTime openingTime = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+      _openingTime.hour,
+      _openingTime.minute,
+    );
+    final DateTime closingTime = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+      _closingTime.hour,
+      _closingTime.minute,
+    );
     final int timeDiffInMin = closingTime.difference(openingTime).inMinutes;
     final int hourDiff = (timeDiffInMin / 60).ceil();
 
@@ -296,6 +419,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
                         _day = date.day;
                         _month = date.month;
                         _year = date.year;
+                        _selectDayOfTheWeek(date.weekday);
                       });
                     },
                   ),
@@ -323,10 +447,10 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
                       childAspectRatio: 4.5,
                     ),
                     itemBuilder: (context, index) {
-                      final hour = widget.openingTime.toDate().hour + index;
-                      final minute = widget.openingTime.toDate().minute;
+                      final hour = _openingTime.hour + index;
+                      final minute = _openingTime.minute;
                       final time =
-                          '${(widget.openingTime.toDate().hour + index).toString().padLeft(2, '0')}:${openingTime.minute.toString().padLeft(2, '0')}';
+                          '${(_openingTime.hour + index).toString().padLeft(2, '0')}:${_openingTime.minute.toString().padLeft(2, '0')}';
                       return TimePill(
                         selected: time == _selectedTime,
                         onPressSelect: () {

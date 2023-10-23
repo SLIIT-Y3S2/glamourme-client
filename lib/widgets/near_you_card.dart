@@ -27,9 +27,9 @@ class NearYouCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              salon.salonType == SalonType.gents
+              salon.salonType == GenderType.gents
                   ? 'Gents'
-                  : salon.salonType == SalonType.ladies
+                  : salon.salonType == GenderType.ladies
                       ? 'Ladies'
                       : 'Unisex',
               style: Theme.of(context).textTheme.titleSmall!.copyWith(

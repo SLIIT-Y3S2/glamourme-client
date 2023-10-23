@@ -21,6 +21,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         developer.log(
           error.toString(),
         );
+        throw Exception(error.toString());
       });
     });
   }
