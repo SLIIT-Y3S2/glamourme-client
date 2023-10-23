@@ -32,9 +32,9 @@ class SalonHeroImage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    salon.salonType == SalonType.gents
+                    salon.salonType == GenderType.gents
                         ? AppLocalizations.of(context)!.gents
-                        : salon.salonType == SalonType.ladies
+                        : salon.salonType == GenderType.ladies
                             ? AppLocalizations.of(context)!.ladies
                             : AppLocalizations.of(context)!.unisex,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
@@ -80,13 +80,13 @@ class SalonHeroImage extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
-                        'Business Hours - ${salon.openingTime.toDate().hour.toString().padLeft(2, '0')}:${salon.openingTime.toDate().minute.toString().padLeft(2, '0')} - ${salon.closingTime.toDate().hour.toString().padLeft(2, '0')}:${salon.closingTime.toDate().minute.toString().padLeft(2, '0')}',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(color: Colors.white),
-                      ),
+                      // Text(
+                      //   'Business Hours - ${salon.openingTime.toDate().hour.toString().padLeft(2, '0')}:${salon.openingTime.toDate().minute.toString().padLeft(2, '0')} - ${salon.closingTime.toDate().hour.toString().padLeft(2, '0')}:${salon.closingTime.toDate().minute.toString().padLeft(2, '0')}',
+                      //   style: Theme.of(context)
+                      //       .textTheme
+                      //       .bodyLarge!
+                      //       .copyWith(color: Colors.white),
+                      // ),
                       const SizedBox(
                         width: 72,
                       ),

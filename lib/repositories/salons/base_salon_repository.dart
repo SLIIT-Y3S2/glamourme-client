@@ -9,7 +9,7 @@ abstract class BaseSalonRepository {
 
   Future<List<SalonModel>> getNearbySalons();
 
-  Future<List<SalonModel>> getSalonsByType(SalonType salonType);
+  Future<List<SalonModel>> getSalonsByType(GenderType genderType);
 
   Future<List<SalonModel>> getSalonsByService(String serviceId);
 

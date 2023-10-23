@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/salon_model.dart';
 import 'package:flutter_app/models/service_model.dart';
 import 'package:flutter_app/screens/place_appointment_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -8,13 +8,11 @@ class BookServiceCard extends StatelessWidget {
   const BookServiceCard({
     required this.salonId,
     required this.service,
-    required this.openingTime,
-    required this.closingTime,
+    required this.openingHours,
     super.key,
   });
   final String salonId;
-  final Timestamp openingTime;
-  final Timestamp closingTime;
+  final List<OpeningHoursDataModel> openingHours;
   final ServiceModel service;
 
   @override
@@ -103,8 +101,7 @@ class BookServiceCard extends StatelessWidget {
                       builder: (context) => PlaceAppointmentScreen(
                         salonId: salonId,
                         service: service,
-                        openingTime: openingTime,
-                        closingTime: closingTime,
+                        openingHours: openingHours,
                       ),
                     ),
                   );

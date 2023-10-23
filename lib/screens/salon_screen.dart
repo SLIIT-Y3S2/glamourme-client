@@ -66,19 +66,18 @@ class SalonScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  if (salon.services != null)
+                  if (salon.services.isNotEmpty)
                     ListView.separated(
                       shrinkWrap: true,
                       itemBuilder: (context, index) => BookServiceCard(
-                        service: salon.services![index],
-                        closingTime: salon.closingTime,
-                        openingTime: salon.openingTime,
+                        service: salon.services[index],
+                        openingHours: salon.openingHours,
                         salonId: salon.salonId!,
                       ),
                       separatorBuilder: (context, index) => const SizedBox(
                         height: 8,
                       ),
-                      itemCount: salon.services!.length,
+                      itemCount: salon.services.length,
                     )
                 ],
               )

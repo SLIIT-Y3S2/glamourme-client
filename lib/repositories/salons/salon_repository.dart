@@ -49,7 +49,7 @@ class SalonRepository extends BaseSalonRepository {
   }
 
   @override
-  Future<List<SalonModel>> getSalonsByType(SalonType salonType) async {
+  Future<List<SalonModel>> getSalonsByType(GenderType genderType) async {
     throw UnimplementedError();
   }
 

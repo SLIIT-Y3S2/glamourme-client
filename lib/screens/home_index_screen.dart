@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/blocs/location/location_bloc.dart';
 import 'package:flutter_app/data/dummy_salon.dart';
-import 'package:flutter_app/data/dummy_services.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/widgets/near_you_card.dart';
 import 'package:flutter_app/widgets/service_card.dart';
