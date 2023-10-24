@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/blocs/appointment/appointment_bloc.dart';
+import 'package:flutter_app/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_app/blocs/location/location_bloc.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/screens/appointments_index_screen.dart';
@@ -82,9 +84,23 @@ class _HomeScreenState extends State<MainScreen> {
           ),
         ],
       ),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages,
+      body: RefreshIndicator(
+        onRefresh: () {
+          BlocProvider.of<LocationBloc>(context).add(const GetLocationEvent());
+          BlocProvider.of<AppointmentBloc>(context).add(
+            GetAppointmentsEvent(
+                userId: BlocProvider.of<AuthenticationBloc>(context).userId),
+          );
+          BlocProvider.of<AuthenticationBloc>(context)
+              .add(const GetCurrentUserEvent());
+          return Future.delayed(
+            const Duration(seconds: 2),
+          );
+        },
+        child: IndexedStack(
+          index: _currentIndex,
+          children: _pages,
+        ),
       ),
     );
   }

@@ -74,83 +74,96 @@ class _UpcomingBookingsScreenState extends State<UpcomingBookingsScreen> {
       },
       child: BlocBuilder<AppointmentBloc, AppointmentState>(
         builder: (context, state) {
-          return ListView.builder(
-            padding: const EdgeInsets.all(8),
-            itemCount: widget.appointments.length,
-            itemBuilder: (context, index) {
-              return Card(
-                surfaceTintColor: Colors.white,
-                elevation: 1,
-                child: ListTile(
-                  title: Text(
-                    widget.appointments[index].salonName!,
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(widget.appointments[index].title),
-                      const SizedBox(
-                        height: 2,
-                      ),
-                      Text(
-                        timeStampToString(widget.appointments[index].startTime),
-                      ),
-                      //Check if appointment is scheduled within 24 hours from now
-                      if (widget.appointments[index].endTime
-                              .toDate()
-                              .difference(DateTime.now())
-                              .inDays >
-                          0)
-                        TextButton(
-                          onPressed: () => showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Cancel Appointment'),
-                              content: const Text(
-                                  'Are you sure you want to cancel?'),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () =>
-                                      Navigator.pop(context, 'Cancel'),
-                                  child: const Text('Cancel'),
-                                ),
-                                TextButton(
-                                  onPressed: () =>
-                                      _onClickCancelAppointment(context, index),
-                                  child: state is! CancelingAppointmentState
-                                      ? const Text(
-                                          'OK',
-                                          style: TextStyle(
-                                            color: Colors.red,
-                                          ),
-                                        )
-                                      : const CircularProgressIndicator(
-                                          color: Colors.red,
-                                        ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          child: Text(
-                            'Cancel Appointment',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w700),
-                          ),
-                        ),
-                    ],
-                  ),
-                  trailing: Text(
-                      '${widget.appointments[index].appointmentPrice.toStringAsFixed(2)} LKR'),
-                ),
+          return RefreshIndicator(
+            onRefresh: () {
+              BlocProvider.of<AppointmentBloc>(context).add(
+                GetAppointmentsEvent(
+                    userId:
+                        BlocProvider.of<AuthenticationBloc>(context).userId),
+              );
+              return Future.delayed(
+                const Duration(seconds: 2),
               );
             },
+            child: ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: widget.appointments.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  surfaceTintColor: Colors.white,
+                  elevation: 1,
+                  child: ListTile(
+                    title: Text(
+                      widget.appointments[index].salonName!,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(widget.appointments[index].title),
+                        const SizedBox(
+                          height: 2,
+                        ),
+                        Text(
+                          timeStampToString(
+                              widget.appointments[index].startTime),
+                        ),
+                        //Check if appointment is scheduled within 24 hours from now
+                        if (widget.appointments[index].endTime
+                                .toDate()
+                                .difference(DateTime.now())
+                                .inDays >
+                            0)
+                          TextButton(
+                            onPressed: () => showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text('Cancel Appointment'),
+                                content: const Text(
+                                    'Are you sure you want to cancel?'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'Cancel'),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () => _onClickCancelAppointment(
+                                        context, index),
+                                    child: state is! CancelingAppointmentState
+                                        ? const Text(
+                                            'OK',
+                                            style: TextStyle(
+                                              color: Colors.red,
+                                            ),
+                                          )
+                                        : const CircularProgressIndicator(
+                                            color: Colors.red,
+                                          ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            child: Text(
+                              'Cancel Appointment',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                      ],
+                    ),
+                    trailing: Text(
+                        '${widget.appointments[index].appointmentPrice.toStringAsFixed(2)} LKR'),
+                  ),
+                );
+              },
+            ),
           );
         },
       ),
