@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/blocs/location/location_bloc.dart';
 import 'package:flutter_app/data/dummy_salon.dart';
+import 'package:flutter_app/data/service_categories.dart';
 import 'package:flutter_app/globals.dart';
+import 'package:flutter_app/screens/beauty_services_list_screens.dart';
 import 'package:flutter_app/widgets/near_you_card.dart';
 import 'package:flutter_app/widgets/service_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -26,38 +28,41 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              AppLocalizations.of(context)!.beautyServices,
+              '${AppLocalizations.of(context)!.beautyServices} (${categoryData.sublist(0, 6).length})',
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     fontWeight: FontWeight.w900,
                   ),
             ),
-            TextButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.arrow_right),
-              label: Text(AppLocalizations.of(context)!.seeAll),
+            Directionality(
+              textDirection: TextDirection.rtl,
+              child: TextButton.icon(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const BeautyServicesListScreen(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.keyboard_arrow_right),
+                label: Text(AppLocalizations.of(context)!.seeAll),
+              ),
             )
           ],
         ),
         const SizedBox(
           height: 20,
         ),
-        Row(
-          children: [
-            Expanded(
-              child: SizedBox(
-                height: 300,
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 0.8,
-                  ),
-                  itemBuilder: (context, index) =>
-                      ServiceCard(serviceData[index]),
-                  itemCount: serviceData.length,
-                ),
-              ),
-            )
-          ],
+        GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            childAspectRatio: 0.8,
+          ),
+          itemBuilder: (context, index) => ServiceCard(categoryData[index]),
+          itemCount: categoryData.length > 6
+              ? categoryData.sublist(0, 6).length
+              : categoryData.length,
         ),
       ],
     );
@@ -74,11 +79,20 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
                     fontWeight: FontWeight.w900,
                   ),
             ),
-            TextButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.arrow_right),
-              label: Text(AppLocalizations.of(context)!.seeAll),
-            )
+            Directionality(
+              textDirection: TextDirection.rtl,
+              child: TextButton.icon(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const BeautyServicesListScreen(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.keyboard_arrow_right),
+                label: Text(AppLocalizations.of(context)!.seeAll),
+              ),
+            ),
           ],
         ),
         Row(

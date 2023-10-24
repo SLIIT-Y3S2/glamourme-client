@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/models/service_model.dart';
+import 'package:flutter_app/models/category_model.dart';
+import 'package:flutter_app/screens/service_salon_screen.dart';
 
 class ServiceCard extends StatelessWidget {
-  const ServiceCard(this.service, {super.key});
+  const ServiceCard(this.category, {super.key});
 
-  final ServiceModel service;
+  final CategoryModel category;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Card(
-          shape: const CircleBorder(),
-          child: InkWell(
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) =>
+                ServiceSalonScreen(serviceName: category.name),
+          ),
+        );
+      },
+      child: Column(
+        children: [
+          Card(
+            shape: const CircleBorder(),
             child: Container(
               height: 88,
               width: 88,
@@ -20,22 +29,22 @@ class ServiceCard extends StatelessWidget {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   image: NetworkImage(
-                    service.imageUrl,
+                    category.imageUrl,
                   ),
                   fit: BoxFit.fill,
                 ),
               ),
             ),
           ),
-        ),
-        Text(
-          service.name,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
+          Text(
+            category.name,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
