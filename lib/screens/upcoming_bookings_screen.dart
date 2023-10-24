@@ -91,13 +91,6 @@ class _UpcomingBookingsScreenState extends State<UpcomingBookingsScreen> {
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text('Appointment $index'),
-                      const SizedBox(
-                        height: 2,
-                      ),
                       Text(widget.appointments[index].title),
                       const SizedBox(
                         height: 2,
@@ -153,7 +146,8 @@ class _UpcomingBookingsScreenState extends State<UpcomingBookingsScreen> {
                         ),
                     ],
                   ),
-                  trailing: const Text('LKR 500.00'),
+                  trailing: Text(
+                      '${widget.appointments[index].appointmentPrice.toStringAsFixed(2)} LKR'),
                 ),
               );
             },
