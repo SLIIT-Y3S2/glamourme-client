@@ -37,7 +37,7 @@ class _NearYouSalonsMapState extends State<NearYouSalonsMap> {
         builder: (context, state) {
           return state is LocationLoaded
               ? SizedBox(
-                  height: 500,
+                  height: 450,
                   child: GoogleMap(
                     myLocationEnabled: true,
                     myLocationButtonEnabled: true,

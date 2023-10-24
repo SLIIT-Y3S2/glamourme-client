@@ -52,9 +52,6 @@ class _GlamourMeAppState extends State<GlamourMeApp> {
       sound: true,
     );
 
-    final token = await fcm.getToken();
-    print('TOKEN========================================> $token');
-
     fcm.subscribeToTopic('appointments');
   }
 

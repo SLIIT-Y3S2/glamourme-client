@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/blocs/location/location_bloc.dart';
-import 'package:flutter_app/data/dummy_salon.dart';
+import 'package:flutter_app/blocs/salons/salons_bloc.dart';
 import 'package:flutter_app/data/service_categories.dart';
 import 'package:flutter_app/globals.dart';
+import 'package:flutter_app/screens/all_salons_screen.dart';
 import 'package:flutter_app/screens/beauty_services_list_screens.dart';
 import 'package:flutter_app/widgets/near_you_card.dart';
 import 'package:flutter_app/widgets/service_card.dart';
@@ -53,7 +54,8 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
           height: 20,
         ),
         GridView.builder(
-          physics: const NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           shrinkWrap: true,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
@@ -68,62 +70,68 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
     );
 
     // Popular Near You Widget
-    Widget popularNearYou = Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              AppLocalizations.of(context)!.popularNearYou,
-              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    fontWeight: FontWeight.w900,
-                  ),
-            ),
-            Directionality(
-              textDirection: TextDirection.rtl,
-              child: TextButton.icon(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const BeautyServicesListScreen(),
+    Widget popularNearYou = BlocBuilder<SalonsBloc, SalonsState>(
+      builder: (context, state) {
+        return SingleChildScrollView(
+          child: state is LoadedSalons
+              ? Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.popularNearYou,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(
+                                fontWeight: FontWeight.w900,
+                              ),
+                        ),
+                        Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: TextButton.icon(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const AllSalonsScreen(),
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.keyboard_arrow_right),
+                            label: Text(AppLocalizations.of(context)!.seeAll),
+                          ),
+                        ),
+                      ],
                     ),
-                  );
-                },
-                icon: const Icon(Icons.keyboard_arrow_right),
-                label: Text(AppLocalizations.of(context)!.seeAll),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: SizedBox(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ...salonList.map(
-                        (salon) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: NearYouCard(salon),
-                        ),
-                      ),
-                      ...salonList.map(
-                        (salon) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: NearYouCard(salon),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
-      ],
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ...state.salons.map(
+                                    (salon) => Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8),
+                                      child: NearYouCard(salon),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                )
+              : const SizedBox(),
+        );
+      },
     );
 
     return BlocBuilder<LocationBloc, LocationState>(
@@ -161,10 +169,6 @@ class _HomeIndexScreenState extends State<HomeIndexScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     beautyServicesCard,
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    popularNearYou,
                     const SizedBox(
                       height: 20,
                     ),
