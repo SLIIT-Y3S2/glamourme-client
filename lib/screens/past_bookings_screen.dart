@@ -49,7 +49,7 @@ class PastBookingsScreen extends StatelessWidget {
           elevation: 1,
           child: ListTile(
             title: Text(
-              'Salon Name',
+              appointments[index].salonName!,
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -57,11 +57,15 @@ class PastBookingsScreen extends StatelessWidget {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Appointment $index'),
-                Text('${appointments[index].title}'),
+                Text(appointments[index].title),
+                const SizedBox(height: 2),
                 Text(
                   timeStampToString(appointments[index].startTime),
                 ),
+                const SizedBox(height: 2),
+                Text(
+                  '${appointments[index].appointmentPrice.toStringAsFixed(2)} LKR',
+                )
               ],
             ),
             trailing: Column(

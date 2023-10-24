@@ -17,6 +17,11 @@ class BookServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final serviceDurationHours = double.parse(service.duration) ~/ 60;
+    final serviceDurationMinutes = double.parse(service.duration) % 60;
+    final serviceDuration = serviceDurationHours == 0
+        ? '${serviceDurationMinutes.toInt()}min'
+        : '${serviceDurationHours.toInt()}h ${serviceDurationMinutes.toInt()}min';
     return Card(
       surfaceTintColor: Colors.white,
       color: Colors.white,
@@ -55,7 +60,7 @@ class BookServiceCard extends StatelessWidget {
                   width: 8,
                 ),
                 Text(
-                  service.price.toString(),
+                  '${service.price.toStringAsFixed(2)} LKR',
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         fontSize: 13,
                         color: Colors.grey.shade600,
@@ -76,7 +81,7 @@ class BookServiceCard extends StatelessWidget {
                       width: 4,
                     ),
                     Text(
-                      '${service.duration} min',
+                      serviceDuration,
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontSize: 13,
                             color: Colors.grey.shade600,

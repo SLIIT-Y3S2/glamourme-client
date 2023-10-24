@@ -99,26 +99,14 @@ class AppointmentRepository extends BaseAppointmentRepository {
     final CollectionReference appointmentCollection =
         db.collection('appointments');
     List<AppointmentModel> appoinmentList = [];
-    await appointmentCollection
+    final appointments = await appointmentCollection
         .where(
           'client',
           isEqualTo: db.collection('users').doc(userId),
         )
         .orderBy('startTime', descending: false)
         .get()
-        .then((appointments) {
-      for (var appointment in appointments.docs) {
-        // final data = appointment.data()! as Map<String, dynamic>;
-        // var salon = data['salon'] as DocumentReference;
-        // var salonData = salon.get();
-        // salonData.then((value) {
-        //   developer.log(value['salonName'], name: 'AppointmentModel');
-        // });
-        // developer.log('salonName: $salonName', name: 'AppointmentModel');
-
-        appoinmentList.add(AppointmentModel.fromJson(appointment));
-      }
-    }).catchError((error, stackTrace) {
+        .catchError((error, stackTrace) {
       developer.log(
         error.toString(),
         error: error,
@@ -127,6 +115,38 @@ class AppointmentRepository extends BaseAppointmentRepository {
       );
       throw Exception(error);
     });
+
+    for (var appointment in appointments.docs) {
+      final data = appointment.data()! as Map<String, dynamic>;
+      final salon = data['salon'] as DocumentReference;
+      final salonDoc = await salon.get().catchError(
+        (error, stackTrace) {
+          developer.log(
+            error.toString(),
+            error: error,
+            stackTrace: stackTrace,
+            name: 'AppointmentRepository',
+          );
+          throw Exception(error);
+        },
+      );
+
+      final client = data['client'] as DocumentReference;
+      final clientDoc = await client.get().catchError(
+        (error, stackTrace) {
+          developer.log(
+            error.toString(),
+            error: error,
+            stackTrace: stackTrace,
+            name: 'AppointmentRepository',
+          );
+          throw Exception(error);
+        },
+      );
+
+      appoinmentList
+          .add(AppointmentModel.fromJson(appointment, salonDoc, clientDoc));
+    }
 
     return appoinmentList;
   }

@@ -9,6 +9,23 @@ class SalonHeroImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final selectedDay = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday'
+    ][DateTime.now().weekday - 1];
+
+    final selectedOpeningHours =
+        salon.openingHours.firstWhere((element) => element.day == selectedDay);
+
+    final openingTime = selectedOpeningHours.openingTime;
+    final closingTime = selectedOpeningHours.closingTime;
+    final isOpenToday = selectedOpeningHours.isOpen;
+
     return Stack(
       children: [
         FadeInImage(
@@ -78,17 +95,47 @@ class SalonHeroImage extends StatelessWidget {
                     ],
                   ),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      // Text(
-                      //   'Business Hours - ${salon.openingTime.toDate().hour.toString().padLeft(2, '0')}:${salon.openingTime.toDate().minute.toString().padLeft(2, '0')} - ${salon.closingTime.toDate().hour.toString().padLeft(2, '0')}:${salon.closingTime.toDate().minute.toString().padLeft(2, '0')}',
-                      //   style: Theme.of(context)
-                      //       .textTheme
-                      //       .bodyLarge!
-                      //       .copyWith(color: Colors.white),
-                      // ),
-                      const SizedBox(
-                        width: 72,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            isOpenToday ? 'Open' : 'Closed',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(color: Colors.white),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          isOpenToday
+                              ? Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.access_time,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                    const SizedBox(
+                                      width: 4,
+                                    ),
+                                    Text(
+                                      '${openingTime.hour.toString().padLeft(2, '0')}:${openingTime.minute.toString().padLeft(2, '0')} - ${closingTime.hour.toString().padLeft(2, '0')}:${closingTime.minute.toString().padLeft(2, '0')}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(color: Colors.white),
+                                    ),
+                                    const SizedBox(
+                                      width: 72,
+                                    ),
+                                  ],
+                                )
+                              : const SizedBox(
+                                  width: 200,
+                                ),
+                        ],
                       ),
                       Column(
                         children: [

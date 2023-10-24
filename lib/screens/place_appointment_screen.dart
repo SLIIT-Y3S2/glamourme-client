@@ -72,6 +72,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
     return null;
   }
 
+  // Used to make the payment
   void _makePayment() {
     final Map<String, dynamic> paymentObject = {
       "sandbox": true, // true if using Sandbox Merchant ID
@@ -97,20 +98,24 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
       "custom_2": ""
     };
 
-    PayHere.startPayment(paymentObject, (paymentId) {
-      developer.log('One Time Payment Success. Payment Id: $paymentId',
-          name: 'plcae_appointment_screen', level: 1000);
-      _handleCreateAppointment();
-    }, (error) {
-      developer.log('One Time Payment Failed. Error: $error',
-          name: 'plcae_appointment_screen', level: 1000);
-    }, () {
-      developer.log('One Time Payment Dismissed',
-          name: 'plcae_appointment_screen', level: 1000);
-    });
+    //   PayHere.startPayment(paymentObject, (paymentId) {
+    //     developer.log('One Time Payment Success. Payment Id: $paymentId',
+    //         name: 'plcae_appointment_screen', level: 1000);
+    //     _handleCreateAppointment();
+    //   }, (error) {
+    //     developer.log('One Time Payment Failed. Error: $error',
+    //         name: 'plcae_appointment_screen', level: 1000);
+    //   }, () {
+    //     developer.log('One Time Payment Dismissed',
+    //         name: 'plcae_appointment_screen', level: 1000);
+    //   });
+    //   _handleCreateAppointment();
+    // }
+
     _handleCreateAppointment();
   }
 
+  // Used to create the appointment
   _handleCreateAppointment() {
     final Timestamp? startTime = _setApppointmentStart();
     final Timestamp? endTime = _setApppointmentEndTime();
@@ -135,14 +140,16 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
     }
 
     final AppointmentModel appointment = AppointmentModel.init(
-        serviceId: widget.service.id,
-        customerId: customerId!,
-        salonId: widget.salonId,
-        startTime: startTime,
-        endTime: endTime,
-        title: title,
-        description: description,
-        status: status);
+      serviceId: widget.service.id,
+      customerId: customerId!,
+      salonId: widget.salonId,
+      startTime: startTime,
+      endTime: endTime,
+      title: title,
+      description: description,
+      status: status,
+      appointmentPrice: widget.service.price.toDouble(),
+    );
     BlocProvider.of<AppointmentBloc>(context)
         .add(CreateAppointmentEvent(appointment: appointment));
   }
@@ -178,14 +185,16 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
     }
 
     final AppointmentModel appointment = AppointmentModel.init(
-        serviceId: widget.service.id,
-        customerId: customerId!,
-        salonId: widget.salonId,
-        startTime: startTime,
-        endTime: endTime,
-        title: title,
-        description: description,
-        status: status);
+      serviceId: widget.service.id,
+      customerId: customerId!,
+      salonId: widget.salonId,
+      startTime: startTime,
+      endTime: endTime,
+      title: title,
+      description: description,
+      status: status,
+      appointmentPrice: widget.service.price.toDouble(),
+    );
     BlocProvider.of<AppointmentBloc>(context)
         .add(IsTimeSlotAvailableEvent(appointment: appointment));
   }
