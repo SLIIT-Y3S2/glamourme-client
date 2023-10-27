@@ -8,9 +8,9 @@ import 'package:flutter_app/blocs/salons/salons_bloc.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/globals.dart';
 import 'package:flutter_app/repositories/authentication/authentication_repository.dart';
+import 'package:flutter_app/screens/language_selection.dart';
 import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/screens/main_screen.dart';
-import 'package:flutter_app/screens/onboarding.dart';
 import 'package:flutter_app/screens/signup_screen.dart';
 import 'package:flutter_app/screens/splash_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -139,7 +139,7 @@ _getPageRoutes(BuildContext context, RouteSettings settings) {
     case '/main':
       return const MainScreen();
     case '/onboarding':
-      return const OnBoardingScreen();
+      return const LanguageSelectionScreen();
     default:
       return const SplashScreen();
   }

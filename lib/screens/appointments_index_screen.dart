@@ -45,7 +45,7 @@ class _AppointmentIndexScreenState extends State<AppointmentIndexScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Appointments',
+          AppLocalizations.of(context)!.appointments,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.w900,
               ),

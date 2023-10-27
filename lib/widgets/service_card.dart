@@ -19,6 +19,7 @@ class ServiceCard extends StatelessWidget {
         );
       },
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Card(
             shape: const CircleBorder(),
@@ -38,9 +39,11 @@ class ServiceCard extends StatelessWidget {
           ),
           Text(
             category.name,
+            textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w400,
+              overflow: TextOverflow.clip,
             ),
           ),
         ],
