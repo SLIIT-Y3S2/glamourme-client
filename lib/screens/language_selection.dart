@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/blocs/language/language_bloc.dart';
 import 'package:flutter_app/screens/onboarding.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LanguageSelectionScreen extends StatelessWidget {
@@ -62,7 +64,12 @@ class LanguageSelectionScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     OutlinedButton(
-                      onPressed: navigateToOnBoarding,
+                      onPressed: () {
+                        BlocProvider.of<LanguageBloc>(context).add(
+                          const LanguageChangedEvent(locale: Locale('en')),
+                        );
+                        navigateToOnBoarding();
+                      },
                       child: const Text('English'),
                     ),
                     const SizedBox(
@@ -70,6 +77,9 @@ class LanguageSelectionScreen extends StatelessWidget {
                     ),
                     OutlinedButton(
                       onPressed: () {
+                        BlocProvider.of<LanguageBloc>(context).add(
+                          const LanguageChangedEvent(locale: Locale('si')),
+                        );
                         //Translate the app to sinhala
                         navigateToOnBoarding();
                       },

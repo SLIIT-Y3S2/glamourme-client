@@ -109,15 +109,12 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
       developer.log('One Time Payment Dismissed',
           name: 'plcae_appointment_screen', level: 1000);
     });
-    _handleCreateAppointment();
   }
 
   // Used to create the appointment
   _handleCreateAppointment() {
     final Timestamp? startTime = _setApppointmentStart();
     final Timestamp? endTime = _setApppointmentEndTime();
-    developer.log(startTime.toString(), name: 'startTime');
-    developer.log(endTime.toString(), name: 'endTime');
     final String title = widget.service.name;
     final String description = widget.service.description;
     const String status = 'pending';
@@ -130,6 +127,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
     if (startTime == null || endTime == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
+          duration: Duration(seconds: 1, microseconds: 500),
           content: Text('Please select a time'),
         ),
       );
@@ -155,8 +153,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
   void _checkAvaiability() {
     final Timestamp? startTime = _setApppointmentStart();
     final Timestamp? endTime = _setApppointmentEndTime();
-    developer.log(startTime.toString(), name: 'startTime');
-    developer.log(endTime.toString(), name: 'endTime');
+
     final String title = widget.service.name;
     final String description = widget.service.description;
     const String status = 'pending';
@@ -175,6 +172,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
     if (startTime == null || endTime == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
+          duration: Duration(seconds: 1, microseconds: 500),
           content: Text('Please select a time'),
         ),
       );
@@ -227,8 +225,6 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
       _openingTime = selectedOpeningHours.openingTime;
       _closingTime = selectedOpeningHours.closingTime;
       _isOpenInSelectedDay = selectedOpeningHours.isOpen;
-      developer.log(selectedOpeningHours.isOpen.toString(),
-          name: 'isOpenInSelectedDay');
     });
   }
 
@@ -296,7 +292,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
                     child: const Text('Cancel'),
                   ),
                   TextButton(
-                    onPressed: () => _makePayment(),
+                    onPressed: _makePayment,
                     child: state is! CreatingAppointmentState
                         ? Text(
                             'Confirm',
@@ -330,7 +326,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
                 ),
           ),
         ),
-        body: Padding(
+        body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -435,7 +431,9 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
                         ],
                       ),
                     ),
-              const Spacer(),
+              const SizedBox(
+                height: 200,
+              ),
               _isOpenInSelectedDay ? bottomWidget : const SizedBox(),
             ],
           ),

@@ -3,10 +3,16 @@ import 'package:flutter_app/models/salon_model.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class SalonHeroImage extends StatelessWidget {
+class SalonHeroImage extends StatefulWidget {
   const SalonHeroImage({required this.salon, super.key});
   final SalonModel salon;
 
+  @override
+  State<SalonHeroImage> createState() => _SalonHeroImageState();
+}
+
+class _SalonHeroImageState extends State<SalonHeroImage> {
+  bool _isFavourite = false;
   @override
   Widget build(BuildContext context) {
     final selectedDay = [
@@ -19,8 +25,8 @@ class SalonHeroImage extends StatelessWidget {
       'Sunday'
     ][DateTime.now().weekday - 1];
 
-    final selectedOpeningHours =
-        salon.openingHours.firstWhere((element) => element.day == selectedDay);
+    final selectedOpeningHours = widget.salon.openingHours
+        .firstWhere((element) => element.day == selectedDay);
 
     final openingTime = selectedOpeningHours.openingTime;
     final closingTime = selectedOpeningHours.closingTime;
@@ -30,7 +36,7 @@ class SalonHeroImage extends StatelessWidget {
       children: [
         FadeInImage(
           placeholder: MemoryImage(kTransparentImage),
-          image: NetworkImage(salon.imageUrl),
+          image: NetworkImage(widget.salon.imageUrl),
           fit: BoxFit.cover,
           height: 300,
           width: double.infinity,
@@ -49,9 +55,9 @@ class SalonHeroImage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    salon.salonType == GenderType.gents
+                    widget.salon.salonType == GenderType.gents
                         ? AppLocalizations.of(context)!.gents
-                        : salon.salonType == GenderType.ladies
+                        : widget.salon.salonType == GenderType.ladies
                             ? AppLocalizations.of(context)!.ladies
                             : AppLocalizations.of(context)!.unisex,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
@@ -60,7 +66,7 @@ class SalonHeroImage extends StatelessWidget {
                         ),
                   ),
                   Text(
-                    salon.salonName,
+                    widget.salon.salonName,
                     style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w900,
@@ -69,7 +75,7 @@ class SalonHeroImage extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        salon.location,
+                        widget.salon.location,
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge!
@@ -83,7 +89,7 @@ class SalonHeroImage extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        salon.affordability == Affordability.affordable
+                        widget.salon.affordability == Affordability.affordable
                             ? '\$'
                             : '\$\$',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
@@ -139,10 +145,23 @@ class SalonHeroImage extends StatelessWidget {
                       ),
                       Column(
                         children: [
-                          const Icon(
-                            Icons.favorite_outline,
-                            color: Colors.white,
-                          ),
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _isFavourite = !_isFavourite;
+                                });
+                              },
+                              icon: _isFavourite
+                                  ? const Icon(
+                                      Icons.favorite,
+                                      color: Colors.white,
+                                      size: 30,
+                                    )
+                                  : const Icon(
+                                      Icons.favorite_outline,
+                                      color: Colors.white,
+                                      size: 30,
+                                    )),
                           Text(
                             AppLocalizations.of(context)!.favourite,
                             style: Theme.of(context)

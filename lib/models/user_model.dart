@@ -8,6 +8,7 @@ class UserModel {
   final String name;
   final String email;
   final UserRole userRole;
+  final List<String> favoriteSalons = [];
 
   UserModel({
     required this.userId,
@@ -22,6 +23,7 @@ class UserModel {
         'name': name,
         'email': email,
         'userRole': userRole == UserRole.customer ? 'customer' : 'salonOwner',
+        'favoriteSalons': favoriteSalons,
       };
 
   // Function to convert the json object to a user model
@@ -34,5 +36,13 @@ class UserModel {
           ? UserRole.customer
           : UserRole.salonOwner,
     );
+  }
+
+  set setFavoriteSalons(String salons) {
+    favoriteSalons.add(salons);
+  }
+
+  List<String> get getFavoriteSalons {
+    return favoriteSalons;
   }
 }
