@@ -147,6 +147,8 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
     );
     BlocProvider.of<AppointmentBloc>(context)
         .add(CreateAppointmentEvent(appointment: appointment));
+
+    Navigator.of(context).pop();
   }
 
   // Used to check if the selected time slot is available
@@ -160,13 +162,7 @@ class _PlaceAppointmentScreenState extends State<PlaceAppointmentScreen> {
     final authState = BlocProvider.of<AuthenticationBloc>(context).state;
 
     if (authState is CurrentUserState) {
-      if (authState.user == null) {
-        developer.log('user is null', name: 'user');
-        Navigator.of(context).pushNamed('/login');
-        return;
-      } else {
-        customerId = authState.user!.userId;
-      }
+      customerId = authState.user!.userId;
     }
 
     if (startTime == null || endTime == null) {
