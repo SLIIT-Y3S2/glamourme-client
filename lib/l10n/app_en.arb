@@ -58,5 +58,8 @@
   "unisex": "Unisex",
   "checkout": "Checkout",
   "appointment": "Appointment",
-  "selectTime": "Select Time"
+  "selectTime": "Select Time",
+
+
+  "nopastappointments": "No past appointments"
 }

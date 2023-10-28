@@ -3,10 +3,10 @@
   "oboardingText2": "ඔබේ ළමයින් සඳහා හොඳම රූපලාවණ්‍යාගාරයේ හමුවීම උපලේඛනගත කරන්න",
   "oboardingText3": "ඔබේ සියලු ආතතිය දුරු කිරීමට සම්බාහන චිකිත්සකයකු ඔබම වෙන්කරවා ගන්න.",
   "oboardingText4": "ඔබගේ සියලු රූපලාවන්‍ය අවශ්‍යතා සපුරාලීමට ඔබ අසල ඇති හොඳම ශාලාව සොයන්න.",
-  "getStarted": "ආරම්භ කරන්න",
+  "getStarted": "අරභමු",
   "signingIn": "පුරනය වෙමින්...",
   "signedInSuccessfully": "සාර්ථකව පුරනය විය.",
-  "welcomeBack": "ආපසු සාදරයෙන් පිළිගනිමු!",
+  "welcomeBack": "ආයුබෝවන්!",
   "welcomeBackDescription": "ගිණුමක් නැද්ද?",
   "signup": "ලියාපදිංචි වන්න",
   "emailValidation": "කරණාකර වලංගු ඊතැපැල් ලිපිනයක් ඇතුළු කරන්න",
@@ -19,7 +19,7 @@
   "enterEmail": "විද්යුත් තැපෑල ඇතුලත් කරන්න",
   "password": "මුරපදය",
   "enterPassword": "මුරපදය ඇතුලත් කරන්න",
-  "login": "ඇතුල් වන්න",
+  "login": "ඇතුලට",
   "orLoginUsing": "නැතහොත් භාවිතා කර ලොග් වන්න",
   "alreadyHaveAnAccount": "දැනටමත් ගිණුමක් තිබේද?",
   "name": "නම",
@@ -47,7 +47,7 @@
   "salons": "රූපලාවන්යාගාර",
   "beautyServices": "රූපලාවන්ය සේවා",
   "popularNearYou": "ඔබ අසල ජනප්‍රිය",
-  "seeAll": "ඔක්කොම බලන්න",
+  "seeAll": "සියල්ල",
   "recommended": "නිර්දේශ කර ඇත",
   "viewAll": "බලන්න",
   "book": "වෙන්කරවා ගැනීම",
@@ -58,5 +58,7 @@
   "unisex": "ඒකලිංගික",
   "checkout": "පිටවීම",
   "appointment": "පත්වීම",
-  "selectTime": "කාලය තෝරන්න"
+  "selectTime": "කාලය තෝරන්න",
+
+  "nopastappointments": "පසුගිය පත්වීම් නැත"
 }

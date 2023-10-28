@@ -52,7 +52,7 @@ dependencies:
   #intl for language support
   intl: any
   #payhere
-  payhere_mobilesdk_flutter: 3.0.8
+  payhere_mobilesdk_flutter: 3.0.4
   logging: ^1.2.0
   flutter_otp_text_field: ^1.1.1
   #calander
