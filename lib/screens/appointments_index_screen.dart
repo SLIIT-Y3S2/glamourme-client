@@ -76,8 +76,8 @@ class _AppointmentIndexScreenState extends State<AppointmentIndexScreen>
           children: [
             _pastAppointments.isNotEmpty
                 ? PastBookingsScreen(appointments: _pastAppointments)
-                : const Center(
-                    child: Text('No past appointments'),
+                :  Center(
+                    child: Text(AppLocalizations.of(context)!.nopastappointments),
                   ),
             _upcomingAppointments.isNotEmpty
                 ? UpcomingBookingsScreen(appointments: _upcomingAppointments)
