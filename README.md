@@ -63,9 +63,6 @@ GlamourMe is a cutting-edge mobile application developed using Flutter and Dart,
 
 This will launch the app in debug mode on a connected device or emulator.
 
-6. **Explore and Contribute:**
-- Feel free to explore the codebase and contribute to the project.
-
 ## Contributors
 - Lakmuthu Shavinda
 - Vibhashana Ranhinda
